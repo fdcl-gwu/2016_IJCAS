@@ -1,37 +1,27 @@
 \documentclass[fleqn]{IJCAS}  % Comment this line out if you need a4paper
 \usepackage{ijcas_packages}
 
-% NEED TO CHANGE ALL SUBFIGURES TO USE THE OBSOLETE SUBFIGURE PACKAGE
-
-http://tug.ctan.org/obsolete/macros/latex/contrib/subfigure/subfigure.pdf
-http://tex.stackexchange.com/questions/313249/confict-between-the-subfigure-and-customized-captionside-by-side-subfigures
-
 \newcommand{\squeezeup}{\vspace{-2.5mm}}
-
-\newcommand{\EditTL}[1]{{\color{red}\protect #1}}
-%\renewcommand{\EditTL}[1]{{\protect #1}}
 
 %%%% Editorial Information
 %% Authors do not have to modify this section.
-\journalvolumn{VV}
-\journalnumber{N}
-\journalyear{YYYY}
-\setarticlestartpagenumber{1}
+% \journalvolumn{VV}
+% \journalnumber{N}
+% \journalyear{YYYY}
+% \setarticlestartpagenumber{1}
 %%%% End of Editorial Information
 
 \newtheorem{definition}{Definition}
 \newtheorem{lem}{Lemma}
 \newtheorem{prop}{Proposition}
 \newtheorem{cor}{Corollary}
-\newtheorem{remark}{Remark}
 
 \begin{document}
+
 \title{\LARGE \bf
 Geometric Adaptive Control of Attitude Dynamics on \(\SO\)\\ with State Inequality Constraints}
 
 \author{Shankar Kulumani, Christopher Poole, and Taeyoung Lee}%
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
@@ -244,7 +234,7 @@ with
 \end{gather}	
 where \( \alpha \in \R \) is defined as a positive constant and the matrix \( G \in \R^{3 \times 3} \) is defined as a diagonal matrix matrix for distinct, positive constants \( g_1, g_2, g_3 \in \R \).
 Then, the following properties hold
-\begin{enumerate}[(i)]
+\begin{enumerate}[i]
 	\item \label{item:prop_psi_psd} \(\Psi\) is positive definite about \( R = R_d\)
 	\item \label{item:prop_era}The variation of \( A(R) \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
 	\begin{align}
@@ -292,21 +282,11 @@ The positive constant \( \alpha \) serves to shape the barrier function.
 As \( \alpha \) is increased the impact of \( B(R) \) is reduced away from the constraint boundary. 
 The superposition of the attractive and repulsive functions is shown in~\cref{fig:combined_error}.
 The control system is defined such that the attitude trajectory follows the negative gradient of \( \Psi \) toward the minimum at \( R = R_d \), while avoiding the constrained region.
-\begin{figure} 
+\begin{figure}[H] 
 	\centering 
-	\begin{subfigure}[htbp]{0.45\columnwidth} 
-		\includegraphics[width=\columnwidth]{attract_error} 
-		\caption{Attractive \( A(R) \) } \label{fig:attract_error} 
-	\end{subfigure}~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
-	\begin{subfigure}[htbp]{0.45\columnwidth} 
-		\includegraphics[width=\columnwidth]{avoid_error} 
-		\caption{Repulsive \( B(R) \)} \label{fig:avoid_error} 
-	\end{subfigure}
-	\centering
-	\begin{subfigure}[htbp]{0.45\columnwidth} 
-		\includegraphics[width=\columnwidth]{combined_error} 
-		\caption{Configuration \( \Psi \)} \label{fig:combined_error} 
-	\end{subfigure}
+    \subfigure[Attractive \( A(R) \) \label{fig:attract_error}]{\includegraphics[width=0.45\columnwidth]{attract_error} }~
+	\subfigure[Repulsive \( B(R) \) \label{fig:avoid_error} ]{\includegraphics[width=0.45\columnwidth]{avoid_error} }\\ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
+    \subfigure[Configuration \( \Psi \) \label{fig:combined_error}]{\includegraphics[width=0.45\columnwidth]{combined_error} }
 	\caption{Configuration error function visualization}
 	\label{fig:config_error} 
 \end{figure}
@@ -461,36 +441,19 @@ We show simulation results for the system stabilizing about the desired attitude
 We assume a fixed disturbance of \(\Delta = \begin{bmatrix} 0.2 & 0.2 & 0.2 \end{bmatrix}^T \), with the function \( W(R,\Omega) = I \).
 This form is equivalent to an integral control term which penalizes deviations from the desired configuration.
 The first term of~\cref{eqn:delta_dot} has the effect of increasing the proportional gain of the control system, since the time derivative of the attitude error vector, \( \dot{e}_{R} \), is linear with respect to the angular velocity error vector \( e_\Omega\).
-\begin{figure} 
+\begin{figure}[H] 
 	\centering 
-	\subfigure{Attitude error vector \(e_R\) \label{fig:eR_con}{eR_con} 
-	\begin{subfigure}[htbp]{0.5\columnwidth} 
-		\includegraphics[width=\columnwidth]{Psi_con} 
-		\caption{Configuration error \( \Psi \)} \label{fig:Psi_con} 
-	\end{subfigure}
+	\subfigure[Attitude error vector \(e_R\) \label{fig:eR_con}]{\includegraphics[width=0.5\columnwidth]{eR_con}  }~
+	\subfigure[Configuration error \( \Psi \) \label{fig:Psi_con}]{\includegraphics[width=0.5\columnwidth]{figures/Psi_con.pdf} }  
 	\caption{Attitude stabilization without adaptive update law}
 	\label{fig:con} 
 \end{figure}
-\begin{figure} 
+\begin{figure}[H] 
 	\centering 
-	\begin{subfigure}[htbp]{0.5\columnwidth} 
-		\includegraphics[width=\columnwidth]{Psi_adapt} 
-		\caption{Configuration error \( \Psi \)} \label{fig:Psi_adapt} 
-	\end{subfigure}~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
-	\begin{subfigure}[htbp]{0.5\columnwidth} 
-		\includegraphics[width=\columnwidth]{constraint_angles} 
-		\caption{Angle to constraints} \label{fig:con_angles} 
-	\end{subfigure}
-	
-	\centering
-	\begin{subfigure}[htbp]{0.5\columnwidth} 
-		\includegraphics[width=\columnwidth]{delta_adapt} 
-		\caption{Disturbance estimate \( \bar \Delta \)} \label{fig:delta_adapt} 
-	\end{subfigure}~
-	\begin{subfigure}[htbp]{0.5\columnwidth} 
-		\includegraphics[trim=9cm 2.5cm 0 0,clip,width=1.29\columnwidth]{cad_adapt} 
-		\caption{Attitude trajectory} \label{fig:cad_adapt} 
-	\end{subfigure}
+    \subfigure[Configuration error \( \Psi \)\label{fig:Psi_adapt}]{\includegraphics[width=0.5\columnwidth]{Psi_adapt} }~
+    \subfigure[Angle to constraints \label{fig:con_angles}]{\includegraphics[width=0.5\columnwidth]{constraint_angles} }\\
+    \subfigure[Disturbance estimate \( \bar \Delta \)  \label{fig:delta_adapt} ]{\includegraphics[width=0.5\columnwidth]{delta_adapt}}~
+    \subfigure[Attitude trajectory \label{fig:cad_adapt}]{\includegraphics[trim=9cm 2.5cm 0 0,clip,width=0.645\columnwidth]{cad_adapt} }
 	\caption{Attitude stabilization with adaptive update law}
 	\label{fig:adapt} 
 \end{figure}
@@ -535,7 +498,7 @@ The center of rotation is below the center of gravity of the hexrotor.
 As a result, there is a destabilizing gravitational moment and the resulting attitude dynamics are similar to an inverted pendulum model.
 We augment the control input in~\cref{eqn:adaptive_control} with an additional term to negate the effect of the gravitational moment.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[width = 0.7\columnwidth]{hexrotor}
 	\caption{Attitude control testbed~\label{fig:hexrotor}}
@@ -545,25 +508,12 @@ We define an obstacle in the inertial frame as \( v = [\frac{1}{\sqrt{2}}, \frac
 An initial state is defined as \(R(0) = \exp( \frac{\pi}{2} \hat{e}_3) \), while the desired state is \(R_d =I \).
 This results in the UAV performing a \ang{90} yaw rotation about the vertical axis of the spherical joint and the constrained region is on the shortest path connecting $R_0$ and $R_d$. 
 The attitude control system is identical to the one presented in~\Cref{prop:adaptive_control} with the exception of a gravity moment term and the following parameters: \(k_R = 0.4, k_\Omega = 0.7 ,c = 0.1 , \alpha = 8 \text{ and } k_\Delta = 0.05\).
-\begin{figure} 
+\begin{figure}[H]
 	\centering 
-	\begin{subfigure}[htbp]{0.5\columnwidth} 
-		\includegraphics[width=\columnwidth]{eR_exp} 
-		\caption{Attitude error vector \(e_R\) } \label{fig:eR_exp} 
-	\end{subfigure}~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
-	\begin{subfigure}[htbp]{0.5\columnwidth} 
-		\includegraphics[width=\columnwidth]{Psi_exp} 
-		\caption{Configuration error \( \Psi \)} \label{fig:Psi_exp} 
-	\end{subfigure}
-	
-	\begin{subfigure}[htbp]{0.5\columnwidth} 
-		\includegraphics[width=\columnwidth]{u_exp} 
-		\caption{Control input \( u\)} \label{fig:u_exp} 
-	\end{subfigure}~
-	\begin{subfigure}[htbp]{0.5\columnwidth} 
-		\includegraphics[width=\columnwidth]{traj_exp} 
-		\caption{Attitude Trajectory} \label{fig:traj_exp} 
-	\end{subfigure}
+    \subfigure[{Attitude error vector \(e_R\)} \label{fig:eR_exp}]{\includegraphics[width=0.5\columnwidth]{eR_exp}  }~
+	\subfigure[{Configuration error \( \Psi \)} \label{fig:Psi_exp} ]{\includegraphics[width=0.5\columnwidth]{Psi_exp} }\\
+	\subfigure[{Control input \( u\) }\label{fig:u_exp}]{\includegraphics[width=0.5\columnwidth]{u_exp}  }~
+	\subfigure[{Attitude Trajectory } \label{fig:traj_exp}]{\includegraphics[width=0.5\columnwidth]{traj_exp} }
 	\caption{Constrained Attitude stabilization experiment}
 	\label{fig:exp} 
 \end{figure}
@@ -867,7 +817,7 @@ Therefore, the inequality constraint is always satisfied given that the desired 
 \bibliography{BibMaster,library}
 \bibliographystyle{IEEEtran}
 
-\biography{Wu_2}{Tse-Huai Wu}
+\biography{profile}{Tse-Huai Wu}
     {received the M.S. degree from the George Washington University in 2013. He is currently pursuing a Ph.D. at GWU's Department of Mechanical and Aerospace Engineering. His research interests include the control system design for autonomous vehicles and the application of nonlinear control theory, such as spacecraft control and estimation.}
     
 \biography{Lee}{Taeyoung Lee}
@@ -875,4 +825,5 @@ Therefore, the inequality constraint is always satisfied given that the desired 
 \clearafterbiography\relax
 \clearafterbiography\relax
 \end{multicols}
+
 \end{document}
