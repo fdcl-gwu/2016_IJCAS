@@ -41,7 +41,7 @@ attitude control, asymptotic stability, special orthogonal group, constraint
 \maketitle % \maketitle command must come here after ABSTRACT and KEYWORDS environments
 
 \makeAuthorInformation{
-Manuscript received January 20, 2015; revised February 10,2015; accepted March 10, 2015. Recommended by Associate Editor Soon-Shin Lee under the direction of Editor Milton John.
+Manuscript received DATE; revised DATE; accepted DATE. Recommended by Associate Editor Soon-Shin Lee under the direction of Editor Milton John.
 Shankar Kulumani, Christopher Poole, Taeyoung Lee, Mechanical and Aerospace Engineering, George Washington University, Washington DC 20052 {\tt \{skulumani,poolec,tylee\}@gwu.edu}
 
 This research has been supported in part by NSF under the grants CMMI-1243000, CMMI-1335008, and CNS-1337722.
@@ -199,9 +199,8 @@ We formulate this hard constraint as
 	r^T R^T v \leq \cos \theta , \label{eqn:constraint}
 \end{align}
 where we assume \( \ang{0} \leq \theta \leq \ang{90}  \) is the required minimum angular separation between \( r \) and \( R^T v \). 
-
 The objective is to a determine a control input \( u \) that stabilizes the system from an initial attitude \( R_0 \) to a desired attitude \( R_d \) while ensuring that~\cref{eqn:constraint} is always satisfied.
-
+\squeezeup
 \section{Attitude Control on $\SO$ with Inequality Constraints}
 
 The first step in designing a control system on a nonlinear manifold \( \Q \) is the selection of a proper configuration error function. 
@@ -257,7 +256,7 @@ Then, the following properties hold
 \end{enumerate}
 \end{prop}
 \begin{proof}
-See~\Cref{proof:config_error}.
+See~\Cref{proof:config_error}
 \end{proof}
 
 \Cref{eqn:psi} is composed of an attractive term, \( A (R) \) toward the desired attitude, and a repulsive term, \( B(R) \) away from the undesired direction \( R^T v \).
@@ -313,7 +312,7 @@ In this manner, one may enforce multiple state inequality constraints, and we la
 	\end{gather}
 \end{prop}
 \begin{proof}
-See~\Cref{proof:error_dyn}.
+See~\Cref{proof:error_dyn}
 \end{proof}
 
 \subsection{Attitude Control without Disturbance}
@@ -326,9 +325,8 @@ We first assume that there is no disturbance, i.e., \( \Delta = 0 \).
 	\end{gather}
 	Then the zero equilibrium of the attitude error is asymptotically stable, and the inequality constraint is satisfied.
 \end{prop}
-
 \begin{proof}
-See~\Cref{proof:att_control}.
+See~\Cref{proof:att_control}
 \end{proof}
 
 This proposition only guarantees that the attitude error vector \( e_R \) asymptotically converges to zero.
@@ -376,9 +374,8 @@ where  \( H \in \R \) is defined as
 	H = \norm{B} \norm{E} + 2 \norm{e_{R_A}} \norm{e_{R_B}} + \norm{A}\norm{F}. \label{eqn:H}
 \end{gather}
 \end{prop}
-
 \begin{proof}
-See~\Cref{proof:eR_dot_bound}.
+See~\Cref{proof:eR_dot_bound}
 \end{proof}
 
 \begin{prop}[Adaptive Attitude Control]\label{prop:adaptive_control}
@@ -394,7 +391,7 @@ If \( c \) is chosen such that
   the zero equilibrium of the error vectors is stable in the sense of Lyapunov. Furthermore, $e_R,e_\Omega\rightarrow 0$ as $t\rightarrow\infty$, and $\bar\Delta$ is uniformly bounded.
 \end{prop}
 \begin{proof}
-See~\Cref{proof:adaptive_control}.
+See~\Cref{proof:adaptive_control}
 \end{proof}
 
 Nonlinear adaptive controllers have been developed for attitude stabilization in terms of modified Rodriguez parameters and quaternions, as well as attitude tracking in terms of Euler angles. 
@@ -808,7 +805,7 @@ As the Lyapunov function is non-increasing $z$ is uniformly bounded.
 \biography{profile}{Shankar Kulumani}
     {is a PhD Candidate in the Department of Mechanical and Aerospace Engineering at George Washington University. 
     He received his bachelor's degree in Astronautical Engineering from the United States Air Force Academy in 2009 and his master's in Aeronautical and Astronautical Engineering from Purdue University in 2013.
-    He previously served as Deputy Space Vehicles Lead for the ORS-1 (Operationally Responsive Space ) satellite program, and as Lead Test Engineer in the Guidance, Navigation, and Control group at Air Force Research Laboratory located at Kirtland AFB, NM.
+    % He previously served as Deputy Space Vehicles Lead for the ORS-1 (Operationally Responsive Space ) satellite program, and as Lead Test Engineer in the Guidance, Navigation, and Control group at Air Force Research Laboratory located at Kirtland AFB, NM.
     % He is now currently a reserve air force officer where he serves as Threat Systems Engineer for the Missle and Space Intelligence Center, Defense Intelligence Agency.
     His current research interests include the application of geometric mechanics and control for aerospace systems. 
     }
