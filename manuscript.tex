@@ -21,7 +21,7 @@
 \title{\LARGE \bf
 Constrained Attitude Control on \( \SO \) }
 
-\author{Shankar Kulumani, Christopher Poole, and Taeyoung Lee}%
+\author{Shankar Kulumani* and Taeyoung Lee}%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
@@ -41,10 +41,10 @@ attitude control, asymptotic stability, special orthogonal group, constraint
 \maketitle % \maketitle command must come here after ABSTRACT and KEYWORDS environments
 
 \makeAuthorInformation{
-Manuscript received DATE; revised DATE; accepted DATE. Recommended by Associate Editor Soon-Shin Lee under the direction of Editor Milton John.
-Shankar Kulumani, Christopher Poole, Taeyoung Lee, Mechanical and Aerospace Engineering, George Washington University, Washington DC 20052 {\tt \{skulumani,poolec,tylee\}@gwu.edu}
+Manuscript received DATE; revised DATE; accepted DATE.
+Shankar Kulumani, Mechanical and Aerospace Engineering, George Washington University, Washington DC 20052 {\tt \{skulumani,tylee\}@gwu.edu}
 
-This research has been supported in part by NSF under the grants CMMI-1243000, CMMI-1335008, and CNS-1337722.
+This research has been supported in part by NSF under the grants CMMI-1243000, CMMI-1335008, and CNS-1337722.\\
 * Corresponding author.\vskip 0.5pc
 }
 
@@ -85,7 +85,7 @@ These systems require retargeting while avoiding direct exposure to sunlight or 
 In addition, many ground based attitude testing environments, such as air bearing platforms, must operate in the presence of physical obstructions.
 Determining a satisfactory attitude control maneuver in the presence of state constraints is a challenging task.
 The removal of constrained regions from the rotational configuration space results in a \textit{nonconvex} region.
-The attitude control problem in the absence of constraints has been extensively studied~\cite{bullo2004,MayTeePaCC11,LEEITAC15}.
+The attitude control problem in the feasible configuration space has been extensively studied~\cite{bullo2004,MayTeePaCC11,LEEITAC15}.
 However, the attitude control problem in the presence of constraints has received much less attention.
 
 % discuss how previous papers (mcinnes and lee/meshabi) have short comings
@@ -93,7 +93,7 @@ Several approaches have been developed to treat the attitude control problem in 
 A conceptually straightforward approach is used in~\cite{hablani1999} to determine feasible attitude trajectories prior to implementation.
 The algorithm determines an intermediate point such that an unconstrained maneuver can be calculated for each subsegment.
 Typically, an optimal or easily implementable on-board control scheme for attitude maneuvers is applied to maneuver the vehicle along these segments.
-In this manner, it is possible to accomplish constraint avoidance by linking several intermediary unconstrained maneuvers.
+In this manner, it is possible to solve the constrained attitude control problem by linking several intermediary unconstrained maneuvers.
 While this method is conceptually simple, it is difficult to generalize for an arbitrary number of constraints.
 In addition, this approach is only applicable to problems where the selection of intermediate points are computationally feasible.
 
@@ -109,7 +109,7 @@ These methods rely on linear or non-linear state dynamics to repeatedly solve a 
 Also known as receding horizon control, the optimal control formulation allows for a straight forward method to incorporate state and control constraints.
 Computing the optimal control strategy over a moving horizon allows for a form of feedback type control rather than the more typical open-loop optimal control solution.
 Due to the iterative nature of solving optimization problems, model predictive control methods are computational expensive and frequently apply direct optimization methods to solve the necessary conditions for optimality.
-Therefore, these methods are complicated to implement and not applicable for real-time control applications.
+Therefore, these methods are complicated to implement and may not be suitable for real-time control applications.
   
 % Previous potential function approach - developed using attitude parameterizations - singularities/ambiguities
 Artificial potential functions are commonly used to handle kinematic constraints for a wide range of problems in robotics~\cite{rimon1992}.
@@ -127,7 +127,7 @@ A configuration error function on \(\SO\) with a logarithmic barrier function is
 Instead of calculating a priori trajectories, as in the randomized approaches, our approach results in a closed-loop attitude control system. 
 This makes it ideal for on-board implementation on UAV or spacecraft systems. 
 In addition, unlike previous approaches our control system can handle an arbitrary number of constrained regions without modification.
-This approach results in a conceptually simple obstacle avoidance scheme which extends the previous work of artificial potential functions on Euclidean spaces to the more challenging Special Orthogonal Group.
+This approach results in a conceptually simple obstacle avoidance scheme which extends the previous work of artificial potential functions on Euclidean spaces to the special orthogonal group.
 
 Furthermore, we use this new configuration error function to design an adaptive update law to enable attitude convergence in the presence of uncertain disturbances. 
 The stability of the proposed control systems is verified via mathematically rigorous Lyapunov analysis on $\SO$.  
@@ -136,7 +136,8 @@ The effectiveness of this approach is illustrated via numerical simulation and d
 
 \section{Problem Formulation}\label{sec:prob_form}
 \subsection{Attitude Dynamics}\label{sec:att_dyn}
-Consider the attitude dynamics of a rigid body--we define an inertial reference frame and a body frame whose origin is at the center of mass and aligned with the principle directions of the body. 
+Consider the attitude dynamics of a rigid body.
+We define an inertial reference frame and a body-fixed frame whose origin is at the center of mass and aligned with the principle directions of the body. 
 The configuration manifold of the attitude dynamics is the special orthogonal group:
 \begin{align*}
 	\SO = \{R\in\R^{3\times 3}\,|\, R^TR=I,\;\mathrm{det}[R]=1\} ,
@@ -153,8 +154,9 @@ We assume that the external disturbance is expressed by $W(R,\Omega)\Delta$, whe
 The disturbance is represented by $\Delta\in\R^{p}$ and is an unknown, but fixed uncertain parameter.
 In addition, we assume that a bound on \( W(R, \Omega) \text{ and } \Delta \) is known and given by
 \begin{equation}
-	\norm{W} \leq B_W , \quad \norm{\Delta} \leq B_\Delta \,. \label{eqn:W_bound}
+	\norm{W} \leq B_W , \quad \norm{\Delta} \leq B_\Delta \,, \label{eqn:W_bound}
 \end{equation}
+for positive constants \( B_W, B_\Delta\).
 This form of uncertainty enters the system dynamics through the input channel and as a result is referred to as a matched uncertainty. 
 While this form of uncertainty is easier than the unmatched variety, many physically realizable disturbances may be modeled in this manner.
 For example, orbital spacecraft are subject to gravity gradient torques caused by the non-spherical distribution of mass of both the spacecraft and central gravitational body.
@@ -193,7 +195,7 @@ The 2-norm of a matrix \( A \) is denoted by \( \norm{A} \), and its Frobenius n
 
 \subsection{State Inequality Constraint}
 
-The two-sphere is the manifold of unit-vectors in \( \R^3 \) such that \( \Sph^2 = \{ q \in \R^3 \,  \vert \, \norm{q} = 1 \}\).
+The two-sphere is the manifold of unit-vectors in \( \R^3 \), i.e., \( \Sph^2 = \{ q \in \R^3 \,  \vert \, \norm{q} = 1 \}\).
 We define \( r \in \Sph^2 \) to be a unit vector from the mass center of the rigid body along a certain direction and it is represented with respect to the body-fixed frame.
 For example, \( r \) may represent the pointing direction of an on-board optical sensor.
 We define \( v \in \Sph^2 \) to be a unit vector from the mass center of the rigid body toward an undesired pointing direction and represented in the inertial reference frame.
@@ -218,7 +220,7 @@ To handle the attitude inequality constraint, we propose a new attitude configur
 More explicitly, we extend the trace form used in~\cite{bullo2004,LeeITCST13} for attitude control on \(\SO\) with the addition of a logarithmic barrier function. 
 Based on the proposed configuration error function,  nonlinear geometric attitude controllers are constructed. 
 A smooth control system is first developed assuming that there is  no disturbance, and then it is extended to include an adaptive update law for stabilization in the presence of unknown disturbances. 
-The proposed attitude configuration error function and several properties are summarized as follows in~\Cref{prop:config_error}
+The proposed attitude configuration error function and several properties are summarized as follows.
 
 \begin{prop}[Attitude Error Function] \label{prop:config_error}
 %We assume a desired attitude command \( ( R_d, \Omega_d = 0 ) \), the current attitude and angular velocity \( ( R, \Omega) \), and a state constraint~\cref{eqn:constraint} are given.
@@ -233,7 +235,7 @@ with
 	A(R) = \frac{1}{2} \tr{G \left( I - R_d^T R\right)} , \label{eqn:A} \\
 	B(R) = 1 - \frac{1}{\alpha} \ln \left( \frac{\cos \theta -  r^T R^T v}{1 + \cos \theta}\right) . \label{eqn:B} \\
 	e_{R_A} = \frac{1}{2} \parenth{G R_d^T R - R^T R_d G} ^ \vee , \label{eqn:eRA} \\
-	e_{R_B} = \frac{ \left( R^T v\right)^\vee r}{\alpha \left(r^T R^T v - \cos \theta \right)} . \label{eqn:eRB} 
+	e_{R_B} = \frac{ \left( R^T v\right)^\wedge r}{\alpha \left(r^T R^T v - \cos \theta \right)} . \label{eqn:eRB} 
 \end{gather}	
 where \( \alpha \in \R \) is defined as a positive constant and the matrix \( G \in \R^{3 \times 3} \) is defined as a diagonal matrix matrix for distinct, positive constants \( g_1, g_2, g_3 \in \R \).
 Then, the following properties hold
@@ -315,11 +317,11 @@ We present the dynamics of the configuration error function in~\Cref{prop:error_
 		\diff{}{t} \parenth{e_\Omega} = J^{-1} \parenth{-\Omega \times J \Omega + u + W(R, \Omega) \Delta} , \label{eqn:eW_dot}
 	\end{gather}
 	where the matrices \(E(R,R_d), F(R) \in \R^{3\times3} \) are given by
-	\begin{gather}
-		E(R,R_d) = \frac{1}{2} \parenth{\tr{R^T R_d G}I - R^T R_d G} , \label{eqn:E} \\
-		F(R) = \frac{1}{\alpha \parenth{r^T R^T v - \cos \theta}} \left[\parenth{v^T R r} I - R^T v r^T + \right. \nonumber \\
-		\left. \frac{R^T \hat{v} R r v^T R \hat{r}}{\parenth{r^T R^T v - \cos \theta}}\right] . \label{eqn:F}
-	\end{gather}
+	\begin{align}
+		E(R,R_d) = &\frac{1}{2} \parenth{\tr{R^T R_d G}I - R^T R_d G} , \label{eqn:E} \\
+		F(R) = &\frac{1}{\alpha \parenth{r^T R^T v - \cos \theta}} \left[\parenth{v^T R r} I - R^T v r^T + \right. \nonumber \\
+		& \left. \frac{R^T \hat{v} R r v^T R \hat{r}}{\parenth{r^T R^T v - \cos \theta}}\right] . \label{eqn:F}
+	\end{align}
 \end{prop}
 \begin{proof}
 See~\Cref{proof:error_dyn}
@@ -453,7 +455,8 @@ The desired state is \( R_d = I,\Omega_d = 0\).
 \begin{figure}[H] 
     \centering 
     \subfigure[Attitude error vector \(e_R\) \label{fig:eR_con}]{\includegraphics[width=0.5\columnwidth]{eR_con}  }~
-    \subfigure[Configuration error \( \Psi \) \label{fig:Psi_con}]{\includegraphics[width=0.5\columnwidth]{figures/Psi_con.pdf} }  
+    \subfigure[Configuration error \( \Psi \) \label{fig:Psi_con}]{\includegraphics[width=0.5\columnwidth]{figures/Psi_con.pdf} }
+    \subfigure[Angle to constraints \label{fig:con_angles_con}]{\includegraphics[width=0.5\columnwidth]{figures/constraint_angles_con.pdf} }  
     \caption{Attitude stabilization without adaptive update law}
     \label{fig:con} 
 \end{figure}
@@ -474,6 +477,7 @@ The first term of~\cref{eqn:delta_dot} has the effect of increasing the proporti
 Simulation results without the adaptive update law are shown in~\cref{fig:con}.
 Without the update law, the system does not achieve zero steady state error. 
 \Cref{fig:Psi_con} shows that the configuration error function does not converge to zero and there exist steady state errors.
+In spite of the uncompensated disturbance, the system is able to avoid the constrained regions as shown in~\cref{fig:con_angles_con}.
 \Cref{fig:adapt} shows the results with the addition of the adaptive update law.
 The addition of the adaptive update law allows the system to converge to the desired attitude in the presence of constraints.
 The path of the body fixed sensor in the inertial frame, namely \( R r \), is illustrated in~\cref{fig:cad_adapt}.
@@ -521,7 +525,8 @@ The attitude control system is identical to the one presented in~\Cref{prop:adap
     \subfigure[{Attitude error vector \(e_R\)} \label{fig:eR_exp}]{\includegraphics[width=0.5\columnwidth]{eR_exp}  }~
 	\subfigure[{Configuration error \( \Psi \)} \label{fig:Psi_exp} ]{\includegraphics[width=0.5\columnwidth]{Psi_exp} }\\
 	\subfigure[{Control input \( u\) }\label{fig:u_exp}]{\includegraphics[width=0.5\columnwidth]{u_exp}  }~
-	\subfigure[{Attitude Trajectory } \label{fig:traj_exp}]{\includegraphics[width=0.5\columnwidth]{traj_exp} }
+	\subfigure[{Attitude Trajectory } \label{fig:traj_exp}]{\includegraphics[width=0.5\columnwidth]{traj_exp} }\\
+    \subfigure[{Angle to constraint } \label{fig:con_angle_exp}]{\includegraphics[width=0.5\columnwidth]{figures/constraint_angles_exp.pdf} }
 	\caption{Constrained Attitude stabilization experiment}
 	\label{fig:exp} 
 \end{figure}
@@ -564,7 +569,7 @@ The presented method is simple, efficient and ideal for hardware implementation 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
 \subsection{Proof of~\Cref{prop:config_error}}\label{proof:config_error}
-To prove~\cref{item:prop_psi_psd} we note that~\cref{eqn:A} is a positive definite function about \( R = R_d \)~\cite{bullo2004}.
+To prove~\cref{item:prop_psi_psd}, we note that~\cref{eqn:A} is a positive definite function about \( R = R_d \)~\cite{bullo2004}.
 The constraint angle is assumed \( \ang{0} \leq \theta \leq \ang{90} \) such that \( 0 \leq \cos \theta \).
 The term \( r^T R^T v \) represents the cosine of the angle between the body fixed vector \( r \) and the inertial vector \( v \). 
 It follows that
@@ -585,7 +590,7 @@ where we used~\cref{eqn:hat1}.
 
 A straightforward application of the chain and product rules of differentiation allows us to show~\cref{item:prop_erb} as
 \begin{align*}
-	\dirDiff{B}{R} &=  \eta \cdot \frac{ - \left( R^T v\right)^\vee r}{\alpha \left(\cos \theta - r^T R^T v \right)} ,
+	\dirDiff{B}{R} &=  \eta \cdot \frac{ - \left( R^T v\right)^\wedge r}{\alpha \left(\cos \theta - r^T R^T v \right)} ,
 %	-\frac{1}{\alpha} \left[\left(\frac{1+\cos \theta}{\cos \theta - r^T R^T v} \right) \left(\eta \cdot \frac{\left( R^T v\right)^\vee r}{1+\cos \theta} \right) \right]
 \end{align*}
 where the scalar triple product~\cref{eqn:STP} was used.
@@ -651,7 +656,7 @@ We take the time derivative of the repulsive attitude error vector, \( e_{R_B} \
 \end{gather*}
 with \( a \in \R \) and \( b \in \R\) given by 
 \begin{gather*}
-	a = \bracket{\alpha \parenth{r^T R^T v - \cos \theta}}^{-1} , \,
+	a = \bracket{\alpha \parenth{r^T R^T v - \cos \theta}}^{-1} , \;
 	b = \frac{r^T \hat{\Omega} R^T v}{\alpha \parenth{r^T R^T v - \cos \theta}^2} .
 \end{gather*}
 Using the scalar triple product from~\cref{eqn:STP} as \( r \cdot \Omega \times \parenth{R^T v} = \parenth{R^T v} \cdot r \times \Omega \) gives~\cref{eqn:eRB_dot,eqn:F}.
@@ -715,10 +720,10 @@ Applying Rodrigues' formula and the Matlab symbolic toolbox, this is simplified 
 which shows~\cref{eqn:E_bound}, since \( \norm{E} \leq \norm{E}_F \).
 
 To show~\cref{eqn:F_bound}, we apply the Frobenius norm \( \norm{F}_F \):
-\begin{gather*}
-	\norm{F}_F = \frac{1}{\alpha ^2 \parenth{r^T R^T v - \cos \theta}^2} \left[\tr{a^T a} - 2 \tr{a^T b} \right. \\
-	\left.+ 2 \tr{a^T c } + \tr{b^T b}  - 2 \tr{b^T c} + \tr{c^T c}\right] .
-\end{gather*}
+\begin{align*}
+	\norm{F}_F =& \frac{1}{\alpha ^2 \parenth{r^T R^T v - \cos \theta}^2} \left[\tr{a^T a} - 2 \tr{a^T b} \right. \\
+	&\left.+ 2 \tr{a^T c } + \tr{b^T b}  - 2 \tr{b^T c} + \tr{c^T c}\right] .
+\end{align*}
 where the terms \( a, b, \text{ and } c \) are given by
 \begin{gather*}
 	a = r^T R r I , \quad	b = R^T v r^T , \quad c = \frac{R^T \hat{v} R r v^T R \hat{r}}{r^T R^T v - \cos \theta}.
