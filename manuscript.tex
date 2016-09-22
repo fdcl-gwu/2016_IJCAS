@@ -535,23 +535,6 @@ In order to maneuver the system ``close" to the constrained zone we utilize seve
 From the initial attitude the hexrotor rotates to the first set point, pauses, and then continues around the obstacle to the second set point before continuing toward the desired attitude.
 As a result this creates the stepped behavior of the configuration error history as shown in~\cref{fig:Psi_exp}.
 
-The brushless motors of the hexrotor allow for large control inputs, which are critical to enable aggressive maneuvers. 
-When constrained to the spherical joint, the hexrotor is capable of performing responsive attitude changes with high angular velocities.
-In addition, the on-board control and motion capture system operate at a discrete interval of approximately \SI{100}{\hertz}.
-It is possible for the system to violate the constraint between these discrete steps and cause numerical exceptions within the embedded software. 
-As a result, conservative control gains are chosen to ensure the hexrotor operates in a sedate manner and to allow sufficient time for the measurement and control software to operate.
-
-There exist several sources of error in the experimental setup.
-The motion capture system uses a series of optical sensors to determine the relative position of several tracking markers. 
-These markers as well as the cameras must remain fixed to ensure accurate attitude measurement.
-In addition, the spherical joint is not fixed at the center of mass but is instead offset due to the physical structure of the hexrotor.
-As a result a disturbance moment is induced on the resultant motion.
-
-This results in a small steady state error in the vicinity of the desired attitude. 
-Over time~\cref{eqn:delta_dot} will remain non-zero while \( e_R \neq 0 \).
-This will cause an increase in control input until the steady-state error is reduced. 
-Further tuning of the control gains would enable a faster response and a reduced settling time.
-
 The hexrotor avoids the constrained region illustrated by the circular cone in~\cref{fig:traj_exp}, by rotating around the boundary of the constraint. 
 This further validates that the proposed control system exhibits the desired performance in the experimental setting as well. 
 A video clip showing the attitude maneuver is available \url{https://youtu.be/dsmAbwQram4}.
