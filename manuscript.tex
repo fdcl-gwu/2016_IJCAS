@@ -137,7 +137,7 @@ The effectiveness of this approach is illustrated via numerical simulation and d
 \section{Problem Formulation}\label{sec:prob_form}
 \subsection{Attitude Dynamics}\label{sec:att_dyn}
 Consider the attitude dynamics of a rigid body.
-We define an inertial reference frame and a body-fixed frame whose origin is at the center of mass and aligned with the principle directions of the body. 
+We define an inertial reference frame and a body-fixed frame, whose origin is at the center of mass and aligned with the principle directions of the body. 
 The configuration manifold of the attitude dynamics is the special orthogonal group:
 \begin{align*}
 	\SO = \{R\in\R^{3\times 3}\,|\, R^TR=I,\;\mathrm{det}[R]=1\} ,
@@ -240,7 +240,7 @@ with
 where \( \alpha \in \R \) is defined as a positive constant and the matrix \( G \in \R^{3 \times 3} \) is defined as a diagonal matrix matrix for distinct, positive constants \( g_1, g_2, g_3 \in \R \).
 Then, the following properties hold
 \begin{enumerate}[(i)]
-	\item \label{item:prop_psi_psd} \(\Psi\) is positive definite about \( R = R_d\)
+	\item \label{item:prop_psi_psd} \(\Psi\) is positive definite about \( R = R_d\).
 	\item \label{item:prop_era}The variation of \( A(R) \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
 	\begin{align}
 		\dirDiff{A}{R} &= \eta \cdot e_{R_A} .
@@ -267,7 +267,7 @@ See~\Cref{proof:config_error}
 \end{proof}
 
 \Cref{eqn:psi} is composed of an attractive term, \( A (R) \) toward the desired attitude, and a repulsive term, \( B(R) \) away from the undesired direction \( R^T v \).
-In order to visualize the attitude error function on \( \SO \) we utilize a spherical coordinate representation.
+In order to visualize the attitude error function on \( \SO \), we utilize a spherical coordinate representation.
 Recall, that the spherical coordinate system represents the position of a point relative to an origin in terms of a radial distance, azimuth, and elevation.
 This coordinate system is commonly used to define locations on the Earth in terms of a latitude and longitude.
 Similarly, the positions of celestial objects are defined on the celestial sphere in terms of right ascension and declination. 
@@ -280,7 +280,7 @@ Similarly, the positions of celestial objects are defined on the celestial spher
     \label{fig:config_error} 
 \end{figure}%
 We apply this concept and parametrize the rotation matrix \( R \in \SO \) in terms of the spherical angles \( \SI{-180}{\degree} \leq \lambda \leq \SI{180}{\degree}  \) and \( \SI{-90}{\degree} \leq \beta \leq \SI{90}{\degree} \). 
-Using the elementary Euler rotations the rotation matrix is now defined as \( R = \exp( \lambda \hat{e}_2) \exp( \beta \hat{e}_3) \).
+Using the elementary Euler rotations, the rotation matrix is now defined as \( R = \exp( \lambda \hat{e}_2) \exp( \beta \hat{e}_3) \).
 We iterate over the domains of \( \lambda\) and \(\beta\) in order to rotate the body-fixed vector \( r \) throughout the two-sphere \( \S^2 \).
 Applying this method,~\cref{fig:config_error} allows us to visualize the error function on \( \SO \).
 The attractive error function, given by~\cref{eqn:A}, has been previously used for attitude control on \(\SO\).
@@ -345,8 +345,7 @@ This proposition only guarantees that the attitude error vector \( e_R \) asympt
 However, this does not necessarily imply that \( R \to R_d \) as \( t \to \infty \), since there are at most three additional critical points of \( A(R) \) where \( e_R = 0 \) and \( R^T v = \pm r\).
 At an undesired equilibrium \( R = \exp{ \parenth{\pi \hat{e}_i}} R_d \) and \( e_\Omega =0 \).
 However, we can show that these undesired equilibrium points are unstable in the sense of Lyapunov~\cite{LeeITCST13}.
-As a result, we can claim that the desired equilibrium \( R = R_d \text{ and } e_\Omega = 0 \) is almost globally asymptotically stable, which means that the set of initial conditions that do not converge to the desired attitude has zero Lebesgue measure.
- 
+
 \subsection{Adaptive Control}
 We extend the results of the previous section with the addition of a fixed but unknown disturbance \( \Delta \).
 This scenario is typical of many mechanical systems and represents unmodeled dynamics or external moments acting on the system.
@@ -478,6 +477,8 @@ Simulation results without the adaptive update law are shown in~\cref{fig:con}.
 Without the update law, the system does not achieve zero steady state error. 
 \Cref{fig:Psi_con} shows that the configuration error function does not converge to zero and there exist steady state errors.
 In spite of the uncompensated disturbance, the system is able to avoid the constrained regions as shown in~\cref{fig:con_angles_con}.
+The angle to each of the constraints,  \( \arccos(r^T R^T v_i) \), is always greater than the specified angle, \( \theta_i \), in~\cref{tab:constraints}.
+
 \Cref{fig:adapt} shows the results with the addition of the adaptive update law.
 The addition of the adaptive update law allows the system to converge to the desired attitude in the presence of constraints.
 The path of the body fixed sensor in the inertial frame, namely \( R r \), is illustrated in~\cref{fig:cad_adapt}.
@@ -511,11 +512,11 @@ This allows the hexrotor to impart a force in any direction and a moment about a
 Attitude information is measured by an onboard IMU and a Vicon motion capture system in the test area.
 The control input is computed onboard the hexrotor using data transmitted via WiFi in a client/server model.
 In order to constrain the motion, allowing us to test only the attitude dynamics, we attach the hexrotor to a spherical joint.
-Since, the center of rotation is below the center of gravity of the hexrotor there is a destabilizing gravitational moment
+Since, the center of rotation is below the center of gravity of the hexrotor there is a destabilizing gravitational moment.
 The resulting attitude dynamics are similar to an inverted pendulum model.
 We augment the control input in~\cref{eqn:adaptive_control} with an additional term to negate the effect of the gravitational moment.
 
-A sensor pointing direction is defined in the body frame of the hexrotor as \( r = [1,0,0]^T \).
+A sensor pointing direction is defined in the body-fixed frame of the hexrotor as \( r = [1,0,0]^T \).
 We define an obstacle in the inertial frame as \( v = [\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}, 0]^T \) with \( \theta = \ang{12} \).
 An initial state is defined as \(R(0) = \exp( \frac{\pi}{2} \hat{e}_3) \), while the desired state is \(R_d =I \).
 This results in the UAV performing a \ang{90} yaw rotation about the vertical axis of the spherical joint and the constrained region is on the shortest path connecting $R_0$ and $R_d$. 
@@ -536,6 +537,8 @@ From the initial attitude the hexrotor rotates to the first set point, pauses, a
 As a result this creates the stepped behavior of the configuration error history as shown in~\cref{fig:Psi_exp}.
 
 The hexrotor avoids the constrained region illustrated by the circular cone in~\cref{fig:traj_exp}, by rotating around the boundary of the constraint. 
+\Cref{fig:con_angle_exp} shows the angle, \( \arccos r^T R^T v \), between the body mounted sensor and the inertially fixed sensor.
+The experiment demonstrates that the minimum angular separation is \SI{14}{\degree} which satisfies the constraint of \( \theta = \SI{12}{\degree} \).
 This further validates that the proposed control system exhibits the desired performance in the experimental setting as well. 
 A video clip showing the attitude maneuver is available \url{https://youtu.be/dsmAbwQram4}.
 
