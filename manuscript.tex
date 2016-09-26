@@ -249,7 +249,7 @@ Then, the following properties hold
 	\begin{align}
 		\dirDiff{B}{R} &= \eta \cdot e_{R_{B}} .
 	\end{align}
-	\item \label{item:prop_crit}The critical points of \( \Psi \) are $R_d$, and $R_d \exp(\pi \hat{s})$ for $s \in \braces{e_1, e_2, e_3}$ satisfying $R^T v = \pm r$.
+	\item \label{item:prop_crit}\(R_d\) is one of the critical points of \( \Psi \).
 	\item \label{item:prop_era_upbound}An upper bound of \( \norm{e_{R_A}} \) is given as:
 	\begin{align}
 		\norm{e_{R_A}}^2 \leq \frac{A(R)}{b_1} , \label{eqn:psi_lower_bound}
@@ -611,7 +611,12 @@ The critical points of \( e_{R_A} \) are derived in~\cite{bullo2004}.
 There are four critical points of \( e_{R_A} \), the desired attitude \( R_d \) as well as rotations about each body fixed axis by \ang{180}.
 The repulsive error vector \( e_{R_{B}} \) is zero only when the numerator \( \parenth{R^T v}^\wedge r = 0 \). 
 This condition only occurs if the desired attitude results in the body fixed vector \( r \) becoming aligned with \(R^T v \) while simultaneously satisfying \(\braces{R_d} \cup \braces{R_d \exp(\pi \hat{s}} \) for \( s \in \braces{e_1, e_2, e_3} \).
-Since we assume the system will not operate in violation of the constraints, the addition of the barrier function does not add additional critical points to the control system.
+There is an additional critical point when the condition \( e_{R_A} B + e_{R_B} A = 0 \) is satisfied. 
+This critical point is equivalent to the following two conditions:
+\begin{align*}
+    e_{R_A} \cdot e_{R_B} &= - \norm{e_{R_A}} \norm{e_{R_B}} , \\
+    \norm{e_{R_A}} B &= A \norm{e_{R_B}}.
+\end{align*}
 The desired equilibrium is \( e_R = 0 \) and \( A = 0\).
 The proof of \( \norm{e_{R_A}} \) given by~\cref{item:prop_era_upbound} is available in~\cite{LeeITCST13}.
 
