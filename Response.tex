@@ -1,5 +1,5 @@
 \documentclass[11pt]{article}
-\usepackage[letterpaper,text={6.5in,8.6in},centering]{geometry}
+\usepackage[letterpaper,margin=1in,centering]{geometry}
 \usepackage{amssymb,amsmath,times,url}
 \usepackage{xr,color}
 
@@ -54,321 +54,58 @@
 
 %\pagestyle{empty}
 
-\section*{Response to the Reviewers' Comments for 2014-12-G001229.R1}
+\section*{Response to the Reviewers' Comments for JCAS-D-16-00607}
 
 I would like to thank the reviewers for their thoughtful comments, which are aimed
 towards improving the quality of the paper and the clarity of the results. In accordance with the comments and suggestions, the paper has been revised, and the answers to all comments are addressed as follows.
 
 (In the revised manuscript, the citation numbers for equations, assumptions, propositions, and references are changed. This answer is written according to the new item numbers.)
 
-\subsection*{Reviewer 1}
-
-\textit{The authors present nonlinear regression based estimation of UAV altitude and ground plane inclination for autonomous landing. 
-The estimates are obtained using the proposed laser-camera sensor, where the laser projection on the surface are measured in the camera's image plane. 
-The paper presents an interesting approach, and the application is relevant to the journal. 
-The paper is sufficiently clear and easy to follow. 
-The controller and trajectory generation are borrowed from the author's previous work. 
-The main contribution is in the estimation method for altitude and ground plane inclination. Below are some of my major concerns:
-}
-
-\setlength{\leftmargini}{0pt}
-\begin{itemize}\setlength{\itemsep}{2\parsep}
-
-\item 
-\textit{The laser-based approach to obtain artificial feature points using the presented image processing approach may not be suitable in many outdoor situations. 
-It is very common to experience bright spots and reflections in sunny conditions, which would be difficult to distinguish from the laser points. 
-I am aware that the authors have clearly stated that the method works well in shaded and indoor conditions but, in my opinion, that limits the applicability.
-}
-
-The image processing approach outlined in this paper is limited to conditions in which the thresholding works well, but the present approach may be extended using more robust techniques. 
-It may be possible to incorporate color into the image processing, or to selectively choose regions of interest in the image based on expectations on where the laser pointer projections should appear in the image, for example. 
-I think similar objections can be made to many other computer vision applications, which may work well in lab environments but require further development to perform robustly under any lighting condition. 
-Nonetheless, the conclusion has been modified to make the limitations of this approach more clear:
-
-\begin{correction}
-... Contrary to other vision-based approaches, the system does not require features to be present at the landing site. 
-However, the image processing approach employed here assumes that the intensity of the laser points in the image are much brighter than the rest of the image, an assumption that may break down under certain conditions, especially in bright sunlight.
-The result of the estimation and landing trajectory ...
-\end{correction}
-
-\item
-\textit{The authors states that the xy-coordinates of the landing position $x_L$ are known. 
-I believe, without loss of generality, the authors could mention that the origin of the inertial frame can be assumed to coincide with $x_L$ to get rid of the assumption.
-}
-
-It is true that the origin of the inertial frame can be assumed to coincide with $x_L$ to eliminate the assumption of known horizontal position, but I do not agree that this assumption preserves generality. 
-With the inertial frame coincident with $x_L$, it no longer becomes necessary to estimate $h$ (which in this case is simply the vertical component of position) since the position of the quadrotor is assumed to be known.
-Assuming that the horizontal components of $x_L$ are known can be as simple as the quadrotor hovering over an arbitrary position to attempt a landing, so long as the flat ground plane assumption is met.
-
-\item
-\textit{The most limiting assumption is that the quadrotor hovers directly above the landing point and obtains a bunch of images to solve for the altitude and ground plane inclination. 
-In practice, due to external disturbances such as wind gusts and light-weight construction of quadrotors, it is very difficult to hover them at one location.
-}
-
-Position control of quadrotors definitely varies in different conditions, such as wind gusts as you point out. 
-However, the landing approach developed in this paper would be most applicable to large, expensive vehicles, where landing on an inclined surface without damage can not easily be achieved by cutting throttle near the ground, as might be done with a small lightweight vehicle.
-Larger, heavier vehicles can be more robust to external disturbances, and recent advances in position control using optical flow could be useful. %Furthermore, the proposed algorithm to estimate the inclination of the landing surface is not sensitive to the horizontal movements of the quadrotor, as the lasers are fixed to the quadrotor body.
-
-\item
-\textit{Since the development in Section 3B and 3C is based on the above assumption, it is not clear how to obtain m images while maintaining constant altitude (as required to solve regression in Section 3C2). Do you only yaw to obtain a measurement vector of size 2mn? Please clarify.
-}
-
-Yawing is sufficient to obtain the measurement vector. 
-In practice, since it is not possible to hover exactly in one position as you pointed out previously, simply attempting to hold position will yield distinct measurements suitable for the estimation procedure.
-The following has been added to clarify how to obtain the $m$ frames:
-
-\begin{correction}
-Suppose the above image processing algorithm is repeated over a short time period to obtain $m$ image frames. 
-Theoretically, in order to obtain the $m$ distinct frames while holding position, the quadrotor must change its attitude by yawing.
-In practice, however, small disturbances ensure that the measurements are distinct even with the vehicle simply
-attempting to hold position.
-An estimation scheme is necessary ...
-\end{correction}
-
-\item
-\textit{Formal approach to determine landing time and switching time might be necessary. 
-The switching time satisfies the boundary conditions on the position of the UAV but the landing time is arbitrarily chosen. 
-Although the authors state that since attitude dynamics are typically fast so that the desired orientation can be achieved in small amount of time, a formal proof to determine tL given tS and xS will greatly improve the paper.
-}
-
-As discussed at the end of Section IV.B, the boundary condition to align the attitude of the quadrotor to the landing surface is indirectly imposed by selecting $t_L$. In practice, $t_L-t_S$ should be sufficiently large such that the attitude is aligned to the landing surface before the moment of touchdown. However, it is determined by various factors, such as the controller gain, the moment of inertia of the quadrotor, and the maximum thrust of the quadrotor. As such, providing an analytic expression accounting these for the controlled attitude trajectories is beyond the scope of this technical note.
-
-Instead, the last paragraph of Section IV.B has been revised as follow, to provide a guideline to select $t_L$ and other parameters.
-
-\begin{correction}
-As this problem of selecting $x_S,v_S,f,t_S$ and $t_L$ is underdetermined, one may consider optimizing the parameters with respect to a certain cost function. 
-Instead, these parameters can be chosen according to the following heuristic approach.
-Note the landing trajectory can be designed in the two dimensional plane normal to $b_{1_c}$. 
-First, the landing time $t_L$ is chosen sufficiently large to avoid a rapid descent, and $t_S$ can be chosen about 0.5 second less than $t_L$ initially. 
-Then, the switching point $x_S$ is selected such that it is on the line joining $x_H$ and $x_L$, and the distance between $x_S$ and $x_L$ is about one or two times of the quadrotor diameter. 
-We can also restrict $v_S$ to be horizontal such that it does not cause any additional downward velocity at $t_L$. 
-The remaining two parameters, namely $f$ and the horizontal component of $v_S$, are iterated numerically such that $x(t_L)$ becomes equal to $x_L$ within the plane normal to $b_{1_c}$. 
-Finally, the switching time $t_S$ can be further iterated to ensure the attitude error becomes sufficiently small at $t=t_L$. 
-These are illustrated by the following numerical examples. 
-\end{correction}
-
-\item
-\textit{Although the presented approach using laser-based artificial features is interesting, it is difficult to see the advantage of using lasers over pure-vision based approaches. 
-For example, nonlinear observer based methods can be applied to estimate the altitude (e.g., On-Line Estimation of Feature Depth
-for Image-Based Visual Servoing Schemes by DeLuca) or homography-based approaches can be used to land the quadrotor using natural feature points (not IR markers) even without the knowledge of the desired or reference image.
-}
-
-As discussed in the introduction, the primary advantage of the present approach is that natural feature points are not required, meaning that this approach could succeed on a textureless flat plate where a feature-based approach would fail. 
-Feature detectors have made significant progress but are not reliable on solid color surfaces lacking significant texture.
-
-\end{itemize}
-
-\noindent\textit{Minor edits:}
-
-\begin{itemize}\setlength{\itemsep}{2\parsep}
-
-\item
-\textit{eq. 16 - change p3,e,3 to p3,e
-}
-
-In this equation, $p_{3,e,3}$ was intended to represent the third component of $p_{3,e}$. This equation has been modified as follows:
-
-\begin{correction}
-  $\beta_j = h p_{3,e}^T \vec{e_3} -
-r_{j,c}^T R^T p_{3,e}$
-\end{correction}
-
-\item
-\textit{the notation defined for r, l, and p uses bar but it was dropped in the subsequent analysis. 
-please rectify.
-}
-
-This was intentional. In this manuscript, the bar is used to denote an abstract vector, and it is dropped for the representation of the vector with respect to a particular reference frame.
-To make this more clear, a sentence was added as follows:
-\begin{correction}
-... a (virtual) image plane is
-parallel to the $\vec{c}_1$-$\vec{c}_2$ plane and offset from the
-aperture along $\vec{c}_3$ by the focal length $f_c$.
-In the following discussion, an abstract vector is written with an arrow, e.g. $\vec{x}$, and the representation of the vector with respect to a particular reference frame is written without the arrow with a subscript indicating the reference frame, e.g. $x_e$.
-\end{correction}
-
-%\textcolor{red}{JAD: Do you agree?}
-
-\item
-\textit{page 12, line 29 - defined in (29)-(30) change that to "defined in (29) and (30)"
-}
-
-The text has been revised accordingly.
-
-\end{itemize}
-
 \subsection*{Reviewer 2}
 
-\textit{The manuscript entitled "Monocular Estimation of Ground Orientation for Autonomous Landing of a Quadrotor" demonstrates a novel visual method for landing a quadrotor MAV on an inclined flat surface. 
-Methods for visually estimate the height and inclination angles of the ground surface are presented as well as the needed visual calibration method. 
-The manuscript also presents the online trajectory generation and tracking control to achieve smooth landing on the surface backed up by simulation and experimentation results. 
+\textit{A new geometric adaptive control scheme for the stabilization of the attitude dynamics of a rigid body with state inequality constraints is studied in this paper and ensures that the closed-loop system is asymptotically stable in the sense of Lyapunov stability. The main contribution and result are well presented and organized. Therefore, it is sufficient to be accepted in this journal provided that the following minor problems are considered in the revised version.
 }
 
-\textit{
-In addition to the interesting visual method presented, the manuscript is well written and easy to follow. 
-Well done. 
-The notes provided are minor in nature, and they are split in two groups.
-}
+% \setlength{\leftmargini}{0pt}
+\begin{enumerate}
 
-\textit{
-The more serious notes are the following:
-}
+\item \textit{ In general, the external disturbance is a time-varying signal even though it is bounded. Thus, authors should consider the time-varying disturbance case.}
 
-\setlength{\leftmargini}{0pt}
-\begin{itemize}\setlength{\itemsep}{2\parsep}
+\item \textit{If the inertia matrix is unknown, how to modify the suggested control system guaranteeing the asymptotic stability?}
 
-\item 
-\textit{The author review states that all relevant visual methods in the literature rely on fixed pre-known markers. A very relevant work that does not require such markers is "de Croon, G. CHE, et al. "Optic-flow based slope estimation for autonomous landing." International Journal of Micro Air Vehicles 5.4 (2013): 287-298." I suggest that the author acknowledge this work as it is more flexible in its requirements than the cited works as well as the author work (in the aspect of being completely passive).
-}
+\item \textit{The state inequality constraint is not violated based on adding the repulsive term in the attitude error function. Is this result still valid if this constraint becomes time-dependent?}
 
-This work is indeed very relevant and avoids many limitations of other vision-based approaches mentioned in the text. The text has been revised to acknowledge it as follows:
+\end{enumerate}
 
-\begin{correction}
-As described above, many vision-based approaches relying on feature detection impose the unrealistic constraint that a landing site have a known pattern present to be detected by the computer vision system. 
-In most real flight situations, this is not a practical solution. 
-Further, many algorithms suffer from slow computation times, especially on embedded hardware, although this problem is becoming less prevalent with advances in hardware and increasingly efficient computer vision algorithms. 
-One approach free from these limitations is developed in [17], where the slope of the ground surface is extracted directly from the optic flow field. 
-This purely vision-based approach shows promise in increasing the level of autonomy in landing, although the problem of landing on a sloped surface is not considered.
-\end{correction}
+\subsection*{Reviewer 3}
 
-\item
-\textit{The author has stated eq. 38 with no comments at all. It would be better to briefly highlight the rationale behind its formulation in this form. 
-}
+\textit{This paper considers the attitude control with inequality constraints. Attitude dynamics with matched uncertainty which is parameterized by a unknown constant matrix, and hard constants expressed by rotation matrix are considered. Although the problem is very interesting, the proofs for major results on the case with plant uncertainty are far from complete. Some comments are listed below.}
 
-Equation (38) is chosen such that it satisfies four boundary conditions, namely $x(0)=x_H$, $v(0)=0$, $x(t_S)=x_S$, and $v(t_S)=v_S$. Additional fifth boundary condition for the zero initial acceleration is imposed for smooth initial transition. These determine the five coefficients of the selected fourth order polynomial uniquely. 
+\begin{enumerate}
+\item \textit{Please give a precise definition of variation used in the paper, e.g., eq. (17) and (18)}
+\item \textit{This is serious. In section 2, the upper bounds listed in Proposition 4 are given. Well, these should be the properties that your controller guarantees not come from the set D you've defined. Since these properties are used to derive the bound H which is used to derive the result in Proposition 5, the stability proof under the proposed controller is far from complete.}
+\item \textit{Typo in eq. (40).}
+\item \textit{Abuse of notation 'hat' and 'vee' in equations (6)-(8)}
+\end{enumerate}
 
-When $v(t_S)=0$, the selected trajectory has additional property that $\min\{x_H,x_S\}\leq x_d(t) \leq \max\{x_H,x_S\}$ for any $0\leq t \leq t_S$. This may be used to ensure that the quadrotor does not fly below the switching point $x_S$ for safety. 
+\subsection*{Reviewer 4}
+\textit{This paper presents a new geometric adaptive control system with state inequality constraints for the attitude dynamics of a rigid body. The controlled attitude trajectory avoids undesired regions defined by the inequality constraint, and an adaptive update law that enables attitude stabilization in the presence of unknown disturbances is developed. However, the paper can be improved and some revisions are required.}
 
-To clarify these, the paragraph including (38) has been revised as follows.
+\begin{enumerate}
+\item \textit{Probably, the weak point is that the underlying experiments are not solid. The author claims that the attitude dynamics and the proposed control systems are developed on the special orthogonal group such that singularities and ambiguities of other attitude parameterizations, such as Euler angles and quaternions are completely avoided.  But the numerical simulations and experimental results don't demonstrate the effectiveness of the proposed control system. How is the singularity avoided in the Euler angles? Please give the detail.}
+\item \textit{The units of y axis of Figures 1 - 3 and 5 should be mentioned in the manuscript.}
+\item \textit{Please check and correct Page 2 Line 60.}
+\item \textit{The units of the parameters are missing. These should be added in the manuscript.}
+\item \textit{What are the design parameters of the proposed method and how the design parameters are selected? These should be included in the manuiscript.}
+\item \textit{Specification of the sensors in the experiments should be included in the manuscript.}
+\end{enumerate}
 
-\begin{correction}
-The desired landing trajectory satisfying these four boundary conditions and another boundary condition of zero initial acceleration is parameterized by $t$ as follows. 
-For $1\leq i\leq 3$, its $i$-th component is given by
-\begin{align}
-x_{d_i}(t)& =(v_{S_i}t_S+3(x_{H_i}-x_{S_i}))\frac{t^4}{t_S^4} -(v_{S_i}t_S+4(x_{H_i}-x_{S_i}))\frac{t^3}{t_S^3}
-+x_{H_i}.
-\end{align}
-When $v_{S_i}=0$, the above trajectory exhibits the additional property that $x_{d_i}(t)$ lies between $x_{H_i}$ and $x_{S_i}$ when $0\leq t\leq t_S$. This can be used to guarantee that the quadrotor does not fly below the switching point during its descent for safety. 
-\end{correction}
+\subsection*{Reviewer 5}
+\textit{This paper studies adaptive control design for the attitude dynamics of a rigid body system with state inequality constraints. The designed controller is proved to be asymptotically stabilized and may enable attitude stabilization in the presence of unknown disturbances. The attitude trajectory by the controller may avoid undesired regions. The effectiveness of the proposed control system is demonstrated through numerical simulations and experimental results. This paper is well written and the research contents are interesting. The main contributions of this paper are the new geometric adaptive control system proposed by the authors and its experimental verification. This paper is well organized and almost need not to make any changes. This reviewer suggests that it can be accepted for publication in International Journal of Control, Automation and Systems.}
 
-\item
-\textit{This author emphasise that any pre-requirements on the landing site is not practical for a truly autonomous landing system. While I agree on this, the work seems to rely on very accurate method (Vicon system) for estimating the quadrotor’s state (the position, velocity, attitude and attitude rates). In principle the same estimates could be obtained using an onboard IMU and GPS modules, but with far less accuracy. With no robustness analysis to state estimation errors and no experimentation performed outdoor using IMU/GPS sensors the practical applicability of the system is still questionable. I suggest that the authors address this point, either fully or partially followed up by future work, if the current text size does not allow.
-}
-
-While it is true that the use of a motion capture system for position and attitude estimation limits the applicability of the experimental results presented, the problem of state estimation of the quadrotor's pose is beyond the scope of this paper.
-The following has been added to the end of the results section to address this:
-
-\begin{correction}
-For these landing experiments, a pose estimate was provided by the Vicon system. 
-For a truly autonomous landing, it is unreasonable to use a motion
-capture system, but onboard pose estimation of the quadrotor is beyond the scope of this paper.
-Future work should aim to recreate these landing results  without any requirement on external sensors.
-\end{correction}
-
-\item
-\textit{Same practicality issue can be raised against the image processing technique and the threshold selection in varying light conditions in real life application.
-}
-
-Please see the above comment to Reviewer 1 regarding the practicality of the image processing procedure.
-
-\item
-\textit{There is no quantification of the number (m) of measurements needed to acceptably estimate the required parameters. More importantly, there is also no mention on the conditions under which these measurements should be taken for observability of the estimated parameters. For instance, if m>1 then images should be captured under distinct conditions, so would it be sufficient to vary the altitude, or the attitude or both? is a simple motion enough or a special manoeuvre has to be designed for this purpose? are the images taken while descending to xH enough for estimation purposes?
-}
-
-%\textcolor{red}{JAD: how to quantify m?}
-
-To obtain the $m$ image frames, the quadrotor should hold position, since $h$ must be estimated. 
-No special maneuvre is necessary; yawing would ensure distinct measurements. 
-In practice, due to disturbances, simply attempting to hold position will yield distinct measurements suitable for the estimation procedure. 
-
-The accuracy of the estimation can be quantified via the size of the posterior covariance matrix. If needed, the number of the measurements can be increased until the covariance matrix is less than a prescribed threshold. But, at the presented experimental setup, the sensor measurements are obtained at the rate of $16 Hz$, and taking the measurements over a few seconds was enough.
-
-This has been clarified in the text as follows:
-
-\begin{correction}
-Suppose the above image processing algorithm is repeated over a short time period to obtain $m$ image frames. Theoretically, in order to obtain the $m$ distinct frames while holding position, the quadrotor must change its attitude by yawing. In practice, however, small disturbances ensure that the measurements are distinct even with the vehicle simply attempting to hold position. An estimation scheme is necessary ...
-\end{correction}
-
-\item
-\textit{
-More analysis or guidelines for choosing tS, xS, tL, vS, f would be appreciated by the reader.
-}
-
-The last paragraph of Section IV.B has been revised as follow, to provide a guideline to select those parameters.
-
-\begin{correction}
-As this problem of selecting $x_S,v_S,f,t_S$ and $t_L$ is underdetermined, one may consider optimizing the parameters with respect to a certain cost function. Instead, these parameters can be chosen according to the following heuristic way. Note the landing trajectory can be designed in the two dimensional plane normal to $b_{1_c}$. First, the landing time $t_L$ is chosen sufficiently large such that a rapid descending is avoided, and $t_S$ can be chosen about 0.5 second less than $t_L$ initially. Then, the switching point $x_S$ is selected such that it is on the line joining the $x_H$ and $x_L$, and the distance between $x_S$ and $x_L$ is about 1 or 2 times of the quadrotor diameter. We can also restrict $v_S$ to be horizontal such that it does not cause any additional downward velocity at $t_L$. The remaining two parameters, namely $f$ and the horizontal component of $v_S$ are iterated numerically such that $x(t_L)$ becomes equal to $x_L$ within the plane normal to $b_{1_c}$. Finally, the switching time $t_S$ can be further iterated to ensure the attitude error becomes sufficiently small at $t=t_L$. These are illustrated by the following numerical examples. 
-\end{correction}
-
-
-
-\end{itemize}
-
-\noindent\textit{The other less serious comments are:}
-
-\begin{itemize}\setlength{\itemsep}{2\parsep}
-
-\item
-\textit{
-In P.3 L.30, in the author comments on ref 15; How image processing is done offline? do you mean off-board? The word “offline” indicates that the image processing is performed not at the time of the experiment, which does not make sense in this context.
-}
-
-Image processing is done off-board. The text has been updated to use ``off-board'' instead of ``offline.''
-
-\item
-\textit{
-In P.4 L.28: Using the term "fully controlled" in the first sentence is inaccurate and can be misleading. The quadrotor system is fully controllable as the 6DoF pose can be reached in a finite time using the available control. However, because it is underactuated then not all 6DoF states can be controlled simultaneously as the second sentence clearly states. The first sentence can be removed to avoid this issue.
-}
-
-This sentence has been removed.
-
-\item
-\textit{
-I suggest using the term "laser pointers modules" (for instance) instead of "laser modules" used through the text to avoid confusion with laser range finder modules which are much more often used on MAVs that laser pointers.
-}
-
-The term ``laser modules'' can indeed be ambiguous. The text has been updated to use the term ``laser pointers.'' I don't believe any meaning is lost in dropping the word ``modules.''
-
-\item
-\textit{
-In P.6 L.41, either the word "and" after p3 has to be removed or the sentence has to be rephrased.
-}
-
-This sentence has been revised as follows:
-
-\begin{correction}
-During flight, $\vec{p}_3$ and the vertical component of $x_L$ must be measured with onboard sensors. 
-\end{correction}
-
-\item
-\textit{
-In P.7 L.35: Please state explicitly that the laser pointer direction vector (ell) is in the body frame or the camera frame (subscript b or c, even if they are the same in this paper). 
-It may be a good idea as well to state in the same point in the text that these direction vectors will be estimated using an offline calibration method, rather than later in the text. 
-}
-
-At this point in the discussion, $\vec{l}$ is defined as an abstract vector, not in terms of any particular reference frame. Later, the representation of this abstract vector with respect to the camera frame is defined as $l_c$. The text has been revised as follows to mention how these vectors are to be estimated:
-
-\begin{correction}
-They point downward but are not
-  necessarily parallel to $\vec{c}_3$, and the direction of each
-laser is defined by $\vec{l_j}$ such that $\| \vec{l_j} \| = 1$. 
-In this paper, $\vec{r_j}$ and $\vec{l_j}$ may be regarded as parameters
-to be estimated in an offline procedure that is outlined in Section IIIC.
-The $j$-th laser beam intersects ...
-\end{correction}
-
-\item
-\textit{
-In P.10 L.44, (laster) typo? 
-}
-
-Fixed typo.
-
-\end{itemize}
-
-\noindent\textit{
-Thus I recommend that the manuscript is accepted after a minor revision addressing the points above.
-}
+\begin{enumerate}
+\item \textit{The only question is that all the figures in this paper are too small and are not legible. The meanings of different lines in one figure should be explained in the title content.}
+\end{enumerate}
 
 \end{document}
 
