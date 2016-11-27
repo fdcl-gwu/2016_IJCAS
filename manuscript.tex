@@ -560,12 +560,16 @@ As a result, its negative logarithm is always positive and from~\cref{eqn:B}, \(
 The error function \( \Psi = A B \) is composed of two positive terms and is therefore also positive definite.
 
 Next, we consider~\cref{item:prop_era}.
-The variation of~\cref{eqn:A} is taken with respect to \( \delta R = R \hat \eta \) as
+The infinitesimal variation of a rotation matrix is defined as
+\begin{align*}
+    \delta R = \left. \diff{}{\epsilon} \right|_{\epsilon=0} R \exp{\epsilon \hat{\eta}} = R \hat{\eta} .
+\end{align*}
+Using this the variation of~\cref{eqn:A} is taken with respect to \( R \) as
 \begin{align*}
 	\dirDiff{A}{R} &= \eta \cdot \frac{1}{2} \left( G R_d^T R - R^T R_d G\right)^\vee ,
 %	&= -\frac{1}{2} \tr{G R_d^T \left( R \hat{\eta}\right)} \\
 \end{align*}
-where we used~\cref{eqn:hat1}.
+where we used~\cref{eqn:hat1} to achieve the simplified form.
 
 A straightforward application of the chain and product rules of differentiation allows us to show~\cref{item:prop_erb} as
 \begin{align*}
