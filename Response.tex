@@ -108,6 +108,18 @@ Run another simulation showing that for a restricted class of time-varying error
 
 \begin{enumerate}
 \item \textit{Please give a precise definition of variation used in the paper, e.g., eq. (17) and (18)}
+The variation of the rotation matrix is defined as
+\begin{align*}
+    \delta R = \left. \diff{}{\epsilon} \right|_{\epsilon=0} R \exp{\epsilon \hat{\eta}} = R \hat{\eta} .
+\end{align*}
+We have augmented the proof of Proposition 1, which is given in Appendix 1, to include the definition of the variation as:
+\begin{correction}
+The infinitesimal variation of a rotation matrix is defined as
+\begin{align*}
+    \delta R = \left. \diff{}{\epsilon} \right|_{\epsilon=0} R \exp{\epsilon \hat{\eta}} = R \hat{\eta} .
+\end{align*}
+\end{correction}
+
 \item \textit{This is serious. In section 2, the upper bounds listed in Proposition 4 are given. Well, these should be the properties that your controller guarantees not come from the set D you've defined. Since these properties are used to derive the bound H which is used to derive the result in Proposition 5, the stability proof under the proposed controller is far from complete.}
 \item \textit{Typo in eq. (40).}
 \item \textit{Abuse of notation 'hat' and 'vee' in equations (6)-(8)}
