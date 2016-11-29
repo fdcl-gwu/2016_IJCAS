@@ -288,7 +288,21 @@ In addition, an additional sentence was added to highlight the difference in par
 \end{correction}
 
 \item \textit{What are the design parameters of the proposed method and how the design parameters are selected? These should be included in the manuiscript.}
+
+Additional detail has been added to describe the selection of the controller gains and error function parameters. 
+This has been described in the response above.
+
 \item \textit{Specification of the sensors in the experiments should be included in the manuscript.}
+
+Additional detail on the sensors and their operation has been included:
+\begin{correction}
+    Attitude information is measured by a combination of both on and off board sensor systems.
+    The VectorNav VN-100 is a rugged, miniature high-performance inertial measurement unit which provides high frequency angular velocity measurements.
+    A Vicon motion capture system is installed within the test environment and used to provide high accuracy attitude measurements. 
+    A series of reflective markers are placed on the hexrotor and their relative position is captured by a series of infrared optical cameras. 
+    Assuming a fixed rigid body, the Vicon system is able to derive the attitude of the hexrotor and transmit this data to the processor onboard the hexrotor.
+    The control input is computed on-board, using the full state measurement, and implemented at approximately \SI{100}{\hertz}.
+\end{correction}
 \end{enumerate}
 
 \subsection*{Reviewer 5}

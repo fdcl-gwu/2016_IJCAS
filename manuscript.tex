@@ -560,8 +560,12 @@ This allows the hexrotor to impart a force in any direction and a moment about a
     \includegraphics[width = 0.75\columnwidth]{hexrotor}
     \caption{Attitude control testbed~\label{fig:hexrotor}}
 \end{figure}
-Attitude information is measured by an onboard IMU and a Vicon motion capture system in the test area.
-The control input is computed onboard the hexrotor using data transmitted via WiFi in a client/server model.
+Attitude information is measured by a combination of both on and off board sensor systems.
+The VectorNav VN-100 is a rugged, miniature high-performance inertial measurement unit which provides high frequency angular velocity measurements.
+A Vicon motion capture system is installed within the test environment and used to provide high accuracy attitude measurements. 
+A series of reflective markers are placed on the hexrotor and their relative position is captured by a series of infrared optical cameras. 
+Assuming a fixed rigid body, the Vicon system is able to derive the attitude of the hexrotor and transmit this data to the processor onboard the hexrotor.
+The control input is computed on-board, using the full state measurement, and implemented at approximately \SI{100}{\hertz}.
 In order to constrain the motion, allowing us to test only the attitude dynamics, we attach the hexrotor to a spherical joint.
 Since, the center of rotation is below the center of gravity of the hexrotor there is a destabilizing gravitational moment.
 The resulting attitude dynamics are similar to an inverted pendulum model.
