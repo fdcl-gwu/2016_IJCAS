@@ -194,7 +194,7 @@ These singularities can cause significant difficulties during control design and
 To demonstrate the effect of the kinematic singularities inherent with Euler angles we will represent the attitude of the body fixed reference frame, \( \vecbf{b}_i \), with respect to the inertial frame, \( \vecbf{e}_i\), in terms of the \( 3-1-3\) Euler angle sequence.
 More explicitly, this corresponds to the rotation sequence \( \theta_1 \vecbf{b}_3 , \theta_2 \vecbf{b}_1, \theta_3 \vecbf{b}_3 \).
 The rotation matrix, \( R(\theta_1, \theta_2, \theta_3) \), corresponding to this sequence is 
-\begin{align}\label{eq:euler313}
+\begin{align}
     \begin{bmatrix}
         -s_1 c_2 s_3 + c_3 c_1 & -s_1 c_2 c_3 - s_3 c_1 & s_1s_2 \\
         c_1 c_2 s_3 + c_3 s_1 & c_1 c_2 c_3 - s_3 s_1 & - c_1 s_2 \\
@@ -203,7 +203,7 @@ The rotation matrix, \( R(\theta_1, \theta_2, \theta_3) \), corresponding to thi
 \end{align}
 where \( s_i, c_i \) represent \( \sin \theta_i, \cos \theta_i \) for \( i = \braces{1,2,3}\).
 Using this representation that kinematic differential equations for the associated Euler angles are given as
-\begin{align}\label{eq:euler313_diff}
+\begin{align}
     \begin{bmatrix}
         \dot{\theta}_1 \\ \dot{\theta}_2 \\ \dot{\theta}_3 
     \end{bmatrix}
