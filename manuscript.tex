@@ -574,6 +574,10 @@ The attitude control system is identical to the one presented in~\Cref{prop:adap
 	\label{fig:exp} 
 \end{figure}
 The experimental results are shown in~\Cref{fig:exp}.
+\Cref{fig:eR_exp} shows the behavior of each of the components of the attitude error vector, defined by~\cref{eqn:eR}, over the experiment time span.
+\Cref{fig:Psi_exp} shows the time history of the attitude error function, defined by~\cref{eqn:psi}.
+\Cref{fig:u_exp} shows the magnitude of each component of the control input in \si{\newton\meter}, which is computed from~\cref{eqn:adaptive_control}.
+Finally,~\cref{fig:con_angle_exp} shows the angle between the body-fixed sensor and the obstacle in degrees.
 In order to maneuver the system ``close" to the constrained zone we utilize several intermediary set points on either side of the obstacle.
 From the initial attitude the hexrotor rotates to the first set point, pauses, and then continues around the obstacle to the second set point before continuing toward the desired attitude.
 As a result this creates the stepped behavior of the configuration error history as shown in~\cref{fig:Psi_exp}.
