@@ -258,12 +258,35 @@ The sentence has been corrected as
 \begin{correction}
     The superposition of these functions allows one to apply standard feedback control schemes for stabilization and tracking.
 \end{correction}
+
 \item \textit{The units of the parameters are missing. These should be added in the manuscript.}
 
-The units of the disturbance have been included:
+The units of the disturbance has been included:
 \begin{correction}
     We assume a fixed disturbance of \(\Delta = \begin{bmatrix} 0.2 & 0.2 & 0.2 \end{bmatrix}^T \si{\newton\meter}\), with the function \( W(R,\Omega) = I \).
 \end{correction}
+
+There are several parameters used in the controller, namely \( G, k_R, k_\Omega, c, k_\Delta\) and \(\alpha\).
+Each of these parameters are chosen by the designer to modify the closed loop behavior of the system dynamics. 
+As a result, there is great flexibility to modify these parameters to shape the resulting closed loop dynamics. 
+Additional detail is provided in for the numerical simulation:
+\begin{correction}
+    The diagonal matrix \( G \) serves as a weighting matrix for the relative difference between \( R \) and \( R_d \). 
+    Using this term, the control designer can modify the shape of the attractive error function, given in~\cref{eqn:A}, and the resulting behavior of the closed loop system.
+    Similarly, the constant \( \alpha \) is used to modify the shape of the repulsive error function, given in~\cref{eqn:B}.
+    In general, this term is derived from the system design and the nature of the obstacles in the dynamic environment.
+    For example, a system wishing to avoid pointing at a diffuse obstacle, such as incoming debris, may chose an appropriate value of \( \theta \), based on the best available information, and a relatively low \( \alpha \) to ensure additional safety margin near the constraint boundary. 
+    Similarly, in an environment with several densely spaced obstacles, such as that presented in~\cref{fig:cad_adapt}, a much larger \( \alpha \) would enable more aggressive manuevers which pass closer to the constraint boundary without violation.
+    This would increase the allowable region of operation in a highly constrained environment.
+    The parameters \( k_R, k_\Omega, c, k_\Delta\) are control parameters used to modify the closed-loop behavior of the system.
+    It is straightforward to chose \( k_R, k_\Omega, k_\Delta\), using a linear analysis, to satisfy desired response criteria, such as settling time or percent overshoot~\cite{nise2007}.
+\end{correction}
+
+In addition, an additional sentence was added to highlight the difference in parameters for the experimental results:
+\begin{correction}
+    The parameters are modified to account for the differences in the hardware model of the hexrotor.
+\end{correction}
+
 \item \textit{What are the design parameters of the proposed method and how the design parameters are selected? These should be included in the manuiscript.}
 \item \textit{Specification of the sensors in the experiments should be included in the manuscript.}
 \end{enumerate}

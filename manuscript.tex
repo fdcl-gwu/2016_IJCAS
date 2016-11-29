@@ -430,6 +430,15 @@ The control system parameters are chosen as
 	G = \text{diag} [0.9,1.1,1.0], \quad k_R = 0.4 , \quad	k_\Omega = 0.296 ,\\
 	c = 1.0 , \quad k_\Delta = 0.5 , \quad \alpha = 15 .
 \end{gather*}
+The diagonal matrix \( G \) serves as a weighting matrix for the relative difference between \( R \) and \( R_d \). 
+Using this term, the control designer can modify the shape of the attractive error function, given in~\cref{eqn:A}, and the resulting behavior of the closed loop system.
+Similarly, the constant \( \alpha \) is used to modify the shape of the repulsive error function, given in~\cref{eqn:B}.
+In general, this term is derived from the system design and the nature of the obstacles in the dynamic environment.
+For example, a system wishing to avoid pointing at a diffuse obstacle, such as incoming debris, may chose an appropriate value of \( \theta \), based on the best available information, and a relatively low \( \alpha \) to ensure additional safety margin near the constraint boundary. 
+Similarly, in an environment with several densely spaced obstacles, such as that presented in~\cref{fig:cad_adapt}, a much larger \( \alpha \) would enable more aggressive manuevers which pass closer to the constraint boundary without violation.
+This would increase the allowable region of operation in a highly constrained environment.
+The parameters \( k_R, k_\Omega, c, k_\Delta\) are control parameters used to modify the closed-loop behavior of the system.
+It is straightforward to chose \( k_R, k_\Omega, k_\Delta\), using a linear analysis, to satisfy desired response criteria, such as settling time or percent overshoot~\cite{nise2007}.
 A body fixed sensor is defined as \(r = [1,0,0]\), while multiple inequality constraints are defined in~\Cref{tab:constraints}.
 The simulation parameters are chosen to be similar to those found in~\cite{lee2011b}, however we increase the size of the constraint regions to create a more challenging scenario for the control system.
 \begin{table}[H]
@@ -563,6 +572,7 @@ We define an obstacle in the inertial frame as \( v = [\frac{1}{\sqrt{2}}, \frac
 An initial state is defined as \(R(0) = \exp( \frac{\pi}{2} \hat{e}_3) \), while the desired state is \(R_d =I \).
 This results in the UAV performing a \ang{90} yaw rotation about the vertical axis of the spherical joint and the constrained region is on the shortest path connecting $R_0$ and $R_d$. 
 The attitude control system is identical to the one presented in~\Cref{prop:adaptive_control} with the exception of a gravity moment term and the following parameters: \(k_R = 0.4, k_\Omega = 0.7 ,c = 0.1 , \alpha = 8 \text{ and } k_\Delta = 0.05\).
+The parameters are modified to account for the differences in the hardware model of the hexrotor.
 \begin{figure}[H]
 	\centering 
     \subfigure[{Attitude error vector \(e_R\)} \label{fig:eR_exp}]{\includegraphics[width=0.5\columnwidth]{eR_exp}  }~
