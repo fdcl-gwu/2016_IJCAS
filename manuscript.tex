@@ -414,7 +414,7 @@ In addition, the rigorous mathematical proof guarantees stability.
 This is in contrast to many of the previous methods which offer no stability guarantees.
 The presented analysis offers provable bounds on the expected motion, which are critical for hardware implementation or mission critical applications.
 
-\section{Numerical Examples}
+\section{Numerical Examples}\label{sec:numerical_simulation}
 We demonstrate the performance of the proposed control system via numerical simulation.
 The inertia tensor of a rigid body is given as
 \begin{gather*}
@@ -545,7 +545,7 @@ Furthermore, all Euler angle sequences will exhibit a similar singularity at eit
 As a result, Euler angles are not appropriate for systems which experience large angular rotations, such as those demonstrated in~\cref{fig:adapt}, or control systems which rely on the angular velocities \( \theta_i \).
 
 % discuss the unwinding phenomenon with quaternions
-\section{Experiment on Hexrotor UAV}
+\section{Experiment on Hexrotor UAV}\label{sec:experiment}
 
 A hexrotor unmanned aerial vehicle (UAV), as seen in~\cref{fig:hexrotor}, has been developed at the Flight Dynamics and Controls Laboratory (FDCL) at the George Washington University~\cite{kaufman2014}.
 The UAV is composed of three pairs of counter-rotating propellers. 
