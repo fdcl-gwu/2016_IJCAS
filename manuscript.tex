@@ -468,18 +468,21 @@ The first term of~\cref{eqn:delta_dot} has the effect of increasing the proporti
 \end{figure}
 
 Simulation results without the adaptive update law are shown in~\cref{fig:con}.
+\Cref{fig:eR_con} shows each component of the attitude error vector,~\cref{eqn:eR}, over the simulation time span.
+\Cref{fig:Psi_con} shows the  magnitude of the combined error function,~\cref{eqn:psi}.
 Without the update law, the system does not achieve zero steady state error. 
 \Cref{fig:Psi_con} shows that the configuration error function does not converge to zero and there exist steady state errors.
 In spite of the uncompensated disturbance, the system is able to avoid the constrained regions as shown in~\cref{fig:con_angles_con}.
-The angle to each of the constraints,  \( \arccos(r^T R^T v_i) \), is always greater than the specified angle, \( \theta_i \), in~\Cref{tab:constraints}.
+The angle to each of the constraints, which is measured in degrees and given by \( \arccos(r^T R^T v_i) \), is always greater than the specified angle, \( \theta_i \), in~\Cref{tab:constraints}.
 
 \Cref{fig:adapt} shows the results with the addition of the adaptive update law.
+\Cref{fig:Psi_adapt,fig:con_angles} are equivalent to~\cref{fig:Psi_con,fig:con_angles_con} except include the addition of the adaptive update law.
 The addition of the adaptive update law allows the system to converge to the desired attitude in the presence of constraints.
 The path of the body fixed sensor in the inertial frame, namely \( R r \), is illustrated in~\cref{fig:cad_adapt}.
 The initial attitude is represented with the green circle while the final attitude is marked with a green \(\times\).
 The inequality constraints from~\Cref{tab:constraints} are depicted as red cones, where the cone half angle is \( \theta \).
 The control system is able to asymptotically converge to zero attitude error.
-\Cref{fig:con_angles} shows that the angle \( \arccos(r^T R^T v_i) \) between the body fixed sensor and each constraint is satisfied for the entire maneuver.
+\Cref{fig:con_angles} shows that the angle, \( \arccos(r^T R^T v_i) \) and measured in degrees, between the body fixed sensor and each constraint is satisfied for the entire maneuver.
 In addition, the estimate of the disturbance converges to the the true value as shown in~\cref{fig:delta_adapt}.
 
 Both control system are able to automatically avoid the constrained regions. 
