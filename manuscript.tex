@@ -271,14 +271,16 @@ In order to visualize the attitude error function on \( \SO \), we utilize a sph
 Recall, that the spherical coordinate system represents the position of a point relative to an origin in terms of a radial distance, azimuth, and elevation.
 This coordinate system is commonly used to define locations on the Earth in terms of a latitude and longitude.
 Similarly, the positions of celestial objects are defined on the celestial sphere in terms of right ascension and declination. 
+\end{multicols}
 \begin{figure}[H]%
     \centering 
-    \subfigure[Attractive \( A(R) \) \label{fig:attract_error}]{\includegraphics[width=0.45\columnwidth]{attract_error} }~
-    \subfigure[Repulsive \( B(R) \) \label{fig:avoid_error} ]{\includegraphics[width=0.45\columnwidth]{avoid_error} }\\%add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
-    \subfigure[Configuration \( \Psi \) \label{fig:combined_error}]{\includegraphics[width=0.45\columnwidth]{combined_error} }%
-    \caption{Configuration error function visualization}
+    \subfigure[Attractive \( A(R) \) \label{fig:attract_error}]{\includegraphics[width=0.3\columnwidth]{attract_error} }~
+    \subfigure[Repulsive \( B(R) \) \label{fig:avoid_error} ]{\includegraphics[width=0.3\columnwidth]{avoid_error} }~
+    \subfigure[Combined \( \Psi \) \label{fig:combined_error}]{\includegraphics[width=0.3\columnwidth]{combined_error} }%
+    \caption{Visualization of Configuration Error Functions using spherical coordinate representation}
     \label{fig:config_error} 
 \end{figure}%
+\begin{multicols}{2}
 We apply this concept and parametrize the rotation matrix \( R \in \SO \) in terms of the spherical angles \( \SI{-180}{\degree} \leq \lambda \leq \SI{180}{\degree}  \) and \( \SI{-90}{\degree} \leq \beta \leq \SI{90}{\degree} \). 
 Using the elementary Euler rotations, the rotation matrix is now defined as \( R = \exp( \lambda \hat{e}_2) \exp( \beta \hat{e}_3) \).
 We iterate over the domains of \( \lambda\) and \(\beta\) in order to rotate the body-fixed vector \( r \) throughout the two-sphere \( \S^2 \).
@@ -454,28 +456,31 @@ Constraint Vector (\( v \)) & Angle (\( \theta \)) \\ \hline \hline
 
 The initial state is defined as \(R_0 =  \exp(\ang{225} \times \frac{\pi}{180} \hat{e}_3), \Omega_0 = 0\). 
 The desired state is \( R_d = I,\Omega_d = 0\).
-\begin{figure}[H] 
+\end{multicols}
+\begin{figure}
     \centering 
-    \subfigure[Attitude error vector \(e_R\) \label{fig:eR_con}]{\includegraphics[width=0.5\columnwidth]{eR_con}  }~
-    \subfigure[Configuration error \( \Psi \) \label{fig:Psi_con}]{\includegraphics[width=0.5\columnwidth]{figures/Psi_con.pdf} }
-    \subfigure[Angle to constraints \label{fig:con_angles_con}]{\includegraphics[width=0.5\columnwidth]{figures/constraint_angles_con.pdf} }  
+    \subfigure[Attitude error vector \(e_R\) components \label{fig:eR_con}]{\includegraphics[width=0.3\columnwidth]{eR_con}  }~
+    \subfigure[Configuration error \( \Psi \) \label{fig:Psi_con}]{\includegraphics[width=0.3\columnwidth]{figures/Psi_con.pdf} }
+    \subfigure[Angle to each constraint \label{fig:con_angles_con}]{\includegraphics[width=0.3\columnwidth]{figures/constraint_angles_con.pdf} } 
     \caption{Attitude stabilization without adaptive update law}
     \label{fig:con} 
 \end{figure}
+\begin{multicols}{2}
 We show simulation results for the system stabilizing about the desired attitude with and without the adaptive update law from~\Cref{prop:adaptive_control}.
 We assume a fixed disturbance of \(\Delta = \begin{bmatrix} 0.2 & 0.2 & 0.2 \end{bmatrix}^T \si{\newton\meter}\), with the function \( W(R,\Omega) = I \).
 This form is equivalent to an integral control term which penalizes deviations from the desired configuration.
 The first term of~\cref{eqn:delta_dot} has the effect of increasing the proportional gain of the control system, since the time derivative of the attitude error vector, \( \dot{e}_{R} \), is linear with respect to the angular velocity error vector \( e_\Omega\).
-\begin{figure}[H] 
+\end{multicols}
+\begin{figure} 
 	\centering 
-    \subfigure[Configuration error \( \Psi \)\label{fig:Psi_adapt}]{\includegraphics[width=0.5\columnwidth]{Psi_adapt} }~
-    \subfigure[Angle to constraints \label{fig:con_angles}]{\includegraphics[width=0.5\columnwidth]{constraint_angles} }\\
-    \subfigure[Disturbance estimate \( \bar \Delta \)  \label{fig:delta_adapt} ]{\includegraphics[width=0.5\columnwidth]{Delta_adapt}}~
-    \subfigure[Attitude trajectory \label{fig:cad_adapt}]{\includegraphics[trim=9cm 2.5cm 0 0,clip,width=0.645\columnwidth]{cad_adapt} }
+    \subfigure[Configuration error \( \Psi \)\label{fig:Psi_adapt}]{\includegraphics[width=0.4\columnwidth]{Psi_adapt} }~
+    \subfigure[Angle to each constraint \label{fig:con_angles}]{\includegraphics[width=0.4\columnwidth]{constraint_angles} }\\
+    \subfigure[Disturbance estimate \( \bar \Delta \) components \label{fig:delta_adapt} ]{\includegraphics[width=0.4\columnwidth]{Delta_adapt}}~
+    \subfigure[Attitude trajectory \label{fig:cad_adapt}]{\includegraphics[trim={10cm 0 10cm 0},clip,width=0.4\columnwidth]{cad_adapt} }
 	\caption{Attitude stabilization with adaptive update law}
 	\label{fig:adapt} 
 \end{figure}
-
+\begin{multicols}{2}
 Simulation results without the adaptive update law are shown in~\cref{fig:con}.
 \Cref{fig:eR_con} shows each component of the attitude error vector,~\cref{eqn:eR}, over the simulation time span.
 \Cref{fig:Psi_con} shows the  magnitude of the combined error function,~\cref{eqn:psi}.
@@ -577,16 +582,18 @@ An initial state is defined as \(R(0) = \exp( \frac{\pi}{2} \hat{e}_3) \), while
 This results in the UAV performing a \ang{90} yaw rotation about the vertical axis of the spherical joint and the constrained region is on the shortest path connecting $R_0$ and $R_d$. 
 The attitude control system is identical to the one presented in~\Cref{prop:adaptive_control} with the exception of a gravity moment term and the following parameters: \(k_R = 0.4, k_\Omega = 0.7 ,c = 0.1 , \alpha = 8 \text{ and } k_\Delta = 0.05\).
 The parameters are modified to account for the differences in the hardware model of the hexrotor.
-\begin{figure}[H]
+\end{multicols}
+\begin{figure}
 	\centering 
-    \subfigure[{Attitude error vector \(e_R\)} \label{fig:eR_exp}]{\includegraphics[width=0.5\columnwidth]{eR_exp}  }~
-	\subfigure[{Configuration error \( \Psi \)} \label{fig:Psi_exp} ]{\includegraphics[width=0.5\columnwidth]{Psi_exp} }\\
-	\subfigure[{Control input \( u\) }\label{fig:u_exp}]{\includegraphics[width=0.5\columnwidth]{u_exp}  }~
-	\subfigure[{Attitude Trajectory } \label{fig:traj_exp}]{\includegraphics[width=0.5\columnwidth]{traj_exp} }\\
-    \subfigure[{Angle to constraint } \label{fig:con_angle_exp}]{\includegraphics[width=0.5\columnwidth]{figures/constraint_angles_exp.pdf} }
+    \subfigure[{Attitude error vector \(e_R\)} components\label{fig:eR_exp}]{\includegraphics[width=0.3\columnwidth]{eR_exp}  }~
+	\subfigure[{Configuration error \( \Psi \)} \label{fig:Psi_exp} ]{\includegraphics[width=0.3\columnwidth]{Psi_exp} }~
+	\subfigure[{Control input \( u\) } components\label{fig:u_exp}]{\includegraphics[width=0.3\columnwidth]{u_exp}  }\\
+	\subfigure[{Attitude Trajectory } \label{fig:traj_exp}]{\includegraphics[width=0.3\columnwidth]{traj_exp} }~
+    \subfigure[{Angle to constraint } \label{fig:con_angle_exp}]{\includegraphics[width=0.3\columnwidth]{figures/constraint_angles_exp.pdf} }
 	\caption{Constrained Attitude stabilization experiment}
 	\label{fig:exp} 
 \end{figure}
+\begin{multicols}{2}
 The experimental results are shown in~\Cref{fig:exp}.
 \Cref{fig:eR_exp} shows the behavior of each of the components of the attitude error vector, defined by~\cref{eqn:eR}, over the experiment time span.
 \Cref{fig:Psi_exp} shows the time history of the attitude error function, defined by~\cref{eqn:psi}.
