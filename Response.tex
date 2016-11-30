@@ -146,6 +146,17 @@ The infinitesimal variation of a rotation matrix is defined as
 \end{correction}
 
 \item \textit{This is serious. In section 2, the upper bounds listed in Proposition 4 are given. Well, these should be the properties that your controller guarantees not come from the set D you've defined. Since these properties are used to derive the bound H which is used to derive the result in Proposition 5, the stability proof under the proposed controller is far from complete.}
+
+Lyapunov stability is valid if the given properties of \( V \) are satisfied in an open neighborhood of the desired attitude configuration. 
+The details in~\cref{proof:att_control,proof:eR_dot_bound} are valid in the selected domain \( D \) about the desired attitude.
+Therefore, Lyapunov stability is valid if \( D \) is also an open neighborhood of the desired attitude.
+
+The set \( D = \braces{R \in \SO \vert \Psi < \psi < h_1, r^T R^T v < \beta < \cos \theta} \) of the metric space \( \parenth{R \in \SO, \Psi(R,R_d)} \) is an open neighborhood of \( R_d \) if there exists a \( \epsilon > 0 \) such that for any \( R \in \SO | \Psi(R,R_d) < \epsilon \), it is also true that \( R \in D \).
+The selected domain \( D \) excludes the undesired equilibrium points of \( A(R) \) and the infeasible regions defined by the constraints \( r^T R^T v_i \), i.e. the desired attitude should be sufficiently far away from the constraints. 
+We can ensure that \( D \) is an open neighborhood of \( R_d \) by choosing \( \epsilon = \min \braces{\psi, \Psi(R|r^T R^T v = \beta,R_d)}\).
+
+{\Large Add an excerpt of a similar discussion in the manuscript}
+
 \item \textit{Typo in eq. (40).}
 
 The equation has been modified as:
