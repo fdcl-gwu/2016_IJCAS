@@ -737,7 +737,9 @@ Therefore, the inequality constraint is always satisfied given that the desired 
 %	We assume that \( B > \psi \) which implies that \( A < 1 \).
 %	As \( \psi \) is increased this implies that the system is approaching the constraint and that \( A \to 0 \) in order to remain in the domain \( D \).
 %	However, since the chosen domain is assumed to exclude the constraint this situation is not possible and \( B < \psi \).
-The selected domain ensures that the configuration error function is bounded \( \Psi < \psi \).
+We choose the domain \( D \) to exclude the undesired critical points of \( A(R) \) as well as the infeasible regions defined by the state inequality constraints. 
+Furthermore, we can show that the set \( D \) is an open neighborhood of the desired attitude configuration, \( R_d\).
+Therefore, the selected domain ensures that the configuration error function is bounded \( \Psi < \psi \).
 This implies that that both \( A(R) \) and \( B(R) \) are bounded by constants \( c_A c_B < \psi < h_1\).
 Furthermore, since \( \norm{B} > 1 \) this ensures that \( c_A, c_B < \psi\) and shows~\cref{eqn:AB_bound}.
 
