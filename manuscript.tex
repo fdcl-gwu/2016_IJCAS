@@ -495,7 +495,7 @@ In spite of this challenging configuration space, the proposed control system of
 These closed-loop feedback results are computed in real time and offer a significant advantage over typical open-loop planning methods.
 These results show that the proposed geometric adaptive approach is critical to attitude stabilization in the presence of state constraints and disturbances.
 
-\subsection{Attitude Parameterizations}
+\subsection{Attitude Parameterizations}\label{ssec:attitude_parameterization}
 % Discuss the benefits of using this geometric representation as compared to Euler angles or quaternions
 Attitude parameterizations, such as Euler angles and Quaternions, are frequently used in the aerospace and astrodynamics communities~\cite{vallado2007}.
 For example, Euler angle sequences are frequently used to describe the transformation between a variety of reference frames used to describe the position and orientation of the orbit of Earth satellites~\cite{vallado2007}.
@@ -577,7 +577,7 @@ The goal is to rotate the vehicle about the \( e_3 \) axis while avoiding the ob
 \Cref{fig:tv} demonstrates the ability for the adaptive controller, which is presented in~\Cref{prop:adaptive_control}, to handle time-varying disturbances.
 \Cref{fig:Psi_tv} shows the non-dimensional value of the configuration error function and demonstrates that the adaptive controller is able to stabilize the system to the desired attitude configuration.
 In addition,~\cref{fig:con_angle_tv} shows that the constraint is never violated as the angle between the body-fixed sensor \( r \) and the constraint \( v \) is greater than \SI{12}{\degree} over the entire attitude maneuver.
-We can see in~\cref{fig:Delta_tv} that that estimate \(\bar \Delta \) for each of the components, accurately tracks the true disturbance after approximately~\SI{5}{\second}.
+We can see in~\cref{fig:Delta_tv} that that estimate \(\bar \Delta \) for each of the components accurately tracks the true disturbance after approximately~\SI{5}{\second}.
 \end{multicols}
 \begin{figure}[H]
     \centering 
@@ -776,7 +776,7 @@ Therefore, the inequality constraint is always satisfied given that the desired 
 %	As \( \psi \) is increased this implies that the system is approaching the constraint and that \( A \to 0 \) in order to remain in the domain \( D \).
 %	However, since the chosen domain is assumed to exclude the constraint this situation is not possible and \( B < \psi \).
 We choose the domain \( D \) to exclude the undesired critical points of \( A(R) \) as well as the infeasible regions defined by the state inequality constraints. 
-Furthermore, we can show that the set \( D \) is an open neighborhood of the desired attitude configuration, \( R_d\).
+Furthermore, one can show that the set \( D \) is an open neighborhood of the desired attitude configuration, \( R_d\).
 Therefore, the selected domain ensures that the configuration error function is bounded \( \Psi < \psi \).
 This implies that that both \( A(R) \) and \( B(R) \) are bounded by constants \( c_A c_B < \psi < h_1\).
 Furthermore, since \( \norm{B} > 1 \) this ensures that \( c_A, c_B < \psi\) and shows~\cref{eqn:AB_bound}.
