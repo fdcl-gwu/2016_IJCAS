@@ -116,9 +116,21 @@ Furthermore, it has been shown in~\cite{ioannou2012} that this form of adaptive 
 How slowly do the uncertainties have to behave for the simulation?
 
 \item \textit{If the inertia matrix is unknown, how to modify the suggested control system guaranteeing the asymptotic stability?}
-Even with an uncertainty in the inertia matrix, one could redefine the system and treat this as an unknonw external disturbance instead.
 
-Show the algebra that allows for either a multiplicative or additive uncertainty in the inertia matrix as equivalent to an external torque
+In this work, we are focused on the design of attitude controllers in the presence of state constraints. 
+The addition of an adaptive update law allows the system to stabilize in the presence of unknown external disturbances.
+We are not considering the case of an unknown inertia matrix, but rather assume that there exists accurate knowledge of the rigid body. 
+This assumption is relatively simple to satisfy as any physical control system will first have an accurate model of the system itself.
+For example, the mass and inertia properties of all spacecraft are accurately measured and verified prior to launch. 
+
+In addition, the uncertainty model presented in the paper is commonly used in the adaptive control literature.
+Also, it is possible to represent a uncertain or varying inertia matrix as an external disturbance torque. 
+For example, Euler's law gives the relationship for the rate of change of angular momentum
+\begin{align*}
+    M_{ext} = \dot{\vecbf{H}} = \dot{J} \vecbf{\Omega} + J \dot{\vecbf{\Omega}} .
+\end{align*}
+Using this, we can see that an instantaneous change in \( J \) is proportional to an external moment. 
+In this manner, it is possible to represent a wide array of possible forms of system uncertainty.
 
 \item \textit{The state inequality constraint is not violated based on adding the repulsive term in the attitude error function. Is this result still valid if this constraint becomes time-dependent?}
 
