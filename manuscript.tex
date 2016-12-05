@@ -470,17 +470,7 @@ We show simulation results for the system stabilizing about the desired attitude
 We assume a fixed disturbance of \(\Delta = \begin{bmatrix} 0.2 & 0.2 & 0.2 \end{bmatrix}^T \si{\newton\meter}\), with the function \( W(R,\Omega) = I \).
 This form is equivalent to an integral control term which penalizes deviations from the desired configuration.
 The first term of~\cref{eqn:delta_dot} has the effect of increasing the proportional gain of the control system, since the time derivative of the attitude error vector, \( \dot{e}_{R} \), is linear with respect to the angular velocity error vector \( e_\Omega\).
-\end{multicols}
-\begin{figure} 
-	\centering 
-    \subfigure[Configuration error \( \Psi \)\label{fig:Psi_adapt}]{\includegraphics[width=0.4\columnwidth]{Psi_adapt} }~
-    \subfigure[Angle to each constraint \label{fig:con_angles}]{\includegraphics[width=0.4\columnwidth]{constraint_angles} }\\
-    \subfigure[Disturbance estimate \( \bar \Delta \) components \label{fig:delta_adapt} ]{\includegraphics[width=0.4\columnwidth]{Delta_adapt}}~
-    \subfigure[Attitude trajectory \label{fig:cad_adapt}]{\includegraphics[trim={10cm 0 10cm 0},clip,width=0.4\columnwidth]{cad_adapt} }
-	\caption{Attitude stabilization with adaptive update law}
-	\label{fig:adapt} 
-\end{figure}
-\begin{multicols}{2}
+
 Simulation results without the adaptive update law are shown in~\cref{fig:con}.
 \Cref{fig:eR_con} shows each component of the attitude error vector,~\cref{eqn:eR}, over the simulation time span.
 \Cref{fig:Psi_con} shows the  magnitude of the combined error function,~\cref{eqn:psi}.
@@ -520,7 +510,17 @@ However, there is great ambiguity in the representation of the attitude as there
 Therefore, great care must be taken in the control system design to ensure that a consistent sequence is used. 
 Furthermore, it has been shown that no minimal attitude representation can describe orientations both globally and without singularities~\cite{hughes2004,bhat2000}.
 These singularities can cause significant difficulties during control design and hardware implementation.
-
+\end{multicols}
+\begin{figure} 
+  \centering 
+    \subfigure[Configuration error \( \Psi \)\label{fig:Psi_adapt}]{\includegraphics[width=0.4\columnwidth]{Psi_adapt} }~
+    \subfigure[Angle to each constraint \label{fig:con_angles}]{\includegraphics[width=0.4\columnwidth]{constraint_angles} }\\
+    \subfigure[Disturbance estimate \( \bar \Delta \) components \label{fig:delta_adapt} ]{\includegraphics[width=0.4\columnwidth]{Delta_adapt}}~
+    \subfigure[Attitude trajectory \label{fig:cad_adapt}]{\includegraphics[trim={10cm 0 10cm 0},clip,width=0.4\columnwidth]{cad_adapt} }
+  \caption{Attitude stabilization with adaptive update law}
+  \label{fig:adapt} 
+\end{figure}
+\begin{multicols}{2}
 To demonstrate the effect of the kinematic singularities inherent with Euler angles we will represent the attitude of the body fixed reference frame, \( \vecbf{b}_i \), with respect to the inertial frame, \( \vecbf{e}_i\), in terms of the \( 3-1-3\) Euler angle sequence.
 More explicitly, this corresponds to the rotation sequence \( \theta_1 \vecbf{b}_3 , \theta_2 \vecbf{b}_1, \theta_3 \vecbf{b}_3 \).
 The rotation matrix, \( R(\theta_1, \theta_2, \theta_3) \), corresponding to this sequence is 
