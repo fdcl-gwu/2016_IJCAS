@@ -549,8 +549,43 @@ From~\cref{eq:euler313_diff}, it is immediately clear that a singularity exists 
 In the vicinity of the singularity, the angular velocities of the Euler angles will tend to approach \( \pm \infty \) and the angular velocities will experience instantaneous sign changes.
 Furthermore, all Euler angle sequences will exhibit a similar singularity at either \( \theta_2 = 0, \pm \pi \) or \( \theta_2 = \pm \frac{\pi}{2}, \pm \frac{3\pi}{2} \) and switching the sequence does not alleviate the issue.
 As a result, Euler angles are not appropriate for systems which experience large angular rotations, such as those demonstrated in~\cref{fig:adapt}, or control systems which rely on the angular velocities \( \theta_i \).
-
 % discuss the unwinding phenomenon with quaternions
+
+\subsection{Time-varying Disturbance}\label{ssec:time_varying}
+
+The form of the uncertainty, given in~\cref{eqn:Wdot}, is commonly used in the adaptive control literature~\cite{lee2013b,ioannou2012}. 
+A wide variety of realistic disturbances, such as gravitational gradients or malfunctioning thrusters, are accurately represented via this model. 
+In addition, it is possible to represent the uncertainty of a time-varying inertia matrix as an equivalent external disturbance. 
+For example, Euler's law gives the relationship for the rate of change of angular momentum
+\begin{align*}
+    M_{ext} = \dot{\vecbf{H}} = \dot{J} \vecbf{\Omega} + J \dot{\vecbf{\Omega}} .
+\end{align*}
+Using this, we can see that an instantaneous change in \( J \) is proportional to an external moment.
+Finally, it has been shown that this adaptive control formulation is able to handle time-varying disturbances under some mild assumptions~\cite{ioannou2012}. 
+
+We demonstrate the ability to handle an uncertain time-varying disturbance via numerical example.
+The system is identical to the one presented in~\Cref{sec:numerical_simulation}, however we modify the external disturbance. 
+We model the external disturbance as the superposition of constant and time-varying terms as
+\begin{align*}
+    \Delta = \begin{bmatrix} 0.2 \\ 0.2 \\0.2 \end{bmatrix} + 0.02 \begin{bmatrix} \sin 9 t \\ \cos 9 t \\ \frac{1}{2} \parenth{\sin 9t + \cos 9t}\end{bmatrix} \si{\newton\meter}.
+\end{align*}
+We define a constraint in the inertial frame as \( v = [\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}, 0]^T \) with \( \theta = \ang{12} \).
+The initial state is defined as \(R(0) = \exp( \frac{\pi}{2} \hat{e}_3) \), while the desired state is \(R_d =I \).
+The goal is to rotate the vehicle about the \( e_3 \) axis while avoiding the obstacle and compensating for the time-varying disturbance. 
+
+\Cref{fig:tv} demonstrates the ability for the adaptive controller, presented in~\cref{prop:adaptive_control}, to handle time-varying disturbances.
+We can see in~\cref{fig:Delta_tv} that that estimate \(\bar \Delta \) accurately tracks the true disturbance after approximately~\SI{5}{\second}.
+In addition,~\cref{fig:con_angle_tv} shows that the constraint is never verified as the angle between the body-fixed sensor \( r \) and the constraint \( v \) is greater than \SI{12}{\degree} over the entire attitude maneuver.
+\end{multicols}
+\begin{figure}[H]
+    \centering 
+    \subfigure[{Configuration error \( \Psi \)} \label{fig:Psi_tv} ]{\includegraphics[width=0.3\columnwidth]{Psi_tv} }~
+    \subfigure[{Angle to constraint } \label{fig:con_angle_tv}]{\includegraphics[width=0.3\columnwidth]{figures/constraint_angle_tv.pdf} }~
+    \subfigure[{Disturbance estimate \(\bar\Delta\) components} \label{fig:Delta_tv}]{\includegraphics[width=0.3\columnwidth]{figures/delta_tv} }
+    \caption{Time-varying external disturbance simulation}
+    \label{fig:tv} 
+\end{figure}
+\begin{multicols}{2}
 \section{Experiment on Hexrotor UAV}\label{sec:experiment}
 
 A hexrotor unmanned aerial vehicle (UAV), as seen in~\cref{fig:hexrotor}, has been developed at the Flight Dynamics and Controls Laboratory (FDCL) at the George Washington University~\cite{kaufman2014}.
