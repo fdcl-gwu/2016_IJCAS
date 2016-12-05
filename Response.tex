@@ -134,8 +134,15 @@ In this manner, it is possible to represent a wide array of possible forms of sy
 
 \item \textit{The state inequality constraint is not violated based on adding the repulsive term in the attitude error function. Is this result still valid if this constraint becomes time-dependent?}
 
-We're focused on the stationary obstacle in this manuscript. 
-We are considering the addition of a time-varying obstacle in a future research
+In this work, we are specifically concerned with presenting a geometric attitude controller on \( \SO \) in the presence of state inequality constraints.
+More specifically, we are assuming that these constraints are time-invariant rather than time dependent. 
+This type of constraint is representative of the attitude constraints that are frequently experienced in the attitude control of spacecraft. 
+For example, various keep-out zones for sensitive electro-optical sensors are well represented as a fixed constraint in the inertial frame. 
+In addition, the time scale of the attitude dynamics, and therefore any attitude control maneuver, is much shorter than the time scale of the translational dynamics.
+In other words, a time-dependent constraint in the inertial frame will evolve at a much slower rate as compared to the attitude dynamics. 
+As a result, it is possible to model the time-varying constraints as a series of time-invariant constraints in the inertial frame. 
+In this situation, the presented approach allows for a straightforward method to design an attitude stabilization control law. 
+However, this is a very applicable suggestion and it is an area of current research efforts.
 
 \end{enumerate}
 
