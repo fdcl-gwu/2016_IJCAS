@@ -404,7 +404,7 @@ Given  a desired attitude command \( (R_d, \Omega_d = 0 )\) and positive constan
 \end{align}
 If \( c \) is chosen such that
 \begin{gather}
-	0 < c < \frac{4 k_R k_\Omega}{k_\Omega^2 + 4 k_R \lambda_M H} , \label{eqn:c_bound}
+	0 < c < \min \braces{\sqrt{\frac{2 k_R b_1}{\lambda_m}},\sqrt{\frac{2 k_R b_2}{\lambda_M}}, \frac{4 k_R k_\Omega}{k_\Omega^2 + 4 k_R \lambda_M H}} , \label{eqn:c_bound}
 \end{gather}
   the zero equilibrium of the error vectors is stable in the sense of Lyapunov. Furthermore, $e_R,e_\Omega\rightarrow 0$ as $t\rightarrow\infty$, and $\bar\Delta$ is  bounded.
 \end{prop}
@@ -855,24 +855,28 @@ Consider the Lyapunov function \( \mathcal{V} \) given by
 	\mathcal{V} = \frac{1}{2} e_\Omega \cdot J e_\Omega + k_R \Psi + c J e_\Omega \cdot e_R + \frac{1}{2 k_\Delta} e_\Delta \cdot e_\Delta , %\label{eqn:v_adapt}
 \end{align*}
 over the domain \( D \) in~\cref{eqn:domain}.
-From~\Cref{prop:eR_dot_bound}, the Lyapunov function is bounded in \( D \) by
-\begin{align} %\label{eqn:v_upper_bound}
+From~\Cref{prop:eR_dot_bound,prop:config_error}, the configuration error function is bounded in \( D \) by
+\begin{align*}
+    b_1 \norm{e_{R_A}}^2 < b_1 \norm{e_{R}}^2 < \Psi < b_2 \norm{e_{R_A}}^2 < b_2 \norm{e_{R}}^2 .
+\end{align*}
+Using this the Lyapunov function \( \mathcal{V} \) is bounded by
+\begin{align*} %\label{eqn:v_upper_bound}
 	z^T W_1 z \leq \mathcal{V} \leq z^T W_2 z ,
-\end{align}
-where \( e_\Delta = \Delta - \bar{\Delta} \), \( z = [\|e_R\|,\|e_\Omega\|,\|e_\Delta\|]^T\in\R^3 \) and the matrix \(W_1,W_2 \in \R^{3 \times 3}\) are given by
+\end{align*}
+where \( e_\Delta = \Delta - \bar{\Delta} \), \( z = [\|e_R\|,\|e_\Omega\|,\|e_\Delta\|]^T\in\R^3 \) and the matrices \(W_1,W_2 \in \R^{3 \times 3}\) are given by
 \begin{align*}
 	W_1 & = \begin{bmatrix}
-		k_R \psi?? & -\frac{1}{2} c \lambda_M & 0 \\
-		-\frac{1}{2} c \lambda_M & \frac{1}{2} \lambda_M & 0 \\
+		k_R b_1 & \frac{1}{2} c \lambda_m & 0 \\
+		\frac{1}{2} c \lambda_m & \frac{1}{2} \lambda_m & 0 \\
 		0 & 0 & \frac{1}{2 k_\Delta}
 	\end{bmatrix},\\
 	W_2 & = \begin{bmatrix}
-		k_R \psi & \frac{1}{2} c \lambda_M & 0 \\
+		k_R b_2 & \frac{1}{2} c \lambda_M & 0 \\
 		\frac{1}{2} c \lambda_M & \frac{1}{2} \lambda_M & 0 \\
 		0 & 0 & \frac{1}{2 k_\Delta}
 	\end{bmatrix} .
 \end{align*}
-The time derivative of \( \mathcal{V}\) with the control inputs~\cref{eqn:adaptive_control} is given by
+The time derivative of \( \mathcal{V}\) with the control input defined by~\cref{eqn:adaptive_control} is given as
 \begin{align}
 	\dot{\mathcal{V}} =& - k_\Omega e_\Omega^T e_\Omega + \parenth{e_\Omega + c e_R}^T W e_\Delta - k_R c e_R^T e_R \nonumber\\
 	&- k_\Omega c e_R^T e_\Omega + c J e_\Omega^T \dot{e}_R - \frac{1}{k_\Delta} e_\Delta^T \dot{\bar{\Delta}} , \label{eqn:vdot}
@@ -893,7 +897,7 @@ where $\zeta=[\|e_R\|,\|e_\Omega\|]\in\R^2$, and the matrix \( M \in \R^{2 \time
 		\frac{k_\Omega c}{2} & k_\Omega - c \lambda_M H
 	\end{bmatrix} .
 \end{gather*}
-If \( c \) is chosen such that~\cref{eqn:c_bound} is satisfied then all of the matrices \( W_1, W_2 \) and \( M \) are positive definite.
+If \( c \) is chosen such that~\cref{eqn:c_bound} is satisfied then the matrices \( W_1, W_2 \) and \( M \) are positive definite.
 This implies that $\mathcal{V}$ is positive definite and decrescent, and $\dot{\mathcal{V}}$ is negative semidefinite in the domain $D$. As such, the zero equilibrium is stable in the sense of Lyapunov, and all of the error variables are bounded. Furthermore, $\lim_{t\to\infty} \zeta=0$ according to the LaShalle-Yoshizawa theorem~\cite{khalil1996}. 
 
 %and 
