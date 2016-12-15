@@ -11,9 +11,11 @@
 \usepackage{color}
 \usepackage{bm}
 \usepackage{xr}
-\externaldocument{manuscript}
 \usepackage{hyperref}
 \usepackage[]{cleveref} % get fancy referencing
+
+\externaldocument{manuscript}
+
 % edit cref citations for IEEE format
 \crefformat{equation}{(#2#1#3)} % no abbreviation for equation numbers
 \Crefformat{equation}{Equation~(#2#1#3)} % no abbreviation for equation numbers
@@ -115,7 +117,7 @@ However, the form of uncertainty shown in \( (1) \) is commonly used in the adap
 As a result, we use this same form of uncertainty, namely that the uncertain disturbance is additive in nature and enters through the input channel.
 In addition, a wide variety of disturbances in the aerospace engineering field are accurately represented by this formulation and several examples are given in the article.
 Furthermore, it has been shown in~\cite{ioannou2012} that this form of adaptive control is able to handle time-varying uncertainties in which the uncertain term is varying sufficiently slowly as compared to the controlled dynamics. 
-We have improved the manuscript with an additional numerical experiment in Section~\ref{ssec:time_varying} demonstrating the ability of the adaptive controller to handle time-varying disturbances.
+We have improved the manuscript with an additional numerical experiment in~\Cref{ssec:time_varying} demonstrating the ability of the adaptive controller to handle time-varying disturbances.
 The additional content is duplicated here:
 \begin{correction}
     The form of the uncertainty, given in~\cref{eqn:Wdot}, is commonly used in the adaptive control literature~\cite{lee2013b,ioannou2012}. 
