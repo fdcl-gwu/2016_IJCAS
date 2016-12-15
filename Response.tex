@@ -10,11 +10,11 @@
 \usepackage{microtype}
 \usepackage{color}
 \usepackage{bm}
-\usepackage{xr}
+\usepackage{xr-hyper}
 \usepackage{hyperref}
 \usepackage[]{cleveref} % get fancy referencing
 
-\externaldocument{manuscript}
+\externaldocument[]{manuscript}[manuscript.pdf]
 
 % edit cref citations for IEEE format
 \crefformat{equation}{(#2#1#3)} % no abbreviation for equation numbers
