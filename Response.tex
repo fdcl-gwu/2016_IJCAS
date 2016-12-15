@@ -89,6 +89,11 @@
 \newcommand{\RII}{\text{\RNum{2}}}
 \newcommand{\RIII}{\text{\RNum{3}}}
 
+\newtheorem{definition}{Definition}
+\newtheorem{lem}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+
 \newenvironment{correction}{\begin{list}{}{\setlength{\leftmargin}{1cm}\setlength{\rightmargin}{1cm}}\vspace{\parsep}\item[]``}{''\end{list}}
 
 \begin{document}
@@ -189,6 +194,7 @@ However, this is a very good suggestion and it is an area of current research ef
 
 \begin{enumerate}
 \item \textit{Please give a precise definition of variation used in the paper, e.g., eq. (17) and (18)}
+
 The variation of the rotation matrix is defined as
 \begin{align*}
     \delta R = \left. \diff{}{\epsilon} \right|_{\epsilon=0} R \exp{\epsilon \hat{\eta}} = R \hat{\eta} .
@@ -199,8 +205,17 @@ The infinitesimal variation of a rotation matrix is defined as
 \begin{align*}
     \delta R = \left. \diff{}{\epsilon} \right|_{\epsilon=0} R \exp{\epsilon \hat{\eta}} = R \hat{\eta} .
 \end{align*}
+
 \end{correction}
 
+In addition,~\Cref{prop:config_error} was modified to include additional detail on the notation \( \dirDiff{f}{x}\) as
+\begin{correction}
+    The variation of \( B(R) \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
+    \begin{align*}
+        \dirDiff{B}{R} &= \eta \cdot e_{R_{B}} ,
+    \end{align*}
+  where the notation \( \D_R A \) and \(\D_R B\) represents the derivative of \( A \) or \( B \) with respect to \( R\).
+\end{correction}
 \item \textit{This is serious. In section 2, the upper bounds listed in Proposition 4 are given. Well, these should be the properties that your controller guarantees not come from the set D you've defined. Since these properties are used to derive the bound H which is used to derive the result in Proposition 5, the stability proof under the proposed controller is far from complete.}
 
 Lyapunov stability is valid if the given properties of \( V \) are satisfied in an open neighborhood of the desired attitude configuration. 
@@ -237,9 +252,14 @@ The equation has been modified as:
 
 The \( \wedge : \R^3 \to \so \) and \( \vee : \so \to \R^3 \) operators are used according to the convention that is common in the literature~\cite{lee2010,lee2011a}.
 In this case, the \textit{hat} operator is equivalently represented as \( \hat{x} = \parenth{x}^\wedge \).
-This representation enables a consistent notation for both short/simple terms, such as \( \hat{x} \) and more complicated terms such as \(\parenth{\hat{e}_\Omega R^T R_d G + (R^T R_d G)^T \hat{e}_\Omega}^\vee\). 
+This representation enables a consistent notation for both short/simple terms, such as \( \hat{x} \) and more complicated terms such as \(\parenth{R^T v}^\wedge\). 
 Finally, this dual usage of the notation drastically improves the quality of the resulting typography.
 
+Explicit detail has been added to the manuscript to explain this dual notation of the \textit{hat} and \textit{vee} maps.
+\begin{correction}
+We use the notation \( \hat{x}, x\) and \( \parenth{x}^\wedge\) interchangeably.
+In particular, we use the latter form when the expression for the argument of the \textit{hat} map is long. 
+\end{correction}
 \end{enumerate}
 
 \subsection*{Reviewer 4}

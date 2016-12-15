@@ -173,6 +173,8 @@ More explicitly,
 \end{align*}
 for $x=[x_1,x_2,x_3]^T\in\R^{3}$. 
 The inverse of the hat map is denoted by the \textit{vee} map $\vee:\so\rightarrow\R^{3}$. 
+We use the notation \( \hat{x}\) and \( \parenth{x}^\wedge\) interchangeably.
+In particular, we use the latter form when the expression for the argument of the \textit{hat} map is long. 
 Several properties of the hat map are summarized as
 \begin{gather}
    % \hat x y = x\times y = - y\times x = - \hat y x,\\
@@ -247,8 +249,9 @@ Then, the following properties hold
 	\end{align}
 	\item \label{item:prop_erb} The variation of \( B(R) \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
 	\begin{align}
-		\dirDiff{B}{R} &= \eta \cdot e_{R_{B}} .
+		\dirDiff{B}{R} &= \eta \cdot e_{R_{B}} ,
 	\end{align}
+  where the notation \( \D_R A \) and \(\D_R B\) represents the derivative of \( A \) or \( B \) with respect to \( R\).
 %	\item \label{item:prop_crit}The error function \( \Psi \) is minimized when \(R = R_d\).
 	\item \label{item:prop_era_upbound}An upper bound of \( \norm{e_{R_A}} \) is given as:
 	\begin{align}
