@@ -361,8 +361,13 @@ Then the following statements hold:
 \begin{enumerate}[(i)]
 	\item \label{item:prop_eR_dot_bound_AB} Upper bounds of \( A(R) \) and \( B(R) \) are given by
 	\begin{gather}
-		\norm{A} < c_A  , \quad \norm{B} < c_B . \label{eqn:AB_bound}
+		\norm{A} < b_2 \norm{e_{R_A}}^2 = c_A  , \quad \norm{B} < c_B . \label{eqn:AB_bound}
 	\end{gather}
+  where the constant \( b_2\) is given by \( b_2 = \frac{h_1 h_4}{h_5 \parenth{h_1 - \psi}}\) for
+  \begin{align*}
+    h_4 &= \min\braces{g_1 + g_2, g_2 + g_3 , g_3 + g_1} ,\\
+    h_5 &= \min\braces{\parenth{g_1 + g_2}^2,\parenth{g_2 + g_3}^2 , \parenth{g_3 + g_1}^2} .\\
+  \end{align*}
 	\item \label{item:prop_eR_dot_bound_EF} Upper bounds of \( E(R,R_d) \) and \( F(R) \) are given by
 	\begin{gather}
 		\norm{E} \leq \frac{1}{\sqrt{2}} \tr{G}  , \label{eqn:E_bound} \\
@@ -373,6 +378,7 @@ Then the following statements hold:
 		\norm{e_{R_A}} \leq \sqrt{\frac{\psi}{b_1}}, \label{eqn:eRA_bound} \\
 		\norm{e_{R_B}} \leq \frac{\sin\theta}{\alpha \parenth{\cos \theta - \beta}}. \label{eqn:eRB_bound}
 	\end{gather}
+
 \end{enumerate}
 These results are combined to yield a maximum upper bound of the time derivative of the attitude error vector \( \dot{e}_R \) as
 \begin{gather}
@@ -780,7 +786,8 @@ Therefore, the inequality constraint is always satisfied given that the desired 
 %	However, since the chosen domain is assumed to exclude the constraint this situation is not possible and \( B < \psi \).
 We choose the domain \( D \) to exclude the undesired critical points of \( A(R) \) as well as the infeasible regions defined by the state inequality constraints. 
 Furthermore, one can show that the set \( D \) is an open neighborhood of the desired attitude configuration, \( R_d\).
-Therefore, the selected domain ensures that the configuration error function is bounded \( \Psi < \psi \).
+The proof of the upper bound of \( A(R) \) is given in~\cite{LeeITCST13}.
+The selected domain ensures that the configuration error function is bounded \( \Psi < \psi \).
 This implies that that both \( A(R) \) and \( B(R) \) are bounded by constants \( c_A c_B < \psi < h_1\).
 Furthermore, since \( \norm{B} > 1 \) this ensures that \( c_A, c_B < \psi\) and shows~\cref{eqn:AB_bound}.
 
