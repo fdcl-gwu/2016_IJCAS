@@ -361,8 +361,13 @@ Then the following statements hold:
 \begin{enumerate}[(i)]
 	\item \label{item:prop_eR_dot_bound_AB} Upper bounds of \( A(R) \) and \( B(R) \) are given by
 	\begin{gather}
-		\norm{A} < c_A  , \quad \norm{B} < c_B . \label{eqn:AB_bound}
+		\norm{A} < b_2 \norm{e_{R_A}}^2 = c_A  , \quad \norm{B} < c_B . \label{eqn:AB_bound}
 	\end{gather}
+  where the constant \( b_2\) is given by \( b_2 = \frac{h_1 h_4}{h_5 \parenth{h_1 - \psi}}\) for
+  \begin{align*}
+    h_4 &= \min\braces{g_1 + g_2, g_2 + g_3 , g_3 + g_1} ,\\
+    h_5 &= \min\braces{\parenth{g_1 + g_2}^2,\parenth{g_2 + g_3}^2 , \parenth{g_3 + g_1}^2} .\\
+  \end{align*}
 	\item \label{item:prop_eR_dot_bound_EF} Upper bounds of \( E(R,R_d) \) and \( F(R) \) are given by
 	\begin{gather}
 		\norm{E} \leq \frac{1}{\sqrt{2}} \tr{G}  , \label{eqn:E_bound} \\
@@ -373,6 +378,7 @@ Then the following statements hold:
 		\norm{e_{R_A}} \leq \sqrt{\frac{\psi}{b_1}}, \label{eqn:eRA_bound} \\
 		\norm{e_{R_B}} \leq \frac{\sin\theta}{\alpha \parenth{\cos \theta - \beta}}. \label{eqn:eRB_bound}
 	\end{gather}
+
 \end{enumerate}
 These results are combined to yield a maximum upper bound of the time derivative of the attitude error vector \( \dot{e}_R \) as
 \begin{gather}
@@ -398,9 +404,9 @@ Given  a desired attitude command \( (R_d, \Omega_d = 0 )\) and positive constan
 \end{align}
 If \( c \) is chosen such that
 \begin{gather}
-	0 < c < \frac{4 k_R k_\Omega}{k_\Omega^2 + 4 k_R \lambda_M H} , \label{eqn:c_bound}
+	0 < c < \min \braces{\sqrt{\frac{2 k_R b_1}{\lambda_m}},\sqrt{\frac{2 k_R b_2}{\lambda_M}}, \frac{4 k_R k_\Omega}{k_\Omega^2 + 4 k_R \lambda_M H}} , \label{eqn:c_bound}
 \end{gather}
-  the zero equilibrium of the error vectors is stable in the sense of Lyapunov. Furthermore, $e_R,e_\Omega\rightarrow 0$ as $t\rightarrow\infty$, and $\bar\Delta$ is uniformly bounded.
+  the zero equilibrium of the error vectors is stable in the sense of Lyapunov. Furthermore, $e_R,e_\Omega\rightarrow 0$ as $t\rightarrow\infty$, and $\bar\Delta$ is  bounded.
 \end{prop}
 \begin{proof}
 See~\Cref{proof:adaptive_control}
@@ -419,7 +425,18 @@ In addition, the rigorous mathematical proof guarantees stability.
 This is in contrast to many of the previous methods which offer no stability guarantees.
 The presented analysis offers provable bounds on the expected motion, which are critical for hardware implementation or mission critical applications.
 
+\end{multicols}
+\begin{figure}[b]
+    \centering 
+    \subfigure[Attitude error vector \(e_R\) components \label{fig:eR_con}]{\includegraphics[width=0.3\columnwidth]{eR_con}  }~
+    \subfigure[Configuration error \( \Psi \) \label{fig:Psi_con}]{\includegraphics[width=0.3\columnwidth]{figures/Psi_con.pdf} }
+    \subfigure[Angle to each constraint \label{fig:con_angles_con}]{\includegraphics[width=0.3\columnwidth]{figures/constraint_angles_con.pdf} } 
+    \caption{Attitude stabilization without adaptive update law}
+    \label{fig:con} 
+\end{figure}
+\begin{multicols}{2}
 \section{Numerical Examples}\label{sec:numerical_simulation}
+
 We demonstrate the performance of the proposed control system via numerical simulation.
 The inertia tensor of a rigid body is given as
 \begin{gather*}
@@ -459,16 +476,6 @@ Constraint Vector (\( v \)) & Angle (\( \theta \)) \\ \hline \hline
 
 The initial state is defined as \(R_0 =  \exp(\ang{225} \times \frac{\pi}{180} \hat{e}_3), \Omega_0 = 0\). 
 The desired state is \( R_d = I,\Omega_d = 0\).
-\end{multicols}
-\begin{figure}
-    \centering 
-    \subfigure[Attitude error vector \(e_R\) components \label{fig:eR_con}]{\includegraphics[width=0.3\columnwidth]{eR_con}  }~
-    \subfigure[Configuration error \( \Psi \) \label{fig:Psi_con}]{\includegraphics[width=0.3\columnwidth]{figures/Psi_con.pdf} }
-    \subfigure[Angle to each constraint \label{fig:con_angles_con}]{\includegraphics[width=0.3\columnwidth]{figures/constraint_angles_con.pdf} } 
-    \caption{Attitude stabilization without adaptive update law}
-    \label{fig:con} 
-\end{figure}
-\begin{multicols}{2}
 We show simulation results for the system stabilizing about the desired attitude with and without the adaptive update law from~\Cref{prop:adaptive_control}.
 We assume a fixed disturbance of \(\Delta = \begin{bmatrix} 0.2 & 0.2 & 0.2 \end{bmatrix}^T \si{\newton\meter}\), with the function \( W(R,\Omega) = I \).
 This form is equivalent to an integral control term which penalizes deviations from the desired configuration.
@@ -499,6 +506,17 @@ These closed-loop feedback results are computed in real time and offer a signifi
 These results show that the proposed geometric adaptive approach is critical to attitude stabilization in the presence of state constraints and disturbances.
 
 \subsection{Attitude Parameterizations}\label{ssec:attitude_parameterization}
+\end{multicols}
+\begin{figure} 
+  \centering 
+    \subfigure[Configuration error \( \Psi \)\label{fig:Psi_adapt}]{\includegraphics[width=0.4\columnwidth]{Psi_adapt} }~
+    \subfigure[Angle to each constraint \label{fig:con_angles}]{\includegraphics[width=0.4\columnwidth]{constraint_angles} }\\
+    \subfigure[Disturbance estimate \( \bar \Delta \) components \label{fig:delta_adapt} ]{\includegraphics[width=0.4\columnwidth]{Delta_adapt}}~
+    \subfigure[Attitude trajectory \label{fig:cad_adapt}]{\includegraphics[trim={10cm 0 10cm 0},clip,width=0.4\columnwidth]{cad_adapt} }
+  \caption{Attitude stabilization with adaptive update law}
+  \label{fig:adapt} 
+\end{figure}
+\begin{multicols}{2}
 % Discuss the benefits of using this geometric representation as compared to Euler angles or quaternions
 Attitude parameterizations, such as Euler angles and Quaternions, are frequently used in the aerospace and astrodynamics communities~\cite{vallado2007}.
 For example, Euler angle sequences are frequently used to describe the transformation between a variety of reference frames used to describe the position and orientation of the orbit of Earth satellites~\cite{vallado2007}.
@@ -514,17 +532,7 @@ However, there is great ambiguity in the representation of the attitude as there
 Therefore, great care must be taken in the control system design to ensure that a consistent sequence is used. 
 Furthermore, it has been shown that no minimal attitude representation can describe orientations both globally and without singularities~\cite{hughes2004,bhat2000}.
 These singularities can cause significant difficulties during control design and hardware implementation.
-\end{multicols}
-\begin{figure} 
-  \centering 
-    \subfigure[Configuration error \( \Psi \)\label{fig:Psi_adapt}]{\includegraphics[width=0.4\columnwidth]{Psi_adapt} }~
-    \subfigure[Angle to each constraint \label{fig:con_angles}]{\includegraphics[width=0.4\columnwidth]{constraint_angles} }\\
-    \subfigure[Disturbance estimate \( \bar \Delta \) components \label{fig:delta_adapt} ]{\includegraphics[width=0.4\columnwidth]{Delta_adapt}}~
-    \subfigure[Attitude trajectory \label{fig:cad_adapt}]{\includegraphics[trim={10cm 0 10cm 0},clip,width=0.4\columnwidth]{cad_adapt} }
-  \caption{Attitude stabilization with adaptive update law}
-  \label{fig:adapt} 
-\end{figure}
-\begin{multicols}{2}
+
 To demonstrate the effect of the kinematic singularities inherent with Euler angles we will represent the attitude of the body fixed reference frame, \( \vecbf{b}_i \), with respect to the inertial frame, \( \vecbf{e}_i\), in terms of the \( 3-1-3\) Euler angle sequence.
 More explicitly, this corresponds to the rotation sequence \( \theta_1 \vecbf{b}_3 , \theta_2 \vecbf{b}_1, \theta_3 \vecbf{b}_3 \).
 The rotation matrix, \( R(\theta_1, \theta_2, \theta_3) \), corresponding to this sequence is 
@@ -555,9 +563,19 @@ Therefore simply switching the sequence does not alleviate the issue, but rather
 As a result, Euler angles are not appropriate for systems which experience large angular rotations, such as those demonstrated in~\cref{fig:adapt}, or control systems which rely on the angular velocities \( \theta_i \).
 % discuss the unwinding phenomenon with quaternions
 
+\end{multicols}
+\begin{figure}[H]
+    \centering 
+    \subfigure[{Configuration error \( \Psi \)} \label{fig:Psi_tv} ]{\includegraphics[width=0.3\columnwidth]{Psi_tv} }~
+    \subfigure[{Angle to constraint } \label{fig:con_angle_tv}]{\includegraphics[width=0.3\columnwidth]{figures/constraint_angle_tv.pdf} }~
+    \subfigure[{Disturbance estimate \(\bar\Delta\) components} \label{fig:Delta_tv}]{\includegraphics[width=0.3\columnwidth]{figures/delta_tv} }
+    \caption{Time-varying external disturbance simulation}
+    \label{fig:tv} 
+\end{figure}
+\begin{multicols}{2}
 \subsection{Time-varying Disturbance}\label{ssec:time_varying}
 
-The form of the uncertainty, given in~\cref{eqn:Wdot}, is commonly used in the adaptive control literature~\cite{lee2013b,ioannou2012}. 
+The form of the uncertainty, given in~\cref{eqn:Wdot}, is commonly used in the adaptive control literature~\cite{LeeITCST13,ioannou2012}. 
 A wide variety of realistic disturbances, such as gravitational gradients or malfunctioning thrusters, are accurately represented via this model. 
 In addition, it is possible to represent the uncertainty of a time-varying inertia matrix as an equivalent external disturbance. 
 For example, Euler's law gives the relationship for the rate of change of angular momentum
@@ -581,16 +599,7 @@ The goal is to rotate the vehicle about the \( e_3 \) axis while avoiding the ob
 \Cref{fig:Psi_tv} shows the non-dimensional value of the configuration error function and demonstrates that the adaptive controller is able to stabilize the system to the desired attitude configuration.
 In addition,~\cref{fig:con_angle_tv} shows that the constraint is never violated as the angle between the body-fixed sensor \( r \) and the constraint \( v \) is greater than \SI{12}{\degree} over the entire attitude maneuver.
 We can see in~\cref{fig:Delta_tv} that that estimate \(\bar \Delta \) for each of the components accurately tracks the true disturbance after approximately~\SI{5}{\second}.
-\end{multicols}
-\begin{figure}[H]
-    \centering 
-    \subfigure[{Configuration error \( \Psi \)} \label{fig:Psi_tv} ]{\includegraphics[width=0.3\columnwidth]{Psi_tv} }~
-    \subfigure[{Angle to constraint } \label{fig:con_angle_tv}]{\includegraphics[width=0.3\columnwidth]{figures/constraint_angle_tv.pdf} }~
-    \subfigure[{Disturbance estimate \(\bar\Delta\) components} \label{fig:Delta_tv}]{\includegraphics[width=0.3\columnwidth]{figures/delta_tv} }
-    \caption{Time-varying external disturbance simulation}
-    \label{fig:tv} 
-\end{figure}
-\begin{multicols}{2}
+
 \section{Experiment on Hexrotor UAV}\label{sec:experiment}
 \begin{figure}[H]
     \centering
@@ -780,7 +789,8 @@ Therefore, the inequality constraint is always satisfied given that the desired 
 %	However, since the chosen domain is assumed to exclude the constraint this situation is not possible and \( B < \psi \).
 We choose the domain \( D \) to exclude the undesired critical points of \( A(R) \) as well as the infeasible regions defined by the state inequality constraints. 
 Furthermore, one can show that the set \( D \) is an open neighborhood of the desired attitude configuration, \( R_d\).
-Therefore, the selected domain ensures that the configuration error function is bounded \( \Psi < \psi \).
+The proof of the upper bound of \( A(R) \) is given in~\cite{LeeITCST13}.
+The selected domain ensures that the configuration error function is bounded \( \Psi < \psi \).
 This implies that that both \( A(R) \) and \( B(R) \) are bounded by constants \( c_A c_B < \psi < h_1\).
 Furthermore, since \( \norm{B} > 1 \) this ensures that \( c_A, c_B < \psi\) and shows~\cref{eqn:AB_bound}.
 
@@ -845,26 +855,35 @@ Using~\crefrange{eqn:AB_bound}{eqn:eRB_bound} one can define \( H \) in terms of
 \subsection{Proof of~\Cref{prop:adaptive_control}}\label{proof:adaptive_control}
 Consider the Lyapunov function \( \mathcal{V} \) given by
 \begin{align*}
-	\mathcal{V} = \frac{1}{2} e_\Omega \cdot J e_\Omega + k_R \Psi + c J e_\Omega \cdot e_R + \frac{1}{2 k_\Delta} e_\Delta \cdot e_\Delta , \label{eqn:v_adapt}
+	\mathcal{V} = \frac{1}{2} e_\Omega \cdot J e_\Omega + k_R \Psi + c J e_\Omega \cdot e_R + \frac{1}{2 k_\Delta} e_\Delta \cdot e_\Delta , %\label{eqn:v_adapt}
 \end{align*}
 over the domain \( D \) in~\cref{eqn:domain}.
-From~\Cref{prop:eR_dot_bound}, the Lyapunov function is bounded in \( D \) by
-\begin{align*} %\label{eqn:v_upper_bound}
-	\mathcal{V} \leq z^T W z ,
+From~\Cref{prop:eR_dot_bound,prop:config_error}, the configuration error function is bounded in \( D \) by
+\begin{align*}
+    b_1 \norm{e_{R_A}}^2 < b_1 \norm{e_{R}}^2 < \Psi < b_2 \norm{e_{R_A}}^2 < b_2 \norm{e_{R}}^2 .
 \end{align*}
-where \( e_\Delta = \Delta - \bar{\Delta} \), \( z = [\|e_R\|,\|e_\Omega\|,\|e_\Delta\|]^T\in\R^3 \) and the matrix \(W \in \R^{3 \times 3}\) is given by
-\begin{gather*}
-	W = \begin{bmatrix}
-		k_R \psi & \frac{1}{2} c \lambda_M & 0 \\
+Using this the Lyapunov function \( \mathcal{V} \) is bounded by
+\begin{align*} %\label{eqn:v_upper_bound}
+	z^T W_1 z \leq \mathcal{V} \leq z^T W_2 z ,
+\end{align*}
+where \( e_\Delta = \Delta - \bar{\Delta} \), \( z = [\|e_R\|,\|e_\Omega\|,\|e_\Delta\|]^T\in\R^3 \) and the matrices \(W_1,W_2 \in \R^{3 \times 3}\) are given by
+\begin{align*}
+	W_1 & = \begin{bmatrix}
+		k_R b_1 & \frac{1}{2} c \lambda_m & 0 \\
+		\frac{1}{2} c \lambda_m & \frac{1}{2} \lambda_m & 0 \\
+		0 & 0 & \frac{1}{2 k_\Delta}
+	\end{bmatrix},\\
+	W_2 & = \begin{bmatrix}
+		k_R b_2 & \frac{1}{2} c \lambda_M & 0 \\
 		\frac{1}{2} c \lambda_M & \frac{1}{2} \lambda_M & 0 \\
 		0 & 0 & \frac{1}{2 k_\Delta}
 	\end{bmatrix} .
-\end{gather*}
-The time derivative of \( \mathcal{V}\) with the control inputs~\cref{eqn:adaptive_control} is given by
-\begin{align*}
+\end{align*}
+The time derivative of \( \mathcal{V}\) with the control input defined by~\cref{eqn:adaptive_control} is given as
+\begin{align}
 	\dot{\mathcal{V}} =& - k_\Omega e_\Omega^T e_\Omega + \parenth{e_\Omega + c e_R}^T W e_\Delta - k_R c e_R^T e_R \nonumber\\
 	&- k_\Omega c e_R^T e_\Omega + c J e_\Omega^T \dot{e}_R - \frac{1}{k_\Delta} e_\Delta^T \dot{\bar{\Delta}} , \label{eqn:vdot}
-\end{align*}
+\end{align}
 where we used \( \dot{e}_\Delta = - \dot{\bar{\Delta}} \).
 The terms linearly dependent on \( e_\Delta\) are combined with~\cref{eqn:delta_dot} to yield
 \begin{align*}
@@ -881,9 +900,11 @@ where $\zeta=[\|e_R\|,\|e_\Omega\|]\in\R^2$, and the matrix \( M \in \R^{2 \time
 		\frac{k_\Omega c}{2} & k_\Omega - c \lambda_M H
 	\end{bmatrix} .
 \end{gather*}
-If \( c \) is chosen such that~\cref{eqn:c_bound} is satisfied the matrix \( M \) is positive definite.
-This implies that $\dot{\mathcal{V}}$ is negative semidefinite and $\lim_{t\to\infty} \zeta=0$. 
-As the Lyapunov function is non-increasing $z$ is uniformly bounded. 
+If \( c \) is chosen such that~\cref{eqn:c_bound} is satisfied then the matrices \( W_1, W_2 \) and \( M \) are positive definite.
+This implies that $\mathcal{V}$ is positive definite and decrescent, and $\dot{\mathcal{V}}$ is negative semidefinite in the domain $D$. As such, the zero equilibrium is stable in the sense of Lyapunov, and all of the error variables are bounded. Furthermore, $\lim_{t\to\infty} \zeta=0$ according to the LaShalle-Yoshizawa theorem~\cite{khalil1996}. 
+
+%and 
+%As the Lyapunov function is non-increasing $z$ is uniformly bounded. 
 %	
 %	
 %	This implies that the Lyapunov function \( V \) is non-increasing and bounded from below.
