@@ -359,13 +359,13 @@ An adaptive control system is introduced to asymptotically stabilize the system 
 \begin{prop}[Bound on \( \bm{\dot{e}_R} \)]\label{prop:eR_dot_bound}
 Consider a domain \( D \) about the desired attitude defined as
 \begin{align}
-	D = \braces{R \in \SO \vert \Psi < \psi < h_1, r^T R^T v < \beta < \cos \theta}. \label{eqn:domain}
+	D_2 = \braces{R \in \SO \vert \Psi < \psi < h_1, r^T R^T v < \beta < \cos \theta}. \label{eqn:domain}
 \end{align}
 Then the following statements hold:
 \begin{enumerate}[(i)]
 	\item \label{item:prop_eR_dot_bound_AB} Upper bounds of \( A(R) \) and \( B(R) \) are given by
 	\begin{gather}
-		\norm{A} < b_2 \norm{e_{R_A}}^2 = c_A  , \quad \norm{B} < c_B . \label{eqn:AB_bound}
+		\norm{A} < b_2 \norm{e_{R_A}}^2 < c_A  , \quad \norm{B} < c_B . \label{eqn:AB_bound}
 	\end{gather}
   where the constant \( b_2\) is given by \( b_2 = \frac{h_1 h_4}{h_5 \parenth{h_1 - \psi}}\) for
   \begin{align*}
