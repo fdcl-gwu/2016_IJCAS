@@ -252,6 +252,10 @@ Then, the following properties hold
 		\dirDiff{B}{R} &= \eta \cdot e_{R_{B}} ,
 	\end{align}
   where the notation \( \D_R A \) and \(\D_R B\) represents the derivative of \( A \) or \( B \) with respect to \( R\).
+    \item \label{item:prop_psi_quadratic} \( \Psi \) is locally quadratic on the domain 
+    \begin{align}\label{eq:psi_quadratic_domain}
+        D_1 = \braces{R \in \SO \vert \Psi = 0, e_{R} = 0 \iff R = R_d } 
+    \end{align}
 %	\item \label{item:prop_crit}The error function \( \Psi \) is minimized when \(R = R_d\).
 	\item \label{item:prop_era_upbound}An upper bound of \( \norm{e_{R_A}} \) is given as:
 	\begin{align}
@@ -708,6 +712,49 @@ where the scalar triple product~\cref{eqn:STP} was used.
 %  A(R) \geq A(R_d) \; \forall \; R \in U .
 %\end{align*}
 %Since the desired attitude, \( R_d \), must lie in the feasible set, i.e., \( r^T R^T v < \cos \theta \), the addition of the repulsive barrier function, \( B \), does not change the minimum value of \( \Psi \).
+We show~\cref{item:prop_psi_quadratic} by computing the hessian of \( \Psi \), \( \Hess{\Psi} \),  using the chain rule as 
+\begin{align*}
+    \Hess \Psi =& \parenth{\mathbf{D}^2 A \cdot \delta^2 R} B + \parenth{\dirDiff{A}{R} }\parenth{\dirDiff{B}{R}}^T \\
+    &+ \parenth{\dirDiff{B}{R} }\parenth{\dirDiff{A}{R}}^T +\parenth{\mathbf{D}^2 B \cdot \delta^2 R} A .
+\end{align*}
+The first order derivative of \( A(R) \) and \( B(R) \) are given by~\cref{eqn:eRA,eqn:eRB}. 
+The hessian of \( A(R) \) is computed as 
+\begin{align*}
+    \dirDiff{\parenth{\dirDiff{A}{R}}}{R} &= \eta \cdot \frac{1}{2}\parenth{G R_d^T R \delta R - \delta R^T R_d G}^\vee , \\
+    &= \eta \cdot \frac{1}{2} \parenth{G R_d^T R \hat \eta + \hat \eta R^T R_d G}^\vee,\\
+    &= \eta \cdot \frac{1}{2} \bracket{\parenth{\braces{\tr{R^T R_d G} I - R^T R_d G} \eta}^\wedge}^\vee , \\
+    &= \eta \cdot \frac{1}{2} \parenth{\tr{R^T R_d G} I - R^T R_d G}\eta ,
+\end{align*}
+where we used the scalar triple product rule, from~\cref{eqn:STP}, to arrive at the final form.
+The hessian of \( B(R) \) is computed as
+\begin{align*}
+    \dirDiff{\parenth{\dirDiff{B}{R}}}{R} =& \eta \cdot \left[\frac{\parenth{\delta R^T v}^\wedge r}{\alpha\parenth{r^T R^T v - \cos \theta}} \right. \\
+    & \left. - \frac{\alpha \parenth{R^T v}^\wedge r \parenth{r^T \delta R^T v}}{\alpha^2 \parenth{r^TR^Tv - \cos \theta}^2}   \right] .
+\end{align*}
+The term \( \parenth{\delta R^T v}^\wedge r\) is simplified as
+\begin{align*}
+    \parenth{\delta R^T v}^\wedge r &= - \hat{r} \delta R ^T v , \\
+    &= - \hat{r} \parenth{R \hat \eta}^T v , \\
+    &= \hat{r} \parenth{\hat{\eta} R^T } v , \\
+    &= - \hat{r} \parenth{R^T v}^\wedge \eta ,
+\end{align*}
+where we utilized the hat map property from~\cref{eqn:cross_product}.
+Similarly, the term \( r^t \delta R^T v \) is simplified as
+\begin{align*}
+    r^T \delta R^T v &= r^T \parenth{-\hat \eta R^T}v , \\
+    &= r^T \parenth{R^T v}^\wedge \eta .
+\end{align*}
+The hessian of \( B(R) \) then becomes
+\begin{align*}
+    \dirDiff{\parenth{\dirDiff{B}{R}}}{R} =& \eta \cdot \left[ - \frac{ \hat r \parenth{R^T v}^\wedge}{\alpha \parenth{r^T R^T v - \cos \theta}} \right. \\ 
+    & \left. - \frac{\parenth{R^T v}^\wedge r r^T \parenth{R^T v}^\wedge }{ \alpha\parenth{r^T R^T v - \cos \theta}^2}  \right] \eta .
+\end{align*}
+Using these terms, we evaluate \( \Hess{\Psi} \) at the desired attitude \( R = R_d \) as
+\begin{align*}
+    \Hess{\Psi} = \eta^T \frac{1}{2} B \parenth{\tr{G}I -  G} \eta , 
+\end{align*}
+which is positive definite since \( B > 1\) and \( \sum g_i > g_i\). 
+From~\cite[Proposition 6.30]{bullo2004}, \( \Psi \) is locally quadratic on the set \( D_1 \) which proves~\cref{item:prop_psi_quadratic}.
 
 The desired equilibrium occurs at \( R=R_d\) and results in \( e_R = 0 \) and \( \Psi = A = 0\).
 The proof of \cref{item:prop_era_upbound} is available in~\cite{LeeITCST13}.
