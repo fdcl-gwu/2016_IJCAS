@@ -251,10 +251,14 @@ Then, the following properties hold
 	\begin{align}
 		\dirDiff{B}{R} &= \eta \cdot e_{R_{B}} ,
 	\end{align}
-  where the notation \( \D_R A \) and \(\D_R B\) represents the derivative of \( A \) or \( B \) with respect to \( R\).
-    \item \label{item:prop_psi_quadratic} \( \Psi \) is locally quadratic on the domain 
+    where the notation \( \D_R A \) and \(\D_R B\) represents the derivative of \( A \) or \( B \) with respect to \( R\).
+    \item \label{item:prop_psi_quadratic} \( \Psi \) is a locally quadratic function on the domain 
     \begin{align}\label{eq:psi_quadratic_domain}
-        D_1 = \braces{R \in \SO \vert \Psi = 0, e_{R} = 0 \iff R = R_d } 
+        D_1 = \braces{R \in \SO \vert \Psi = 0, e_{R} = 0 \iff R = R_d } ,
+    \end{align}
+    and it is bounded by constants \( 0 < n_1 \leq n_2 \) as
+    \begin{align}\label{eq:psi_bound}
+        n_1 \norm{e_R}^2 \leq \Psi(R) \leq n_2 \norm{e_R}^2 .
     \end{align}
 %	\item \label{item:prop_crit}The error function \( \Psi \) is minimized when \(R = R_d\).
 	\item \label{item:prop_era_upbound}An upper bound of \( \norm{e_{R_A}} \) is given as:
@@ -904,13 +908,9 @@ Consider the Lyapunov function \( \mathcal{V} \) given by
 \begin{align*}
 	\mathcal{V} = \frac{1}{2} e_\Omega \cdot J e_\Omega + k_R \Psi + c J e_\Omega \cdot e_R + \frac{1}{2 k_\Delta} e_\Delta \cdot e_\Delta , %\label{eqn:v_adapt}
 \end{align*}
-over the domain \( D_3 = D_1 \cup D_2\), which ensures that the properties of~\Cref{prop:config_error,prop:error_dyn} are satisfied.
+over the domain \( D_3 = D_1 \cap D_2\), which ensures that the properties of~\Cref{prop:config_error,prop:error_dyn} are satisfied.
 
-From~\Cref{prop:config_error}, the configuration error function is locally quadratic and it is bounded in \( D_3 \) by
-\begin{align*}
-    n_1 \norm{e_R} < \Psi <  n_2 \norm{e_{R}}^2 ,
-\end{align*}
-for constants \( 0 < n_1 \leq n_2 \)~\cite[Definition 6.28]{bullo2004}.
+From~\Cref{prop:config_error}, the configuration error function is locally quadratic and it is bounded in \( D_3 \) by~\cref{eq:psi_bound}~\cite[Definition 6.28]{bullo2004}.
 Using this the Lyapunov function \( \mathcal{V} \) is bounded by
 \begin{align*} %\label{eqn:v_upper_bound}
 	z^T W_1 z \leq \mathcal{V} \leq z^T W_2 z ,
