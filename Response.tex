@@ -272,11 +272,11 @@ To show that \( \Psi \) is quadratic we compute the hessian of \( \Psi \) at the
 This additional detail was included in~\cref{prop:config_error}, as shown here:
 \begin{correction}
      \( \Psi \) is a locally quadratic function on the domain 
-        \begin{align}\label{eq:psi_quadratic_domain}
+        \begin{align}%\label{eq:psi_quadratic_domain}
             D_1 = \braces{R \in \SO \vert \Psi = 0, e_{R} = 0 \iff R = R_d } ,
         \end{align}
         and it is bounded by constants \( 0 < n_1 \leq n_2 \) as
-        \begin{align}\label{eq:psi_bound}
+        \begin{align}%\label{eq:psi_bound}
             n_1 \norm{e_R}^2 \leq \Psi(R) \leq n_2 \norm{e_R}^2 .
         \end{align}
 \end{correction}
@@ -356,7 +356,7 @@ Subsequently,~\Cref{prop:adaptive_control} was modified to explicitly demonstrat
     The time derivative of \( \mathcal{V}\) with the control input defined by~\cref{eqn:adaptive_control} is given as
     \begin{align}
     \dot{\mathcal{V}} =& - k_\Omega e_\Omega^T e_\Omega + \parenth{e_\Omega + c e_R}^T W e_\Delta - k_R c e_R^T e_R \nonumber\\
-    &- k_\Omega c e_R^T e_\Omega + c J e_\Omega^T \dot{e}_R - \frac{1}{k_\Delta} e_\Delta^T \dot{\bar{\Delta}} , \label{eqn:vdot}
+    &- k_\Omega c e_R^T e_\Omega + c J e_\Omega^T \dot{e}_R - \frac{1}{k_\Delta} e_\Delta^T \dot{\bar{\Delta}} , %\label{eqn:vdot}
     \end{align}
     where we used \( \dot{e}_\Delta = - \dot{\bar{\Delta}} \).
     The terms linearly dependent on \( e_\Delta\) are combined with~\cref{eqn:delta_dot} to yield
