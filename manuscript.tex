@@ -1,5 +1,6 @@
 \documentclass[10pt,fleqn]{IJCAS}  % Comment this line out if you need a4paper
 \usepackage{ijcas_packages}
+\allowdisplaybreaks[1]
 
 \newcommand{\squeezeup}{\vspace{-2.5mm}}
 
@@ -320,10 +321,10 @@ We present the dynamics of the configuration error function in~\Cref{prop:error_
 	The attitude error dynamics for \( \Psi, e_R, e_\Omega \) satisfy 
 	\begin{gather}
 		\diff{}{t} \parenth{\Psi} = e_R \cdot e_\Omega , \label{eqn:psi_dot}\\
-		\diff{}{t} \parenth{e_R} = \dot{e}_{R_A} B(R) + e_{R_A} \dot{B}(R) + \dot{A}(R)e_{R_B} + A \dot{e}_{R_B} , \label{eqn:eR_dot}\\
+		\diff{}{t} \parenth{e_R} = \dot{e}_{R_A} B(R) + e_{R_A} \dot{B}(R) + \dot{A}(R)e_{R_B} + A \dot{e}_{R_B} , \label{eqn:eR_dot} \\
 		\diff{}{t} \parenth{e_{R_A}} = E(R, R_d) e_\Omega , \label{eqn:eRA_dot} \\
 		\diff{}{t} \parenth{e_{R_B}} = F(R) e_\Omega , \label{eqn:eRB_dot} \\
-		\diff{}{t} \parenth{A(R)} = e_{R_A} \cdot e_\Omega , \label{eqn:A_dot} \\
+    	\diff{}{t} \parenth{A(R)} = e_{R_A} \cdot e_\Omega , \label{eqn:A_dot} \\
 		\diff{}{t} \parenth{B(R)} = e_{R_B} \cdot e_\Omega , \label{eqn:B_dot} \\
 		\diff{}{t} \parenth{e_\Omega} = J^{-1} \parenth{-\Omega \times J \Omega + u + W(R, \Omega) \Delta} , \label{eqn:eW_dot}
 	\end{gather}
