@@ -41,7 +41,7 @@
 \Crefrangeformat{prop}{Propositions~#3#1#4--#5#2#6}
 \crefmultiformat{prop}{Propositions~#2#1#3}{ and~#2#1#3}{, #2#1#3}{ and~#2#1#3}
 % Appendix
-\crefformat{appendix}{Appendix~#2#1#3..} % no abbreviation for equation numbers
+\crefformat{appendix}{Appendix~#2#1#3} % no abbreviation for equation numbers
 \Crefformat{appendix}{Appendix~#2#1#3} % no abbreviation for equation numbers
 \crefrangeformat{appendix}{Appendices~#3#1#4--#5#2#6}
 \Crefrangeformat{appendix}{Appendices~#3#1#4--#5#2#6}
@@ -230,43 +230,17 @@ In addition,~\Cref{prop:config_error} was modified to include additional detail 
 
 \item \textit{This is serious. In section 2, the upper bounds listed in Proposition 4 are given. Well, these should be the properties that your controller guarantees not come from the set D you've defined. Since these properties are used to derive the bound H which is used to derive the result in Proposition 5, the stability proof under the proposed controller is far from complete.}
 
-Lyapunov stability is valid if the given properties of \( V \) are satisfied in an open neighborhood of the desired attitude configuration. 
-The presented details, which are shown in~\Cref{proof:att_control,proof:eR_dot_bound}, are valid in the selected domain \( D \) about the desired attitude.
-Therefore, Lyapunov stability is valid if \( D \) is also an open neighborhood of the desired attitude.
+The stability proof has been improved and several modifications have been included in the manuscript:
+\begin{itemize}
+    \item An additional quadratic property has been derived for \( \Psi \) and shown in~\cref{prop:config_error},
+    \item The quadratic property of \( \Psi \) requires the derivation of the hessian of \( \Psi \) given in~\cref{proof:config_error},
+    \item Additional detail has been included on the set \( D \) and it's properties in~\cref{proof:eR_dot_bound}.
+    \item The Lyapunov function in~\cref{proof:adaptive_control} is shown to be positive definite,
+    \item The revised stability proof includes a modified requirement for the constant \( c \) shown in~\cref{eqn:c_bound},
+\end{itemize}
+Here we present the modifications and provide additional detail. 
+In addition, we duplicate the modifications from the manuscript in this section as well.
 
-The set \( D = \braces{R \in \SO \vert \Psi < \psi < h_1, r^T R^T v < \beta < \cos \theta} \) of the metric space \( \parenth{R \in \SO, \Psi(R,R_d)} \) is an open neighborhood of \( R_d \) if there exists an \( \epsilon > 0 \) such that for any \( R \in \SO | \Psi(R,R_d) < \epsilon \), it is also true that \( R \in D \).
-The selected domain \( D \) excludes the undesired equilibrium points of \( A(R) \) and the infeasible regions defined by the constraints \( r^T R^T v_i \), i.e. the desired attitude should be sufficiently far away from the constraints. 
-We can ensure that \( D \) is an open neighborhood of \( R_d \) by choosing \( \epsilon = \min \braces{\psi, \Psi(R|r^T R^T v = \beta,R_d)}\).
-Therefore, the given domain \( D \) is an open neighborhood of the desired attitude configuration, \(R_d\), and the Lyapunov stability results are valid in this domain.
-
-\Cref{prop:eR_dot_bound} has been modified to include additional detail on the upper bound of \( A(R) \) as:
-\begin{correction}
-    Upper bounds of \( A(R) \) and \( B(R) \) are given by
-    \begin{gather}
-        \norm{A} < b_2 \norm{e_{R_A}}^2 = c_A  , \quad \norm{B} < c_B . 
-    \end{gather}
-  where the constant \( b_2\) is given by \( b_2 = \frac{h_1 h_4}{h_5 \parenth{h_1 - \psi}}\) for
-  \begin{align*}
-    h_4 &= \min\braces{g_1 + g_2, g_2 + g_3 , g_3 + g_1} ,\\
-    h_5 &= \min\braces{\parenth{g_1 + g_2}^2,\parenth{g_2 + g_3}^2 , \parenth{g_3 + g_1}^2} .\\
-  \end{align*}
-\end{correction}
-
-The domain \( D \) is chosen to both exclude the undesired critical points of \( A(R)\) as well as the infeasible regions defined by the constraints. 
-In general, this is not a difficult assumption to satisfy as the desired attitude will typically be located far from the constrained regions.
-We have augmented the manuscript with some additional discussion of the chosen domain \( D \) in~\Cref{proof:eR_dot_bound}.
-
-\begin{correction}
-    We choose the domain \( D \) to exclude the undesired critical points of \( A(R) \) as well as the infeasible regions defined by the state inequality constraints. 
-    Furthermore, one can show that the set \( D \) is an open neighborhood of the desired attitude configuration, \( R_d\).
-    The proof of the upper bound of \( A(R) \) is given in~\cite{LeeITCST13}.
-    The selected domain ensures that the configuration error function is bounded \( \Psi < \psi \).
-    This implies that that both \( A(R) \) and \( B(R) \) are bounded by constants \( c_A c_B < \psi < h_1\).
-    Furthermore, since \( \norm{B} > 1 \) this ensures that \( c_A, c_B < \psi\) and shows~\cref{eqn:AB_bound}.
-\end{correction}
-
-The proof of~\Cref{prop:adaptive_control} given in~\Cref{proof:adaptive_control} has been improved. 
-Originally, the positive definiteness of \( \mathcal{V}\) was not explicitly defined. 
 In order to prove that the Lyapunov function is positive definite an additional quadratic property of the configuration error function was derived.
 A function \( \psi \) is quadratic on the domain \( D \) about the critical zero \( x_0 \in D \) if there exists two constants \( 0 < b_1 \leq b_2 \) such that
 \begin{align*}
@@ -332,7 +306,44 @@ and proven in~\Cref{proof:config_error}, as shown here:
     From~\cite[Proposition 6.30]{bullo2004}, \( \Psi \) is locally quadratic on the set \( D_1 \) which proves~\cref{item:prop_psi_quadratic}.
 \end{correction}
 
-Subsequently,~\Cref{prop:adaptive_control} was modified to explicitly demonstrate that \( \mathcal{V} \) is positive definite.
+Lyapunov stability is valid if the given properties of \( V \) are satisfied in an open neighborhood of the desired attitude configuration. 
+The presented details, which are shown in~\Cref{proof:att_control,proof:eR_dot_bound}, are valid in the selected domain \( D \) about the desired attitude.
+Therefore, Lyapunov stability is valid if \( D \) is also an open neighborhood of the desired attitude.
+
+The set 
+\[ D = \braces{R \in \SO \vert \Psi < \psi < h_1, r^T R^T v < \beta < \cos \theta} \]
+of the metric space \( \parenth{R \in \SO, \Psi(R,R_d)} \) is an open neighborhood of \( R_d \) if there exists an \( \epsilon > 0 \) such that for any \( R \in \SO | \Psi(R,R_d) < \epsilon \), it is also true that \( R \in D \).
+The selected domain \( D \) excludes the undesired equilibrium points of \( A(R) \) and the infeasible regions defined by the constraints \( r^T R^T v_i \), i.e. the desired attitude should be sufficiently far away from the constraints. 
+We can ensure that \( D \) is an open neighborhood of \( R_d \) by choosing \( \epsilon = \min \braces{\psi, \Psi(R|r^T R^T v = \beta,R_d)}\).
+Therefore, the given domain \( D \) is an open neighborhood of the desired attitude configuration, \(R_d\), and the Lyapunov stability results are valid in this domain.
+
+\Cref{prop:eR_dot_bound} has been modified to include additional detail on the upper bound of \( A(R) \) as:
+\begin{correction}
+    Upper bounds of \( A(R) \) and \( B(R) \) are given by
+    \begin{gather}
+        \norm{A} < b_2 \norm{e_{R_A}}^2 = c_A  , \quad \norm{B} < c_B . 
+    \end{gather}
+  where the constant \( b_2\) is given by \( b_2 = \frac{h_1 h_4}{h_5 \parenth{h_1 - \psi}}\) for
+  \begin{align*}
+    h_4 &= \min\braces{g_1 + g_2, g_2 + g_3 , g_3 + g_1} ,\\
+    h_5 &= \min\braces{\parenth{g_1 + g_2}^2,\parenth{g_2 + g_3}^2 , \parenth{g_3 + g_1}^2} .\\
+  \end{align*}
+\end{correction}
+
+The domain \( D \) is chosen to both exclude the undesired critical points of \( A(R)\) as well as the infeasible regions defined by the constraints. 
+In general, this is not a difficult assumption to satisfy as the desired attitude will typically be located far from the constrained regions.
+We have augmented the manuscript with some additional discussion of the chosen domain \( D \) in~\Cref{proof:eR_dot_bound}.
+
+\begin{correction}
+    We choose the domain \( D \) to exclude the undesired critical points of \( A(R) \) as well as the infeasible regions defined by the state inequality constraints. 
+    Furthermore, one can show that the set \( D \) is an open neighborhood of the desired attitude configuration, \( R_d\).
+    The proof of the upper bound of \( A(R) \) is given in~\cite{LeeITCST13}.
+    The selected domain ensures that the configuration error function is bounded \( \Psi < \psi \).
+    This implies that that both \( A(R) \) and \( B(R) \) are bounded by constants \( c_A c_B < \psi < h_1\).
+    Furthermore, since \( \norm{B} > 1 \) this ensures that \( c_A, c_B < \psi\) and shows~\cref{eqn:AB_bound}.
+\end{correction}
+
+The proof of~\Cref{prop:adaptive_control} given in~\Cref{proof:adaptive_control} has been improved to explicitly demonstrate that \( \mathcal{V} \) is positive definite.
 \begin{correction}
     Consider the Lyapunov function \( \mathcal{V} \) given by
     \begin{align*}
@@ -387,7 +398,7 @@ Finally, the bounds on \( c \), given in~\cref{eqn:c_bound}, have been modified 
 \begin{correction}
     If \( c \) is chosen such that
     \begin{gather}
-        0 < c < \min \braces{\sqrt{\frac{2 k_R b_1}{\lambda_m}},\sqrt{\frac{2 k_R b_2}{\lambda_M}}, \frac{4 k_R k_\Omega}{k_\Omega^2 + 4 k_R \lambda_M H}} .
+        0 < c < \min \braces{\sqrt{\frac{2 k_R n_1}{\lambda_m}},\sqrt{\frac{2 k_R n_2}{\lambda_M}}, \frac{4 k_R k_\Omega}{k_\Omega^2 + 4 k_R \lambda_M H}} .
     \end{gather}
     the zero equilibrium of the error vectors is stable in the sense of Lyapunov. Furthermore, $e_R,e_\Omega\rightarrow 0$ as $t\rightarrow\infty$, and $\bar\Delta$ is  bounded.
 \end{correction}
@@ -398,7 +409,7 @@ The bounds on \( c \) have been modified due to the additional detail in the sta
 The equation has been modified as:
 \begin{correction}
     \begin{gather}
-        0 < c < \min \braces{\sqrt{\frac{2 k_R b_1}{\lambda_m}},\sqrt{\frac{2 k_R b_2}{\lambda_M}}, \frac{4 k_R k_\Omega}{k_\Omega^2 + 4 k_R \lambda_M H}} .
+        0 < c < \min \braces{\sqrt{\frac{2 k_R n_1}{\lambda_m}},\sqrt{\frac{2 k_R n_2}{\lambda_M}}, \frac{4 k_R k_\Omega}{k_\Omega^2 + 4 k_R \lambda_M H}} .
     \end{gather}
 \end{correction}
 
