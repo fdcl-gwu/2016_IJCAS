@@ -253,13 +253,13 @@ Then, the following properties hold
 		\dirDiff{B}{R} &= \eta \cdot e_{R_{B}} ,
 	\end{align}
     where the notation \( \D_R A \) and \(\D_R B\) represents the derivative of \( A \) or \( B \) with respect to \( R\).
-    \item \label{item:prop_psi_quadratic} \( \Psi \) is a locally quadratic function on the domain 
-    \begin{align}\label{eq:psi_quadratic_domain}
-        D_1 = \braces{R \in \SO \vert \Psi = 0, e_{R} = 0 \iff R = R_d } ,
-    \end{align}
-    more explicitly, it is bounded by constants \( 0 < n_1 \leq n_2 \) as
+    \item \label{item:prop_psi_quadratic} \( \Psi \) is a locally quadratic function, which means there exists constants \( 0 < n_1 \leq n_2 \) such that
     \begin{align}\label{eq:psi_bound}
-        n_1 \norm{e_R}^2 \leq \Psi(R) \leq n_2 \norm{e_R}^2 .
+        n_1 \norm{e_R}^2 \leq \Psi(R) \leq n_2 \norm{e_R}^2 ,
+    \end{align}
+    on the domain
+    \begin{align}\label{eq:psi_quadratic_domain}
+        D_1 = \braces{R \in \SO \vert e_{R} = 0 \iff R = R_d } .
     \end{align}
 %	\item \label{item:prop_crit}The error function \( \Psi \) is minimized when \(R = R_d\).
 	\item \label{item:prop_era_upbound}An upper bound of \( \norm{e_{R_A}} \) is given as:
@@ -321,7 +321,7 @@ We present the dynamics of the configuration error function in~\Cref{prop:error_
 	The attitude error dynamics for \( \Psi, e_R, e_\Omega \) satisfy 
 	\begin{gather}
 		\diff{}{t} \parenth{\Psi} = e_R \cdot e_\Omega , \label{eqn:psi_dot}\\
-		\diff{}{t} \parenth{e_R} = \dot{e}_{R_A} B(R) + e_{R_A} \dot{B}(R) + \dot{A}(R)e_{R_B} + A \dot{e}_{R_B} , \label{eqn:eR_dot} \\
+		\diff{}{t} \parenth{e_R} = \dot{e}_{R_A} B + e_{R_A} \dot{B} + \dot{A}e_{R_B} + A \dot{e}_{R_B} , \label{eqn:eR_dot} \\
 		\diff{}{t} \parenth{e_{R_A}} = E(R, R_d) e_\Omega , \label{eqn:eRA_dot} \\
 		\diff{}{t} \parenth{e_{R_B}} = F(R) e_\Omega , \label{eqn:eRB_dot} \\
     	\diff{}{t} \parenth{A(R)} = e_{R_A} \cdot e_\Omega , \label{eqn:A_dot} \\
@@ -362,7 +362,7 @@ Aerial vehicles will similarly experience external torques due to air currents o
 An adaptive control system is introduced to asymptotically stabilize the system to a desired attitude while ensuring that state constraints are satisfied. %We first show several properties of the controlled system. 
 
 \begin{prop}[Bound on \( \bm{\dot{e}_R} \)]\label{prop:eR_dot_bound}
-Consider a domain \( D \) about the desired attitude defined as
+Consider a domain \( D_2 \) about the desired attitude defined as
 \begin{align}
 	D_2 = \braces{R \in \SO \vert \Psi < \psi < h_1, r^T R^T v < \beta < \cos \theta}. \label{eqn:domain}
 \end{align}
@@ -573,7 +573,7 @@ As a result, Euler angles are not appropriate for systems which experience large
 % discuss the unwinding phenomenon with quaternions
 
 \end{multicols}
-\begin{figure}[H]
+\begin{figure}[t]
     \centering 
     \subfigure[{Configuration error \( \Psi \)} \label{fig:Psi_tv} ]{\includegraphics[width=0.3\columnwidth]{Psi_tv} }~
     \subfigure[{Angle to constraint } \label{fig:con_angle_tv}]{\includegraphics[width=0.3\columnwidth]{figures/constraint_angle_tv.pdf} }~
@@ -744,7 +744,7 @@ The term \( \parenth{\delta R^T v}^\wedge r\) is simplified as
     &= - \hat{r} \parenth{R^T v}^\wedge \eta ,
 \end{align*}
 where we utilized the hat map property from~\cref{eqn:cross_product}.
-Similarly, the term \( r^t \delta R^T v \) is simplified as
+Similarly, the term \( r^T \delta R^T v \) is simplified as
 \begin{align*}
     r^T \delta R^T v &= r^T \parenth{-\hat \eta R^T}v , \\
     &= r^T \parenth{R^T v}^\wedge \eta .
@@ -839,8 +839,8 @@ Therefore, the inequality constraint is always satisfied given that the desired 
 %	We assume that \( B > \psi \) which implies that \( A < 1 \).
 %	As \( \psi \) is increased this implies that the system is approaching the constraint and that \( A \to 0 \) in order to remain in the domain \( D \).
 %	However, since the chosen domain is assumed to exclude the constraint this situation is not possible and \( B < \psi \).
-We choose the domain \( D \) to exclude the undesired critical points of \( A(R) \) as well as the infeasible regions defined by the state inequality constraints. 
-Furthermore, one can show that the set \( D \) is an open neighborhood of the desired attitude configuration, \( R_d\).
+We choose the domain \( D_2 \) to exclude the undesired critical points of \( A(R) \) as well as the infeasible regions defined by the state inequality constraints. 
+Furthermore, one can show that the set \( D_2 \) is an open neighborhood of the desired attitude configuration, \( R_d\).
 The proof of the upper bound of \( A(R) \) is given in~\cite{LeeITCST13}.
 The selected domain ensures that the configuration error function is bounded \( \Psi < \psi \).
 This implies that that both \( A(R) \) and \( B(R) \) are bounded by constants \( c_A c_B < \psi < h_1\).
@@ -910,6 +910,7 @@ Consider the Lyapunov function \( \mathcal{V} \) given by
 	\mathcal{V} = \frac{1}{2} e_\Omega \cdot J e_\Omega + k_R \Psi + c J e_\Omega \cdot e_R + \frac{1}{2 k_\Delta} e_\Delta \cdot e_\Delta , %\label{eqn:v_adapt}
 \end{align*}
 over the domain \( D_3 = D_1 \cap D_2\), which ensures that the properties of~\Cref{prop:config_error,prop:error_dyn} are satisfied.
+Furthermore, the domain \( D_3 \) is an open neighborhood of the desired attitude. 
 
 From~\Cref{prop:config_error}, the configuration error function is locally quadratic and it is bounded in \( D_3 \) by~\cref{eq:psi_bound}~\cite[Definition 6.28]{bullo2004}.
 Using this the Lyapunov function \( \mathcal{V} \) is bounded by
@@ -930,10 +931,10 @@ where \( e_\Delta = \Delta - \bar{\Delta} \), \( z = [\|e_R\|,\|e_\Omega\|,\|e_\
 	\end{bmatrix} .
 \end{align*}
 The time derivative of \( \mathcal{V}\) with the control input defined by~\cref{eqn:adaptive_control} is given as
-\begin{align}
+\begin{align*}
 	\dot{\mathcal{V}} =& - k_\Omega e_\Omega^T e_\Omega + \parenth{e_\Omega + c e_R}^T W e_\Delta - k_R c e_R^T e_R \nonumber\\
 	&- k_\Omega c e_R^T e_\Omega + c J e_\Omega^T \dot{e}_R - \frac{1}{k_\Delta} e_\Delta^T \dot{\bar{\Delta}} , \label{eqn:vdot}
-\end{align}
+\end{align*}
 where we used \( \dot{e}_\Delta = - \dot{\bar{\Delta}} \).
 The terms linearly dependent on \( e_\Delta\) are combined with~\cref{eqn:delta_dot} to yield
 \begin{align*}
@@ -967,7 +968,7 @@ This implies that $\mathcal{V}$ is positive definite and decrescent, and $\dot{\
 \bibliographystyle{IEEEtran}
 \biography{profile}{Shankar Kulumani}
     {is a PhD Candidate in the Department of Mechanical and Aerospace Engineering at George Washington University. 
-    He received his bachelor's degree in Astronautical Engineering from the United States Air Force Academy in 2009 and his master's degree in Aeronautical and Astronautical Engineering from Purdue University in 2013.
+    He received his bachelor's degree in Astronautical Engineering from the US Air Force Academy in 2009 and his master's degree in Aeronautical and Astronautical Engineering from Purdue University in 2013.
     % He previously served as Deputy Space Vehicles Lead for the ORS-1 (Operationally Responsive Space ) satellite program, and as Lead Test Engineer in the Guidance, Navigation, and Control group at Air Force Research Laboratory located at Kirtland AFB, NM.
     % He is now currently a reserve air force officer where he serves as Threat Systems Engineer for the Missle and Space Intelligence Center, Defense Intelligence Agency.
     His current research interests include the application of geometric mechanics and control to aerospace systems. 
