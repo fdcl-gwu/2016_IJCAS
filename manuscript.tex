@@ -211,7 +211,7 @@ We formulate this hard constraint as
 where we assume \( \ang{0} \leq \theta \leq \ang{90}  \) is the required minimum angular separation between \( r \) and \( R^T v \). 
 The objective is to a determine a control input \( u \) that stabilizes the system from an initial attitude \( R_0 \) to a desired attitude \( R_d \) while ensuring that~\cref{eqn:constraint} is always satisfied.
 \squeezeup
-\section{Attitude Control on $\SO$ with Inequality Constraints}
+\section{Attitude Control on $\SO$ with Inequality Constraints}\label{sec:attitude_control}
 
 The first step in designing a control system on a nonlinear manifold \( \Q \) is the selection of a proper configuration error function. 
 This configuration error function, \( \Psi : \Q \times \Q \to \R \), is a smooth and proper positive definite function that measures the error between the current configuration and a desired configuration. 
@@ -245,12 +245,12 @@ Then, the following properties hold
 \begin{enumerate}[(i)]
 	\item \label{item:prop_psi_psd} \(\Psi\) is positive definite about \( R = R_d\) on $\SO$.
 	\item \label{item:prop_era}The variation of \( A(R) \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
-	\begin{align}
+	\begin{align}\label{eq:dirDiff_A}
 		\dirDiff{A}{R} &= \eta \cdot e_{R_A} ,
 	\end{align}
 	where the notation \( \dirDiff{A}{R} \) represents the directional derivative of $A$ with respect to $R$ along $\delta R$.
 	\item \label{item:prop_erb} The variation of \( B(R) \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
-	\begin{align}
+	\begin{align}\label{eq:dirDiff_B}
 		\dirDiff{B}{R} &= \eta \cdot e_{R_{B}}.
 	\end{align}
 %    where the notation \( \D_R A \) and \(\D_R B\) represents the derivative of \( A \) or \( B \) with respect to \( R\).
