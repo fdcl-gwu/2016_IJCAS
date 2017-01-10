@@ -229,13 +229,13 @@ The proposed attitude configuration error function and several properties are su
 %We assume a desired attitude command \( ( R_d, \Omega_d = 0 ) \), the current attitude and angular velocity \( ( R, \Omega) \), and a state constraint~\cref{eqn:constraint} are given.
 Define an attitude error function \( \Psi : \SO \to \R \), an attitude error vector \( e_R \in \R^3 \), and an angular velocity error vector \( e_\Omega \in \R^3 \) as follows:
 \begin{gather}
-	\Psi(R) = A(R) B(R) , \label{eqn:psi} \\
-	e_R = e_{R_A} B(R) + A(R) e_{R_B} , \label{eqn:eR} \\
+	\Psi(R, R_d) = A(R, R_d) B(R) , \label{eqn:psi} \\
+	e_R = e_{R_A} B(R) + A(R,R_d) e_{R_B} , \label{eqn:eR} \\
 	e_\Omega = \Omega , \label{eqn:eW}
 \end{gather}
 with
 \begin{gather}
-	A(R) = \frac{1}{2} \tr{G \left( I - R_d^T R\right)} , \label{eqn:A} \\
+	A(R,R_d) = \frac{1}{2} \tr{G \left( I - R_d^T R\right)} , \label{eqn:A} \\
 	B(R) = 1 - \frac{1}{\alpha} \ln \left( \frac{\cos \theta -  r^T R^T v}{1 + \cos \theta}\right) . \label{eqn:B} \\
 	e_{R_A} = \frac{1}{2} \parenth{G R_d^T R - R^T R_d G} ^ \vee , \label{eqn:eRA} \\
 	e_{R_B} = \frac{ \left( R^T v\right)^\wedge r}{\alpha \left(r^T R^T v - \cos \theta \right)} . \label{eqn:eRB} 
@@ -343,7 +343,7 @@ See~\Cref{proof:error_dyn}
 
 \subsection{Attitude Control without Disturbance}
 We introduce a nonlinear geometric controller for the attitude stabilization of a rigid body.
-We first assume that there is no disturbance, i.e., \( \Delta = 0 \) and present a nonlinear controller in~\Cref{prop:att_control}.
+We first assume that there is no disturbance, i.e., \( \Delta = 0 \), and present a nonlinear controller in~\Cref{prop:att_control}.
 \begin{prop}[Attitude Control]\label{prop:att_control}
 	Given a desired attitude command \( \parenth{R_d, \Omega_d = 0} \), which satisfies the constraint~\cref{eqn:constraint}, and positive constants \( k_R, k_\Omega \in \R \) we define a control input \( u \in \R^3 \) as follows
 	\begin{gather}
@@ -364,7 +364,7 @@ Aerial vehicles will similarly experience external torques due to air currents o
 An adaptive control system is introduced to asymptotically stabilize the system to a desired attitude while ensuring that state constraints are satisfied. %We first show several properties of the controlled system. 
 
 \begin{prop}[Bound on \( \bm{\dot{e}_R} \)]\label{prop:eR_dot_bound}
-Consider the domain \( D \), given in~\cref{prop:config_error}, about the desired attitude, then the following statements hold:
+Consider the neighborhood \( D \), given in~\cref{prop:config_error}, about the desired attitude, then the following statements hold:
 \begin{enumerate}[(i)]
 	\item \label{item:prop_eR_dot_bound_AB} Upper bounds of \( A(R) \) and \( B(R) \) are given by
 	\begin{gather}
@@ -553,7 +553,7 @@ The rotation matrix, \( R(\theta_1, \theta_2, \theta_3) \), corresponding to thi
     \end{bmatrix} ,
 \end{align}
 where \( s_i, c_i \) represent \( \sin \theta_i, \cos \theta_i \) for \( i = \braces{1,2,3}\).
-Using this representation that kinematic differential equations for the associated Euler angles are given as
+Using this representation, the kinematic differential equations for the associated Euler angles are given as
 \begin{align}\label{eq:euler313_diff}
     \begin{bmatrix}
         \dot{\theta}_1 \\ \dot{\theta}_2 \\ \dot{\theta}_3 
@@ -585,9 +585,9 @@ As a result, Euler angles are not appropriate for systems which experience large
 \subsection{Time-varying Disturbance}\label{ssec:time_varying}
 
 The form of the uncertainty, given in~\cref{eqn:Wdot}, is commonly used in the adaptive control literature~\cite{LeeITCST13,ioannou2012}. 
-A wide variety of realistic disturbances, such as gravitational gradients or malfunctioning thrusters, are accurately represented via this model. 
+A wide variety of realistic disturbances, such as gravitational gradients or malfunctioning thrusters for spacecraft scenarios, are accurately represented via this model. 
 In addition, it is possible to represent the uncertainty of a time-varying inertia matrix as an equivalent external disturbance. 
-For example, Euler's law gives the relationship for the rate of change of angular momentum
+For example, Euler's law gives the relationship for the rate of change of angular momentum as
 \begin{align*}
     M_{ext} = \dot{\vecbf{H}} = \dot{J} \vecbf{\Omega} + J \dot{\vecbf{\Omega}} .
 \end{align*}
@@ -638,8 +638,8 @@ A sensor pointing direction is defined in the body-fixed frame of the hexrotor a
 We define an obstacle in the inertial frame as \( v = [\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}, 0]^T \) with \( \theta = \ang{12} \).
 An initial state is defined as \(R(0) = \exp( \frac{\pi}{2} \hat{e}_3) \), while the desired state is \(R_d =I \).
 This results in the UAV performing a \ang{90} yaw rotation about the vertical axis of the spherical joint and the constrained region is on the shortest path connecting $R_0$ and $R_d$. 
-The attitude control system is identical to the one presented in~\Cref{prop:adaptive_control} with the exception of a gravity moment term and the following parameters: \(k_R = 0.4, k_\Omega = 0.7 ,c = 0.1 , \alpha = 8 \text{ and } k_\Delta = 0.05\).
-The parameters are modified to account for the differences in the hardware model of the hexrotor.
+The attitude control system is identical to the one presented in~\Cref{prop:adaptive_control} with the exception of a gravity moment term, \( M_g = r_{cg} \times m g R^T e_3\) which represents the gravitational moment due to the difference between the center of mass and the center of rotation. 
+In addition, the following parameters were also modified: \(k_R = 0.4, k_\Omega = 0.7 ,c = 0.1 , \alpha = 8 \text{ and } k_\Delta = 0.05\) to account for the differences in the hardware model of the hexrotor.
 
 The experimental results are shown in~\Cref{fig:exp}.
 \Cref{fig:eR_exp} shows the behavior of each of the components of the attitude error vector, defined by~\cref{eqn:eR}, over the experiment time span.
@@ -757,7 +757,7 @@ The hessian of \( B(R) \) then becomes
 \end{align*}
 Using these terms, we evaluate \( \Hess{\Psi} \) at the desired attitude \( R = R_d \) as follows. Since $A=0$ and $\mathbf{D}_R A=0$ at $R=R_d$, 
 \begin{align*}
-    \Hess(\Psi)\cdot (\delta R,\delta R)\big|_{R=R_d} = \eta^T \frac{1}{2} B \parenth{\tr{G}I -  G} \eta , 
+    \Hess(\Psi)\cdot (\delta R,\delta R)\big|_{R=R_d} = \eta \cdot \frac{1}{2} B \parenth{\tr{G}I -  G} \eta , 
 \end{align*}
 which is positive definite since \( B > 1\) and \( \sum g_i > g_i\). 
 The domain \( D \) is an open neighborhood of the desired attitude \( R_d \).
@@ -770,7 +770,7 @@ Therefore, in \( D \) the configuration error function is quadratic and the boun
 The proof of \cref{item:prop_era_upbound} is available in~\cite{LeeITCST13}.
 
 \subsection{Proof of~\Cref{prop:error_dyn}}\label{proof:error_dyn}
-From the kinematics~\cref{eqn:Rdot} and noting that \( \dot{R}_d = 0 \) the time derivative of \( R_d^T R \) is given as
+From the kinematics~\cref{eqn:Rdot}, and noting that \( \dot{R}_d = 0 \) the time derivative of \( R_d^T R \) is given as
 \begin{gather*}
 	\diff{}{t} \parenth{R_d^T R} = R_d^T R \hat{e}_\Omega .
 \end{gather*}
@@ -849,12 +849,13 @@ Therefore, the inequality constraint is always satisfied given that the desired 
 %The proof of the upper bound of \( A(R) \) is given in~\cite{LeeITCST13}.
 
 
-Consider the open neighborhood $D$ of $R=R_d$ defined in~\cref{proof:config_error} The proof of the upper bound of \( A(R) \) is given in~\cite{LeeITCST13}.
+Consider the open neighborhood $D$ of $R=R_d$ defined in~\Cref{prop:config_error}.
+The proof of the upper bound of \( A(R) \) is given in~\cite{LeeITCST13}.
 The selected domain ensures that the configuration error function is bounded \( \Psi < \psi \).
 This implies that that both \( A(R) \) and \( B(R) \) are bounded by constants \( c_A c_B < \psi < h_1\).
 Furthermore, since \( \norm{B} > 1 \) this ensures that \( c_A, c_B < \psi\) and shows~\cref{eqn:AB_bound}.
 
-Next, we show~~\cref{eqn:E_bound,eqn:F_bound} using the Frobenius norm.
+Next, we show~\cref{eqn:E_bound,eqn:F_bound} using the Frobenius norm.
 The Frobenius norm \( \norm{E}_F \) is given in~\cite{LeeITCST13} as
 \begin{gather*}
 	\norm{E}_F = \sqrt{\tr{E^T E}} = \frac{1}{2} \sqrt{\tr{G^2} + \tr{R^T R_d G}^2} .
