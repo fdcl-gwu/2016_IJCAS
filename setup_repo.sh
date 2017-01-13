@@ -10,10 +10,12 @@ printf "Github: $git_repo\n"
 printf "Bitbucket: $bb_repo\n"
 printf "FDCL: $fdcl_repo\n\n"
 
+git remote remove origin
 git remote add origin $git_repo
 git remote set-url origin --push --add $bb_repo
 git remote set-url origin --push --add $git_repo
-git remote set-url origin --push --add $fdcl_repo
+
+git remote add fdcl $fdcl_repo
 
 printf "Finished! The new remotes are listed.\n"
 printf "\n"
