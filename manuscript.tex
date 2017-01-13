@@ -573,7 +573,7 @@ As a result, Euler angles are not appropriate for systems which experience large
 % discuss the unwinding phenomenon with quaternions
 
 \end{multicols}
-\begin{figure}[t]
+\begin{figure}[h]
     \centering 
     \subfigure[{Configuration error \( \Psi \)} \label{fig:Psi_tv} ]{\includegraphics[width=0.3\columnwidth]{Psi_tv} }~
     \subfigure[{Angle to constraint } \label{fig:con_angle_tv}]{\includegraphics[width=0.3\columnwidth]{figures/constraint_angle_tv.pdf} }~
@@ -595,7 +595,7 @@ Using this, we can see that an instantaneous change in \( J \) is proportional t
 Finally, it has been shown that this adaptive control formulation is able to handle time-varying disturbances under some mild assumptions~\cite{ioannou2012}. 
 
 We demonstrate the ability to handle an uncertain time-varying disturbance via numerical example.
-The system is identical to the one presented in~\Cref{sec:numerical_simulation}, however we modify the external disturbance. 
+The system is identical to the one presented in~\cref{sec:numerical_simulation}, however we modify the external disturbance. 
 The external disturbance is the superposition of constant and time-varying terms as
 \begin{align*}
     \Delta = \begin{bmatrix} 0.2 \\ 0.2 \\0.2 \end{bmatrix} + 0.02 \begin{bmatrix} \sin 9 t \\ \cos 9 t \\ \frac{1}{2} \parenth{\sin 9t + \cos 9t}\end{bmatrix} \si{\newton\meter}.
@@ -761,7 +761,7 @@ Using these terms, we evaluate \( \Hess{\Psi} \) at the desired attitude \( R = 
 \end{align*}
 which is positive definite since \( B > 1\) and \( \sum g_i > g_i\). 
 The domain \( D \) is an open neighborhood of the desired attitude \( R_d \), and it excludes the undesired equilibrium points of \( A(R) \) and the infeasible regions defined by the constraints \( r^T R^T v_i \). 
-Therefore, the only critical point of the error function $\Psi$ in the domain $D$ correspond to the desired attitude $R=R_d$ with $e_R=0$ and $\Psi=0$. 
+Therefore, the only critical point of the error function $\Psi$ in the domain $D$ corresponds to the desired attitude $R=R_d$ with $e_R=0$ and $\Psi=0$. 
 Therefore, in \( D \) the configuration error function is quadratic and the bounds in~\cref{item:prop_psi_quadratic} are valid according to~\cite[Proposition 6.30]{bullo2004}.
 
 The proof of \cref{item:prop_era_upbound} is available in~\cite{LeeITCST13}.
