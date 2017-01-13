@@ -32,6 +32,7 @@
 %\usepackage[draft]{showlabels} % show labels for referencing
 
 \usepackage{csquotes}
+\usepackage{xr-hyper}
 \usepackage[]{hyperref} % links to stuff
 \hypersetup{
     bookmarks=true,         % show bookmarks bar?
@@ -75,6 +76,12 @@
 \crefrangeformat{enumi}{(#3#1#4--#5#2#6)}
 \Crefrangeformat{enumi}{Items~(#3#1#4--#5#2#6)}
 \crefmultiformat{enumi}{(#2#1#3)}{ and~(#2#1#3)}{, (#2#1#3)}{ and~(#2#1#3)}
+% Proposition format
+\crefformat{prop}{Proposition~#2#1#3} % no abbreviation for equation numbers
+\Crefformat{prop}{Proposition~#2#1#3} % no abbreviation for equation numbers
+\crefrangeformat{prop}{Proposition~#3#1#4--#5#2#6}
+\Crefrangeformat{prop}{Propositions~#3#1#4--#5#2#6}
+\crefmultiformat{prop}{Propositions~#2#1#3}{ and~#2#1#3}{, #2#1#3}{ and~#2#1#3}
 
 %\usepackage{refcheck} % check for unused references/labels
 %
@@ -140,10 +147,11 @@
 \newcommand{\Q}{\ensuremath{\mathsf{Q}}}
 \newcommand{\G}{\ensuremath{\mathsf{G}}}
 \newcommand{\g}{\ensuremath{\mathfrak{g}}}
-\newcommand{\Hess}{\ensuremath{\mathrm{Hess}}}
+\newcommand{\Hess}[1]{\ensuremath{\mathrm{Hess} \, #1}}
 \newcommand{\refprop}[1]{Proposition \ref{prop:#1}}
 \newcommand{\mypaper}{}
-
+\newcommand{\vecbf}[1]{\bm{#1}}
+\newcommand{\slfrac}[2]{\left.#1\middle/#2\right.}
 %\theoremstyle{definition} 
 %\newtheorem{prop}{Proposition}
 
