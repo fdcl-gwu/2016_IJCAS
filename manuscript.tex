@@ -1,4 +1,4 @@
-\documentclass[10pt,fleqn]{IJCAS}  % Comment this line out if you need a4paper
+\documentclass{IJCAS}  % Comment this line out if you need a4paper
 \usepackage{ijcas_packages}
 \allowdisplaybreaks[1]
 
@@ -6,10 +6,10 @@
 
 %%%% Editorial Information
 %% Authors do not have to modify this section.
-% \journalvolumn{VV}
-% \journalnumber{N}
-% \journalyear{YYYY}
-% \setarticlestartpagenumber{1}
+\journalvolumn{VV}
+\journalnumber{N}
+\journalyear{YYYY}
+\setarticlestartpagenumber{1}
 %%%% End of Editorial Information
 
 \newtheorem{definition}{Definition}
@@ -49,7 +49,7 @@ This research has been supported in part by NSF under the grants CMMI-1243000, C
 * Corresponding author.\vskip 0.5pc
 }
 
-\runningtitle{1}{Shankar Kulumani and Taeyoung Lee}{Constrained Geometric Attitude Control on \( \SO \) }
+\runningtitle{2017}{Shankar Kulumani and Taeyoung Lee}{Constrained Geometric Attitude Control on \( \SO \) }
 
 
 \begin{multicols}{2}
@@ -285,12 +285,13 @@ In order to visualize the attitude error function on \( \SO \), we utilize a sph
 Recall, that the spherical coordinate system represents the position of a point relative to an origin in terms of a radial distance, azimuth, and elevation.
 This coordinate system is commonly used to define locations on the Earth in terms of a latitude and longitude.
 Similarly, the positions of celestial objects are defined on the celestial sphere in terms of right ascension and declination. 
+\the\columnwidth
 \end{multicols}
 \begin{figure}[H]%
     \centering 
-    \subfigure[Attractive \( A(R) \) \label{fig:attract_error}]{\includegraphics[width=0.33\columnwidth]{attract_error} }~
-    \subfigure[Repulsive \( B(R) \) \label{fig:avoid_error} ]{\includegraphics[width=0.33\columnwidth]{avoid_error} }~
-    \subfigure[Combined \( \Psi \) \label{fig:combined_error}]{\includegraphics[width=0.33\columnwidth]{combined_error} }%
+    \subfigure[Attractive \( A(R) \) \label{fig:attract_error}]{\includegraphics[width=0.33\textwidth]{attract_error} }~
+    \subfigure[Repulsive \( B(R) \) \label{fig:avoid_error} ]{\includegraphics[width=0.33\textwidth]{avoid_error} }~
+    \subfigure[Combined \( \Psi \) \label{fig:combined_error}]{\includegraphics[width=0.33\textwidth]{combined_error} }%
     \caption{Visualization of Configuration Error Functions using spherical coordinate representation}
     \label{fig:config_error} 
 \end{figure}%
