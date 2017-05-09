@@ -288,8 +288,8 @@ Similarly, the positions of celestial objects are defined on the celestial spher
 \end{multicols}
 \begin{figure}[H]%
     \centering 
-    \subfigure[Attractive \( A(R) \) \label{fig:attract_error}]{\includegraphics{figures/avoid_error.pdf}}~
-    \subfigure[Repulsive \( B(R) \) \label{fig:avoid_error} ]{\includegraphics{figures/attract_error.pdf}}~
+    \subfigure[Attractive \( A(R) \) \label{fig:attract_error}]{\includegraphics{figures/attract_error.pdf}}~
+    \subfigure[Repulsive \( B(R) \) \label{fig:avoid_error} ]{\includegraphics{figures/avoid_error.pdf}}~
     \subfigure[Combined \( \Psi \) \label{fig:combined_error}]{\includegraphics{figures/combined_error.pdf}}%
     \caption{Visualization of Configuration Error Functions using spherical coordinate representation}
     \label{fig:config_error} 
@@ -437,9 +437,9 @@ The presented analysis offers provable bounds on the expected motion, which are 
 \end{multicols}
 \begin{figure}[b]
     \centering 
-    \subfigure[Attitude error vector \(e_R\) components \label{fig:eR_con}]{\includegraphics[width=0.3\columnwidth]{eR_con}  }~
-    \subfigure[Configuration error \( \Psi \) \label{fig:Psi_con}]{\includegraphics[width=0.3\columnwidth]{figures/Psi_con.pdf} }
-    \subfigure[Angle to each constraint \label{fig:con_angles_con}]{\includegraphics[width=0.3\columnwidth]{figures/constraint_angles_con.pdf} } 
+    \subfigure[Attitude error vector \(e_R\) components \label{fig:eR_con}]{\input{pgf/eR_noadapt.pgf}}~
+    \subfigure[Configuration error \( \Psi \) \label{fig:Psi_con}]{\input{pgf/Psi_noadapt.pgf}}~
+    \subfigure[Angle to each constraint \label{fig:con_angles_con}]{\input{pgf/ang_con_noadapt.pgf}} 
     \caption{Attitude stabilization without adaptive update law}
     \label{fig:con} 
 \end{figure}
@@ -518,9 +518,9 @@ These results show that the proposed geometric adaptive approach is critical to 
 \end{multicols}
 \begin{figure} 
   \centering 
-    \subfigure[Configuration error \( \Psi \)\label{fig:Psi_adapt}]{\includegraphics[width=0.4\columnwidth]{Psi_adapt} }~
-    \subfigure[Angle to each constraint \label{fig:con_angles}]{\includegraphics[width=0.4\columnwidth]{constraint_angles} }\\
-    \subfigure[Disturbance estimate \( \bar \Delta \) components \label{fig:delta_adapt} ]{\includegraphics[width=0.4\columnwidth]{Delta_adapt}}~
+  \subfigure[Configuration error \( \Psi \)\label{fig:Psi_adapt}]{\input{pgf/Psi_adapt.pgf}}~
+  \subfigure[Angle to each constraint \label{fig:con_angles}]{\input{pgf/ang_con_adapt.pgf}}\\
+  \subfigure[Disturbance estimate \( \bar \Delta \) components \label{fig:delta_adapt} ]{\input{pgf/dist_adapt.pgf}}~
     \subfigure[Attitude trajectory \label{fig:cad_adapt}]{\includegraphics[trim={10cm 0 10cm 0},clip,width=0.4\columnwidth]{cad_adapt} }
   \caption{Attitude stabilization with adaptive update law}
   \label{fig:adapt} 
@@ -575,9 +575,9 @@ As a result, Euler angles are not appropriate for systems which experience large
 \end{multicols}
 \begin{figure}[h]
     \centering 
-    \subfigure[{Configuration error \( \Psi \)} \label{fig:Psi_tv} ]{\includegraphics[width=0.3\columnwidth]{Psi_tv} }~
-    \subfigure[{Angle to constraint } \label{fig:con_angle_tv}]{\includegraphics[width=0.3\columnwidth]{figures/constraint_angle_tv.pdf} }~
-    \subfigure[{Disturbance estimate \(\bar\Delta\) components} \label{fig:Delta_tv}]{\includegraphics[width=0.3\columnwidth]{figures/delta_tv} }
+    \subfigure[{Configuration error \( \Psi \)} \label{fig:Psi_tv} ]{\input{pgf/Psi_timevarying.pgf}}~
+    \subfigure[{Angle to constraint } \label{fig:con_angle_tv}]{\input{pgf/ang_con_timevarying.pgf}}~
+    \subfigure[{Disturbance estimate \(\bar\Delta\) components} \label{fig:Delta_tv}]{\input{pgf/dist_timevarying.pgf}}
     \caption{Time-varying external disturbance simulation}
     \label{fig:tv} 
 \end{figure}
@@ -623,6 +623,18 @@ For example, quadrotor UAVs are unable to translate laterally without first cond
 Conversely, the propeller pairs of the hexrotor are angled relative to one another to allow for a fully actuated rigid body.
 This allows the hexrotor to impart a force in any direction and a moment about any axis. 
 
+\end{multicols}
+\begin{figure}[H]
+    \centering 
+    \subfigure[{Attitude error vector \(e_R\)} components\label{fig:eR_exp}]{\input{pgf/eR_exp.pgf}}~
+    \subfigure[{Configuration error \( \Psi \)} \label{fig:Psi_exp} ]{\input{pgf/Psi_exp.pgf}}~
+    \subfigure[{Control input \( u\) } components\label{fig:u_exp}]{\input{pgf/u_exp.pgf}}\\
+    \subfigure[{Attitude Trajectory } \label{fig:traj_exp}]{\includegraphics[width=0.3\columnwidth]{traj_exp} }~
+    \subfigure[{Angle to constraint } \label{fig:con_angle_exp}]{\input{pgf/ang_con_exp.pgf}}
+    \caption{Constrained Attitude stabilization experiment}
+    \label{fig:exp} 
+\end{figure}
+\begin{multicols}{2}
 Attitude information is measured by a combination of both on and off board sensor systems.
 The VectorNav VN-100 is a rugged, miniature high-performance inertial measurement unit which provides high frequency angular velocity measurements.
 A Vicon motion capture system is installed within the test environment and used to provide high accuracy attitude measurements. 
@@ -650,18 +662,6 @@ In order to maneuver the system ``close" to the constrained zone we utilize seve
 From the initial attitude the hexrotor rotates to the first set point, pauses, and then continues around the obstacle to the second set point before continuing toward the desired attitude.
 As a result this creates the stepped behavior of the configuration error history as shown in~\cref{fig:Psi_exp}.
 
-\end{multicols}
-\begin{figure}[H]
-    \centering 
-    \subfigure[{Attitude error vector \(e_R\)} components\label{fig:eR_exp}]{\includegraphics[width=0.3\columnwidth]{eR_exp}  }~
-    \subfigure[{Configuration error \( \Psi \)} \label{fig:Psi_exp} ]{\includegraphics[width=0.3\columnwidth]{Psi_exp} }~
-    \subfigure[{Control input \( u\) } components\label{fig:u_exp}]{\includegraphics[width=0.3\columnwidth]{u_exp}  }\\
-    \subfigure[{Attitude Trajectory } \label{fig:traj_exp}]{\includegraphics[width=0.3\columnwidth]{traj_exp} }~
-    \subfigure[{Angle to constraint } \label{fig:con_angle_exp}]{\includegraphics[width=0.3\columnwidth]{figures/constraint_angles_exp.pdf} }
-    \caption{Constrained Attitude stabilization experiment}
-    \label{fig:exp} 
-\end{figure}
-\begin{multicols}{2}
 The hexrotor avoids the constrained region illustrated by the circular cone in~\cref{fig:traj_exp}, by rotating around the boundary of the constraint. 
 \Cref{fig:con_angle_exp} shows the angle, \( \arccos r^T R^T v \), between the body mounted sensor and the inertially fixed sensor.
 The experiment demonstrates that the minimum angular separation is \SI{14}{\degree} which satisfies the constraint of \( \theta = \SI{12}{\degree} \).
