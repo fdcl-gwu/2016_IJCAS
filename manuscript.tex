@@ -66,7 +66,7 @@ For example, it is impossible to achieve global attitude stabilization using con
 % discuss issues with parameterizations
 
 Attitude control is typically studied using a variety of attitude parameterizations, such as Euler angles or quaternions~\cite{shuster1993}.
-All attitude parameterizations fail to represent the nonlinear configuration space both globally and uniquely~\cite{chaturvedi2011a}.
+Attitude parameterizations fail to represent the nonlinear configuration space both globally and uniquely~\cite{chaturvedi2011a}.
 For example, minimal attitude representations, such as Euler angle sequences or modified Rodriguez parameters, suffer from singularities.
 These attitude representations are not suitable for large angular slews.
 In order to avoid singularities, the designer must carefully switch the chosen Euler angle sequence based on the operating region.
@@ -76,7 +76,7 @@ Quaternions do not have singularities but they double cover the special orthogon
 As a result, any physical attitude is represented by a pair of antipodal quaternions on the three-sphere.
 An immediate implication of this ambiguity is that closed-loop stability properties derived using quaternions may not hold for the physical rigid body evolving on the true configuration space, namely the special orthogonal group.
 During implementation, the designer must carefully resolve this non-unique representation in quaternion based attitude control systems to avoid undesirable unwinding behavior~\cite{bhat2000}.
-This behavior is characterized by situations where the rigid body starts close to the desired attitude, yet the system unnecessarily rotates through a large angle even while the initial error is small.
+This behavior is characterized by situations where the rigid body starts close to the desired attitude, yet the system unnecessarily rotates through a large angle inspite of a small initial error. 
 
 % introduce concept of state inequality constraints and how it creates a nonconvex region 
 % mention applicability of this for spacecraft maneuvers, spherical air bearing testing, hardware limitations
@@ -175,7 +175,7 @@ More explicitly,
 for $x=[x_1,x_2,x_3]^T\in\R^{3}$. 
 The inverse of the hat map is denoted by the \textit{vee} map $\vee:\so\rightarrow\R^{3}$. 
 We use the notation \( \hat{x}\) and \( \parenth{x}^\wedge\) interchangeably.
-In particular, we use the latter form when the expression for the argument of the \textit{hat} map is long. 
+In particular, we use the latter form when the expression for the argument of the \textit{hat} map is complicated. 
 Several properties of the hat map are summarized as
 \begin{gather}
    \hat x y = x\times y = - y\times x = - \hat y x, \label{eqn:cross_product}\\
@@ -349,7 +349,7 @@ We first assume that there is no disturbance, i.e., \( \Delta = 0 \), and presen
 	\begin{gather}
 		u = -k_R e_R - k_\Omega e_\Omega + \Omega \times J \Omega . \label{eqn:nodist_control}
 	\end{gather}
-	Then the zero equilibrium of the attitude error is asymptotically stable, and the inequality constraint is satisfied.
+	Then the zero equilibrium of the attitude error is asymptotically stable, and the inequality constraint is always satisfied.
 \end{prop}
 \begin{proof}
 See~\Cref{proof:att_control}
@@ -449,12 +449,11 @@ The presented analysis offers provable bounds on the expected motion, which are 
 We demonstrate the performance of the proposed control system via numerical simulation.
 The inertia tensor of a rigid body is given as
 \begin{gather*}
-  \hspace{-5mm}
-	J = \begin{bmatrix}
-	\num{5.57e-3} & \num{6.17e-5} & \num{-2.50e-5} \\
-	\num{6.17e-5} & \num{5.57e-3} & \num{1.00e-5} \\
-	\num{-2.50e-5} & \num{1.00e-5} & \num{1.05e-2}
-	\end{bmatrix} \si{\kilo\gram\meter\squared} .
+    J = \begin{bmatrix}
+	\num{5.5} & \num{0.06} & \num{-0.03} \\
+	\num{0.06} & \num{5.5} & \num{0.01} \\
+	\num{-0.03} & \num{0.01} & \num{0.1}
+    \end{bmatrix} \times 10^{-3}~\si{\kilo\gram\meter\squared} .
 \end{gather*} 
 The control system parameters are chosen as
 \begin{gather*}
@@ -483,7 +482,7 @@ Constraint Vector (\( v \)) & Angle (\( \theta \)) \\ \hline \hline
 \end{center}
 \end{table}
 
-The initial state is defined as \(R_0 =  \exp(\ang{225} \times \frac{\pi}{180} \hat{e}_3), \Omega_0 = 0\). 
+The initial state is defined as \(R_0 =  \exp(\ang{225} \times \frac{\pi}{180} \hat{e}_3), \Omega_0 = 0\), with \( e_3 = \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}^T \).
 The desired state is \( R_d = I,\Omega_d = 0\).
 We show simulation results for the system stabilizing about the desired attitude with and without the adaptive update law from~\Cref{prop:adaptive_control}.
 We assume a fixed disturbance of \(\Delta = \begin{bmatrix} 0.2 & 0.2 & 0.2 \end{bmatrix}^T \si{\newton\meter}\), with the function \( W(R,\Omega) = I \).
@@ -504,7 +503,7 @@ The addition of the adaptive update law allows the system to converge to the des
 The path of the body fixed sensor in the inertial frame, namely \( R r \), is illustrated in~\cref{fig:cad_adapt} by the blue trajectory.
 The rendering of the spacecraft is presented in the desired, or final, orientation of the simulation.
 The inequality constraints from~\Cref{tab:constraints} are depicted as red cones, where the cone half angle is \( \theta \).
-The control system is able to asymptotically converge to zero attitude error.
+The control system is able to asymptotically converge to the desired attitude.
 \Cref{fig:con_angles} shows that the angle, \( \arccos(r^T R^T v_i) \) and measured in degrees, between the body fixed sensor and each constraint is satisfied for the entire maneuver.
 In addition, the estimate of the disturbance converges to the true value as shown in~\cref{fig:delta_adapt}.
 
@@ -542,7 +541,7 @@ Therefore, great care must be taken in the control system design to ensure that 
 Furthermore, it has been shown that no minimal attitude representation can describe orientations both globally and without singularities~\cite{hughes2004,bhat2000}.
 These singularities can cause significant difficulties during control design and hardware implementation.
 
-To demonstrate the effect of the kinematic singularities inherent with Euler angles we will represent the attitude of the body fixed reference frame, \( \vecbf{b}_i \), with respect to the inertial frame, \( \vecbf{e}_i\), in terms of the \( 3-1-3\) Euler angle sequence.
+To demonstrate the effect of the kinematic singularities inherent with Euler angles we will represent the attitude of the body fixed reference frame, \( \vecbf{b}_i \), with respect to the inertial frame, \( \vecbf{e}_i\), in terms of the 3-1-3 Euler angle sequence.
 More explicitly, this corresponds to the rotation sequence \( \theta_1 \vecbf{b}_3 , \theta_2 \vecbf{b}_1, \theta_3 \vecbf{b}_3 \).
 The rotation matrix, \( R(\theta_1, \theta_2, \theta_3) \), corresponding to this sequence is 
 \begin{align}\label{eq:euler313}
@@ -647,7 +646,7 @@ A sensor pointing direction is defined in the body-fixed frame of the hexrotor a
 We define an obstacle in the inertial frame as \( v = [\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}, 0]^T \) with \( \theta = \ang{12} \).
 An initial state is defined as \(R(0) = \exp( \frac{\pi}{2} \hat{e}_3) \), while the desired state is \(R_d =I \).
 This results in the UAV performing a \ang{90} yaw rotation about the vertical axis of the spherical joint and the constrained region is on the shortest path connecting $R_0$ and $R_d$. 
-The attitude control system is identical to the one presented in~\Cref{prop:adaptive_control} with the exception of a gravity moment term, \( M_g = r_{cg} \times m g R^T e_3\) which represents the gravitational moment due to the difference between the center of mass and the center of rotation. 
+The attitude control system is identical to the one presented in~\Cref{prop:adaptive_control} with the exception of a gravity moment term, \( M_g = r_{cg} \times m g R^T e_3\) which represents the gravitational moment due to the distance \( r_{cg} \) between the center of mass and the center of rotation. 
 In addition, the following parameters were also modified: \(k_R = 0.4, k_\Omega = 0.7 ,c = 0.1 , \alpha = 8 \text{ and } k_\Delta = 0.05\) to account for the differences in the hardware model of the hexrotor.
 
 The experimental results are shown in~\Cref{fig:exp}.
@@ -723,9 +722,9 @@ We show~\cref{item:prop_psi_quadratic} by computing the hessian of \( \Psi \), n
 The first order derivative of \( A(R) \) and \( B(R) \) are given by~\cref{eqn:eRA,eqn:eRB}. 
 The hessian of \( A(R) \) is computed as 
 \begin{align*}
-    \dirDiff{\parenth{\dirDiff{A}{R}}}{R} &= \eta \cdot \frac{1}{2}\parenth{G R_d^T \delta R - \delta R^T R_d G}^\vee , \\
-    &= \eta \cdot \frac{1}{2} \parenth{G R_d^T R \hat \eta + \hat \eta R^T R_d G}^\vee,\\
-    &= \eta \cdot \frac{1}{2} \bracket{\parenth{\braces{\tr{R^T R_d G} I - R^T R_d G} \eta}^\wedge}^\vee , \\
+    \dirDiff{\parenth{\dirDiff{A}{R}}}{R} &= \eta \cdot \frac{1}{2}\parenth{G R_d^T \delta R - \delta R^T R_d G}^\vee  \\
+    &= \eta \cdot \frac{1}{2} \parenth{G R_d^T R \hat \eta + \hat \eta R^T R_d G}^\vee\\
+    &= \eta \cdot \frac{1}{2} \bracket{\parenth{\braces{\tr{R^T R_d G} I - R^T R_d G} \eta}^\wedge}^\vee  \\
     &= \eta \cdot \frac{1}{2} \parenth{\tr{R^T R_d G} I - R^T R_d G}\eta ,
 \end{align*}
 where we used the scalar triple product rule, from~\cref{eqn:STP}, to arrive at the final form.
@@ -736,15 +735,15 @@ The hessian of \( B(R) \) is computed as
 \end{align*}
 The term \( \parenth{\delta R^T v}^\wedge r\) is simplified as
 \begin{align*}
-    \parenth{\delta R^T v}^\wedge r &= - \hat{r} \delta R ^T v , \\
-    &= - \hat{r} \parenth{R \hat \eta}^T v , \\
-    &= \hat{r} \parenth{\hat{\eta} R^T } v , \\
+    \parenth{\delta R^T v}^\wedge r &= - \hat{r} \delta R ^T v  \\
+    &= - \hat{r} \parenth{R \hat \eta}^T v  \\
+    &= \hat{r} \parenth{\hat{\eta} R^T } v  \\
     &= - \hat{r} \parenth{R^T v}^\wedge \eta ,
 \end{align*}
 where we utilized the hat map property from~\cref{eqn:cross_product}.
 Similarly, the term \( r^T \delta R^T v \) is simplified as
 \begin{align*}
-    r^T \delta R^T v &= r^T \parenth{-\hat \eta R^T}v , \\
+    r^T \delta R^T v &= r^T \parenth{-\hat \eta R^T}v  \\
     &= r^T \parenth{R^T v}^\wedge \eta .
 \end{align*}
 The hessian of \( B(R) \) then becomes
@@ -905,7 +904,7 @@ Finally, we can find the upper bound~\cref{eqn:eR_dot} as
 \begin{gather*}
 	\norm{\dot{e}_R} \leq \parenth{\norm{B} \norm{E} + 2 \norm{e_{R_A}} \norm{e_{R_B}} + \norm{A}\norm{F}} \norm{e_\Omega} \, .
 \end{gather*}
-Using~\crefrange{eqn:AB_bound}{eqn:eRB_bound} one can define \( H \) in terms of known values.
+Using~\cref{eqn:AB_bound} to \cref{eqn:eRB_bound} one can define \( H \) in terms of known values.
 
 \subsection{Proof of~\Cref{prop:adaptive_control}}\label{proof:adaptive_control}
 Consider the Lyapunov function \( \mathcal{V} \) given by
