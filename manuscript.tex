@@ -76,7 +76,7 @@ Quaternions do not have singularities but they double cover the special orthogon
 As a result, any physical attitude is represented by a pair of antipodal quaternions on the three-sphere.
 An immediate implication of this ambiguity is that closed-loop stability properties derived using quaternions may not hold for the physical rigid body evolving on the true configuration space, namely the special orthogonal group.
 During implementation, the designer must carefully resolve this non-unique representation in quaternion based attitude control systems to avoid undesirable unwinding behavior~\cite{bhat2000}.
-This behavior is characterized by situations where the rigid body starts close to the desired attitude, yet the system unnecessarily rotates through a large angle inspite of a small initial error. 
+This behavior is characterized by situations where the rigid body starts close to the desired attitude, yet the system unnecessarily rotates through a large angle in spite of a small initial error. 
 
 % introduce concept of state inequality constraints and how it creates a nonconvex region 
 % mention applicability of this for spacecraft maneuvers, spherical air bearing testing, hardware limitations
@@ -139,6 +139,7 @@ The effectiveness of this approach is illustrated via numerical simulation and d
 \subsection{Attitude Dynamics}\label{sec:att_dyn}
 Consider the attitude dynamics of a rigid body.
 We define an inertial reference frame and a body-fixed frame, whose origin is at the center of mass and aligned with the principle directions of the body. 
+The standard orthonormal basis is denoted by \( e_i \) for \( i \in \braces{1, 2, 3} \).
 The configuration manifold of the attitude dynamics is the special orthogonal group:
 \begin{align*}
 	\SO = \{R\in\R^{3\times 3}\,|\, R^TR=I,\;\mathrm{det}[R]=1\} ,
@@ -288,9 +289,9 @@ Similarly, the positions of celestial objects are defined on the celestial spher
 \end{multicols}
 \begin{figure}[H]%
     \centering 
-    \subfigure[Attractive \( A(R) \) \label{fig:attract_error}]{\includegraphics[trim={8mm 0 8mm 0}, clip]{figures/attract_error.pdf}}~
-    \subfigure[Repulsive \( B(R) \) \label{fig:avoid_error} ]{\includegraphics[trim={8mm 0 8mm 0}, clip]{figures/avoid_error.pdf}}~
-    \subfigure[Combined \( \Psi \) \label{fig:combined_error}]{\includegraphics[trim={8mm 0 8mm 0}, clip]{figures/combined_error.pdf}}%
+    \subfigure[Attractive \( A(R) \) \label{fig:attract_error}]{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip]{figures/attract_error.pdf}}~
+    \subfigure[Repulsive \( B(R) \) \label{fig:avoid_error} ]{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip]{figures/avoid_error.pdf}}~
+    \subfigure[Combined \( \Psi \) \label{fig:combined_error}]{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip]{figures/combined_error.pdf}}%
     \caption{Visualization of Configuration Error Functions using spherical coordinate representation}
     \label{fig:config_error} 
 \end{figure}%
@@ -341,6 +342,16 @@ We present the dynamics of the configuration error function in~\Cref{prop:error_
 See~\Cref{proof:error_dyn}
 \end{proof}
 
+\end{multicols}
+\begin{figure}[t]
+    \centering 
+    \subfigure[Attitude error vector \(e_R\) components \label{fig:eR_con}]{\input{pgf/eR_noadapt.pgf}}~
+    \subfigure[Configuration error \( \Psi \) \label{fig:Psi_con}]{\input{pgf/Psi_noadapt.pgf}}~
+    \subfigure[Angle to each constraint \label{fig:con_angles_con}]{\input{pgf/ang_con_noadapt.pgf}} 
+    \caption{Attitude stabilization without adaptive update law}
+    \label{fig:con} 
+\end{figure}
+\begin{multicols}{2}
 \subsection{Attitude Control without Disturbance}
 We introduce a nonlinear geometric controller for the attitude stabilization of a rigid body.
 We first assume that there is no disturbance, i.e., \( \Delta = 0 \), and present a nonlinear controller in~\Cref{prop:att_control}.
@@ -366,26 +377,25 @@ An adaptive control system is introduced to asymptotically stabilize the system 
 \begin{prop}[Bound on \( \bm{\dot{e}_R} \)]\label{prop:eR_dot_bound}
 Consider the neighborhood \( D \), given in~\cref{prop:config_error}, about the desired attitude, then the following statements hold:
 \begin{enumerate}[(i)]
-	\item \label{item:prop_eR_dot_bound_AB} Upper bounds of \( A(R) \) and \( B(R) \) are given by
-	\begin{gather}
-		\norm{A} < b_2 \norm{e_{R_A}}^2 < c_A  , \quad \norm{B} < c_B . \label{eqn:AB_bound}
-	\end{gather}
-  where the constant \( b_2\) is given by \( b_2 = \frac{h_1 h_4}{h_5 \parenth{h_1 - \psi}}\) for
-  \begin{align*}
-    h_4 &= \min\braces{g_1 + g_2, g_2 + g_3 , g_3 + g_1} ,\\
-    h_5 &= \min\braces{\parenth{g_1 + g_2}^2,\parenth{g_2 + g_3}^2 , \parenth{g_3 + g_1}^2} .\\
-  \end{align*}
-	\item \label{item:prop_eR_dot_bound_EF} Upper bounds of \( E(R,R_d) \) and \( F(R) \) are given by
-	\begin{gather}
-		\norm{E} \leq \frac{1}{\sqrt{2}} \tr{G}  , \label{eqn:E_bound} \\
-		\norm{F} \leq \frac{\parenth{\beta^2 + 1}\parenth{\beta - \cos \theta}^2 + 1 + \beta^2 \parenth{\beta^2-2}}{\alpha^2 \parenth{\beta-\cos \theta}^4} . \label{eqn:F_bound}
-	\end{gather}
-	\item Upper bounds of the attitude error vectors \( e_{R_A} \) and \( e_{R_B} \) are given by
-	\begin{gather}
-		\norm{e_{R_A}} \leq \sqrt{\frac{\psi}{b_1}}, \label{eqn:eRA_bound} \\
-		\norm{e_{R_B}} \leq \frac{\sin\theta}{\alpha \parenth{\cos \theta - \beta}}. \label{eqn:eRB_bound}
-	\end{gather}
-
+    \item \label{item:prop_eR_dot_bound_AB} Upper bounds of \( A(R) \) and \( B(R) \) are given by
+        \begin{gather}
+            \norm{A} < b_2 \norm{e_{R_A}}^2 < c_A  , \quad \norm{B} < c_B . \label{eqn:AB_bound}
+        \end{gather}
+        where the constant \( b_2\) is given by \( b_2 = \frac{h_1 h_4}{h_5 \parenth{h_1 - \psi}}\) for
+        \begin{align*}
+            h_4 &= \min\braces{g_1 + g_2, g_2 + g_3 , g_3 + g_1} ,\\
+            h_5 &= \min\braces{\parenth{g_1 + g_2}^2,\parenth{g_2 + g_3}^2 , \parenth{g_3 + g_1}^2} .\\
+        \end{align*}
+    \item \label{item:prop_eR_dot_bound_EF} Upper bounds of \( E(R,R_d) \) and \( F(R) \) are given by
+        \begin{gather}
+            \norm{E} \leq \frac{1}{\sqrt{2}} \tr{G}  , \label{eqn:E_bound} \\
+            \norm{F} \leq \frac{\parenth{\beta^2 + 1}\parenth{\beta - \cos \theta}^2 + 1 + \beta^2 \parenth{\beta^2-2}}{\alpha^2 \parenth{\beta-\cos \theta}^4} . \label{eqn:F_bound}
+        \end{gather}
+    \item Upper bounds of the attitude error vectors \( e_{R_A} \) and \( e_{R_B} \) are given by
+        \begin{gather}
+            \norm{e_{R_A}} \leq \sqrt{\frac{\psi}{b_1}}, \label{eqn:eRA_bound} \\
+            \norm{e_{R_B}} \leq \frac{\sin\theta}{\alpha \parenth{\cos \theta - \beta}}. \label{eqn:eRB_bound}
+        \end{gather}
 \end{enumerate}
 These results are combined to yield a maximum upper bound of the time derivative of the attitude error vector \( \dot{e}_R \) as
 \begin{gather}
@@ -434,16 +444,6 @@ In addition, the rigorous mathematical proof guarantees stability.
 This is in contrast to many of the previous methods which offer no stability guarantees.
 The presented analysis offers provable bounds on the expected motion, which are critical for hardware implementation or mission critical applications.
 
-\end{multicols}
-\begin{figure}[b]
-    \centering 
-    \subfigure[Attitude error vector \(e_R\) components \label{fig:eR_con}]{\input{pgf/eR_noadapt.pgf}}~
-    \subfigure[Configuration error \( \Psi \) \label{fig:Psi_con}]{\input{pgf/Psi_noadapt.pgf}}~
-    \subfigure[Angle to each constraint \label{fig:con_angles_con}]{\input{pgf/ang_con_noadapt.pgf}} 
-    \caption{Attitude stabilization without adaptive update law}
-    \label{fig:con} 
-\end{figure}
-\begin{multicols}{2}
 \section{Numerical Examples}\label{sec:numerical_simulation}
 
 We demonstrate the performance of the proposed control system via numerical simulation.
@@ -471,6 +471,7 @@ The parameters \( k_R, k_\Omega, c, k_\Delta\) are control parameters used to mo
 It is straightforward to chose \( k_R, k_\Omega, k_\Delta\), using a linear analysis, to satisfy desired response criteria, such as settling time or percent overshoot~\cite{nise2004}.
 A body fixed sensor is defined as \(r = [1,0,0]\), while multiple inequality constraints are defined in~\Cref{tab:constraints}.
 The simulation parameters are chosen to be similar to those found in~\cite{lee2011b}, however we increase the size of the constraint regions to create a more challenging scenario for the control system.
+\vspace{-2.5mm}
 \begin{table}[H]
 \caption{Constraint Parameters~\label{tab:constraints}}
 \begin{center}\begin{tabular}{lc}
@@ -481,7 +482,7 @@ Constraint Vector (\( v \)) & Angle (\( \theta \)) \\ \hline \hline
 \([-0.122 ,\,-0.140,\, -0.983]^T\) & \ang{20}\end{tabular} 
 \end{center}
 \end{table}
-
+\vspace{-2.5mm}
 The initial state is defined as \(R_0 =  \exp(\ang{225} \times \frac{\pi}{180} \hat{e}_3), \Omega_0 = 0\), with \( e_3 = \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}^T \).
 The desired state is \( R_d = I,\Omega_d = 0\).
 We show simulation results for the system stabilizing about the desired attitude with and without the adaptive update law from~\Cref{prop:adaptive_control}.
@@ -990,8 +991,6 @@ This implies that $\mathcal{V}$ is positive definite and decrescent, and $\dot{\
     {is an associate professor of Department of Mechanical and Aerospace Engineering at the George Washington University. 
     He received his doctoral degree in Aerospace Engineering and his master's degree in Mathematics at the University of Michigan in 2008. 
     His research interests include computational geometric mechanics and control of complex systems.}    
-\clearafterbiography\relax
-\clearafterbiography\relax
 
 \end{multicols}
 
